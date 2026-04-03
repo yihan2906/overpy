@@ -50,7 +50,6 @@ variables {
         47: FlushBang
         48: Telekinesis
         49: GroupUp
-        50: RandomStat
         51: Earthquake
         52: ImAnAttentionSeeker
         53: RandomScale
@@ -271,7 +270,6 @@ rule ("Initial Global") {
         Set Global Variable(FlushBang, Custom String("Flush bang"));
         Set Global Variable(Telekinesis, Custom String("Telekinesis"));
         Set Global Variable(GroupUp, Custom String("Group up"));
-        Set Global Variable(RandomStat, Custom String("Random stat"));
         Set Global Variable(Earthquake, Custom String("Earthquake"));
         Set Global Variable(ImAnAttentionSeeker, Custom String("I'm an attention seeker"));
         Set Global Variable(RandomScale, Custom String("scale randomizer"));
@@ -674,14 +672,6 @@ rule ("register abilities2") {
         Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 39), Custom String("the more allies around you, the higher your status"));
         Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 39), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 39));
-        Set Global Variable At Index(_extendedGlobalCollection, 40, Index Of Array Value(Global._classIndexes, 0));
-        Set Global Variable At Index(_extendedGlobalCollection, 40, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 40), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 40)));
-        Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 40), 42);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 40), Global.RandomStat);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 40), Custom String("press [interact] to change your stats"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 40), 30);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 40), Add(Count Of(Global.abilities), 1));
-        Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 40));
         Set Global Variable At Index(_extendedGlobalCollection, 41, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 41, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 41), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 41)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 41), 43);
@@ -4848,4 +4838,3 @@ rule ("[katrina]") {
         Press Button(Event Player, Button(Ultimate));
     }
 }
-

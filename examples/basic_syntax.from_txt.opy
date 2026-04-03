@@ -9,7 +9,6 @@ globalvar _objectVariable_5 5
 globalvar _objectVariable_6 6
 globalvar _objectVariable_7 7
 globalvar _objectVariable_8 8
-globalvar ThornArmor 9
 globalvar RockPaperScissors 10
 globalvar ElectricShock 11
 globalvar UltOperator 12
@@ -50,7 +49,6 @@ globalvar LackOfConcentration 46
 globalvar FlushBang 47
 globalvar Telekinesis 48
 globalvar GroupUp 49
-globalvar RandomStat 50
 globalvar Earthquake 51
 globalvar ImAnAttentionSeeker 52
 globalvar RandomScale 53
@@ -60,7 +58,7 @@ globalvar HighSensitivity 56
 globalvar megaMauga 57
 globalvar GoAway 58
 globalvar RandomAbility 59
-globalvar UnbreakableTurrets 61
+globalvar ElectricShockName 61
 globalvar YouGotSpeed 62
 globalvar Taxi 63
 globalvar StrongGravity 64
@@ -235,9 +233,8 @@ subroutine StopSun 9
 
 
 rule "Initial Global":
-    ThornArmor = "thorn armor"
     RockPaperScissors = "Rock Paper Scissors"
-    ElectricShock = "Electric shock"
+    ElectricShockName = "Electric shock"
     UltOperator = "Ultimate operation"
     IJustWantToDie = "I just won't die"
     SurpriseAttack = "surprise attack"
@@ -276,7 +273,6 @@ rule "Initial Global":
     FlushBang = "Flush bang"
     Telekinesis = "Telekinesis"
     GroupUp = "Group up"
-    RandomStat = "Random stat"
     Earthquake = "Earthquake"
     ImAnAttentionSeeker = "I'm an attention seeker"
     RandomScale = "scale randomizer"
@@ -285,11 +281,11 @@ rule "Initial Global":
     HighSensitivity = "High sensitivity"
     GoAway = "go away"
     RandomAbility = "Random ability"
-    UnbreakableTurrets = "Unbreakable turrets"
+    ElectricShock = "Electric shock"
     YouGotSpeed = "You got speed"
     Taxi = "Taxi"
     StrongGravity = "Can't jump"
-    LookAtMe = "Look At Me"
+    LookAtMe = "Eye Contact"
     MindControl = "Mind Control"
     Lag = "lag"
     DancingGhost = "Dancing Ghost"
@@ -340,14 +336,6 @@ rule "end death match":
 def register_abilities1():
     @Name "register abilities1"
     
-    _extendedGlobalCollection[0] = _classIndexes.index(0)
-    _extendedGlobalCollection[0] = len(_classIndexes) if _extendedGlobalCollection[0] == -1 else _extendedGlobalCollection[0]
-    _classIndexes[_extendedGlobalCollection[0]] = 2
-    _objectVariable_0[_extendedGlobalCollection[0]] = ThornArmor
-    _objectVariable_1[_extendedGlobalCollection[0]] = "Reduces the damage you take by 50%, and returns as much as you decrease."
-    _objectVariable_5[_extendedGlobalCollection[0]] = 50
-    _objectVariable_3[_extendedGlobalCollection[0]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[0])
     _extendedGlobalCollection[1] = _classIndexes.index(0)
     _extendedGlobalCollection[1] = len(_classIndexes) if _extendedGlobalCollection[1] == -1 else _extendedGlobalCollection[1]
     _classIndexes[_extendedGlobalCollection[1]] = 3
@@ -660,14 +648,6 @@ def register_abilities2():
     _objectVariable_1[_extendedGlobalCollection[39]] = "the more allies around you, the higher your status"
     _objectVariable_3[_extendedGlobalCollection[39]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[39])
-    _extendedGlobalCollection[40] = _classIndexes.index(0)
-    _extendedGlobalCollection[40] = len(_classIndexes) if _extendedGlobalCollection[40] == -1 else _extendedGlobalCollection[40]
-    _classIndexes[_extendedGlobalCollection[40]] = 42
-    _objectVariable_0[_extendedGlobalCollection[40]] = RandomStat
-    _objectVariable_1[_extendedGlobalCollection[40]] = "press [interact] to change your stats"
-    _objectVariable_2[_extendedGlobalCollection[40]] = 30
-    _objectVariable_3[_extendedGlobalCollection[40]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[40])
     _extendedGlobalCollection[41] = _classIndexes.index(0)
     _extendedGlobalCollection[41] = len(_classIndexes) if _extendedGlobalCollection[41] == -1 else _extendedGlobalCollection[41]
     _classIndexes[_extendedGlobalCollection[41]] = 43
@@ -751,7 +731,7 @@ def register_abilities3():
     _extendedGlobalCollection[53] = len(_classIndexes) if _extendedGlobalCollection[53] == -1 else _extendedGlobalCollection[53]
     _classIndexes[_extendedGlobalCollection[53]] = 55
     _objectVariable_0[_extendedGlobalCollection[53]] = LookAtMe
-    _objectVariable_1[_extendedGlobalCollection[53]] = "Press [Interact] to force the enemy you are looking at to look at you"
+    _objectVariable_1[_extendedGlobalCollection[53]] = "Press [Interact] to force the enemy you are looking at to look at a random ally"
     _objectVariable_2[_extendedGlobalCollection[53]] = 5
     _objectVariable_3[_extendedGlobalCollection[53]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[53])
@@ -2075,8 +2055,11 @@ rule "on use":
     goto lbl_33
     eventPlayer.targets_22 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
     __abortIf__(len(eventPlayer.targets_22) == 0)
-    eventPlayer.targets_22.setFacing(directionTowards(eventPlayer.targets_22[0], eventPlayer), Relativity.TO_WORLD)
-    bigMessage(eventPlayer.targets_22[0], "Look At Me!")
+    eventPlayer.allies = getPlayers(eventPlayer.getTeam()).filter(lambda player: player != eventPlayer and player.isAlive())
+    __abortIf__(len(eventPlayer.allies) == 0)
+    eventPlayer.target = random.choice(eventPlayer.allies)
+    eventPlayer.targets_22.setFacing(directionTowards(eventPlayer.targets_22[0], eventPlayer.target), Relativity.TO_WORLD)
+    bigMessage(eventPlayer.targets_22[0], "{0} : look at {1}".format(eventPlayer, eventPlayer.target))
     goto lbl_34
     __abortIf__(eventPlayer.target != null)
     eventPlayer.targets = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
@@ -2141,13 +2124,6 @@ rule "on use":
     lbl_36:
     lbl_37:
     eventPlayer.cooldown_count = _objectVariable_2[eventPlayer.ability] * cooldown_multiplier
-
-
-rule "[thorn armor] on damage token":
-    @Event playerTookDamage
-    @Condition _objectVariable_0[eventPlayer.ability] == ThornArmor
-    
-    damage(attacker, eventPlayer, eventDamage)
 
 
 rule "[rock paper scissors] hack":
@@ -3696,7 +3672,7 @@ rule "[nuke]":
     @Condition _objectVariable_0[eventPlayer.ability] == NUKE
     
     probabilityNuke = random.randint(1, 100)
-    if probabilityNuke <= 20:
+    if probabilityNuke <= 40:
         eventPlayer.previous_pos = eventPlayer.getPosition()
         eventPlayer.setAbility1Enabled(false)
         eventPlayer.setAbility2Enabled(false)
@@ -3891,4 +3867,3 @@ rule "[katrina]":
     eventPlayer.setUltCharge(100)
     wait(0.1)
     eventPlayer.forceButtonPress(Button.ULTIMATE)
-

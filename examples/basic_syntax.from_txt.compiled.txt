@@ -51,7 +51,6 @@ variables
 		47: FlushBang
 		48: Telekinesis
 		49: GroupUp
-		50: RandomStat
 		51: Earthquake
 		52: ImAnAttentionSeeker
 		53: RandomScale
@@ -279,7 +278,6 @@ rule("Initial Global")
 		Global.FlushBang = Custom String("Flush bang");
 		Global.Telekinesis = Custom String("Telekinesis");
 		Global.GroupUp = Custom String("Group up");
-		Global.RandomStat = Custom String("Random stat");
 		Global.Earthquake = Custom String("Earthquake");
 		Global.ImAnAttentionSeeker = Custom String("I'm an attention seeker");
 		Global.RandomScale = Custom String("scale randomizer");
@@ -769,15 +767,6 @@ rule("register abilities2")
 			"the more allies around you, the higher your status");
 		Global._objectVariable_3[Global._extendedGlobalCollection[39]] = Count Of(Global.abilities) + 1;
 		Modify Global Variable(abilities, Append To Array, Global._extendedGlobalCollection[39]);
-		Global._extendedGlobalCollection[40] = Index Of Array Value(Global._classIndexes, 0);
-		Global._extendedGlobalCollection[40] = Global._extendedGlobalCollection[40] == -1 ? Count Of(Global._classIndexes)
-			: Global._extendedGlobalCollection[40];
-		Global._classIndexes[Global._extendedGlobalCollection[40]] = 42;
-		Global._objectVariable_0[Global._extendedGlobalCollection[40]] = Global.RandomStat;
-		Global._objectVariable_1[Global._extendedGlobalCollection[40]] = Custom String("press [interact] to change your stats");
-		Global._objectVariable_2[Global._extendedGlobalCollection[40]] = 30;
-		Global._objectVariable_3[Global._extendedGlobalCollection[40]] = Count Of(Global.abilities) + 1;
-		Modify Global Variable(abilities, Append To Array, Global._extendedGlobalCollection[40]);
 		Global._extendedGlobalCollection[41] = Index Of Array Value(Global._classIndexes, 0);
 		Global._extendedGlobalCollection[41] = Global._extendedGlobalCollection[41] == -1 ? Count Of(Global._classIndexes)
 			: Global._extendedGlobalCollection[41];
