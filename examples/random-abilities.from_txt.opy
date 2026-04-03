@@ -1,3 +1,5 @@
+#!suppressWarnings w_player_closest_to_reticle
+
 #Global variables
 
 globalvar _objectVariable_0 0
@@ -212,6 +214,15 @@ playervar Sun_R 118
 playervar SunEffects 119
 playervar SunText 120
 playervar isMegaMauga 121
+
+macro Player.acquireViewedTarget(team, radius=80, losCheck=LosCheck.SURFACES):
+    self.target = self.getPlayerClosestToReticle(team)
+    if self.target == self or not self.target.isAlive() or not self.target.hasSpawned():
+        return
+    if self.target not in self.getPlayersInViewAngle(team, 45):
+        return
+    if self.target not in getPlayersInRadius(self.getEyePosition(), radius, team, losCheck):
+        return
 
 
 #Subroutine names
@@ -1763,36 +1774,32 @@ rule "on use":
     return
     goto lbl_0
     __abortIf__(eventPlayer.rock_scissors_paper_players != null)
-    eventPlayer.targets = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    eventPlayer.targets = eventPlayer.targets.filter(lambda x: x.rock_scissors_paper_players == null)
-    __abortIf__(len(eventPlayer.targets) == 0)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    if eventPlayer.target.rock_scissors_paper_players != null:
+        return
     eventPlayer.rock_siccors_paper_status = 0
-    eventPlayer.target = eventPlayer.targets[0]
     eventPlayer.rock_scissors_paper_players = [eventPlayer, eventPlayer.target]
     goto lbl_1
-    eventPlayer.targets_0 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_0) == 0)
-    eventPlayer.target = eventPlayer.targets_0[0]
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
-    bigMessage(eventPlayer.targets_0, "{0} : are you tickling?".format(eventPlayer))
+    bigMessage(eventPlayer.target, "{0} : are you tickling?".format(eventPlayer))
     goto lbl_2
-    eventPlayer.targets_1 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, eventPlayer.getTeam(), LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(eventPlayer.getTeam()) and player in eventPlayer.getPlayersInViewAngle(eventPlayer.getTeam(), 45) and player.isAlive())
-    eventPlayer.targets_1 = eventPlayer.targets_1.filter(lambda x: x.getUltCharge() > 1 and not x.isUsingUltimate())
-    __abortIf__(len(eventPlayer.targets_1) == 0)
+    eventPlayer.acquireViewedTarget(eventPlayer.getTeam())
+    if eventPlayer.target.getUltCharge() <= 1 or eventPlayer.target.isUsingUltimate():
+        return
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.BLUE, eventPlayer, 1)
     playEffect(getAllPlayers(), DynamicEffect.BUFF_EXPLOSION_SOUND, Color.BLUE, eventPlayer, 100)
-    eventPlayer.targets_1[0].setUltCharge(100)
-    eventPlayer.targets_1[0].forceButtonPress(Button.ULTIMATE)
+    eventPlayer.target.setUltCharge(100)
+    eventPlayer.target.forceButtonPress(Button.ULTIMATE)
     goto lbl_3
-    eventPlayer.targets_2 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_2) == 0)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.original_position = eventPlayer.getPosition()
     eventPlayer.original_direction = eventPlayer.getFacingDirection()
-    eventPlayer.teleport(worldVector(vect([], [], -1.5), eventPlayer.targets_2[0], Transform.ROTATION_AND_TRANSLATION))
-    eventPlayer.setFacing(localVector(eventPlayer.targets_2[0].getPosition(), eventPlayer, Transform.ROTATION_AND_TRANSLATION) + vect([], -0.5, []), Relativity.TO_PLAYER)
-    eventPlayer.targets_2[0].setStatusEffect(eventPlayer, Status.STUNNED, 0.5)
+    eventPlayer.teleport(worldVector(vect([], [], -1.5), eventPlayer.target, Transform.ROTATION_AND_TRANSLATION))
+    eventPlayer.setFacing(localVector(eventPlayer.target.getPosition(), eventPlayer, Transform.ROTATION_AND_TRANSLATION) + vect([], -0.5, []), Relativity.TO_PLAYER)
+    eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.5)
     wait(0.1)
-    eventPlayer.setFacing(localVector(eventPlayer.targets_2[0].getPosition(), eventPlayer, Transform.ROTATION_AND_TRANSLATION) + vect([], -0.5, []), Relativity.TO_PLAYER)
+    eventPlayer.setFacing(localVector(eventPlayer.target.getPosition(), eventPlayer, Transform.ROTATION_AND_TRANSLATION) + vect([], -0.5, []), Relativity.TO_PLAYER)
     wait(0.05)
     eventPlayer.forceButtonPress(Button.PRIMARY_FIRE)
     wait(0.2)
@@ -1813,22 +1820,17 @@ rule "on use":
     kill(eventPlayer.targets_3, eventPlayer)
     bigMessage(eventPlayer.targets_3, "{0}{1}".format(eventPlayer, ": Only me is enough!"))
     goto lbl_6
-    eventPlayer.targets_4 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_4) == 0)
-    eventPlayer.target = eventPlayer.targets_4[0]
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
     bigMessage(eventPlayer.target, "{0}{1}".format(eventPlayer, ": Fluffy fluff"))
     eventPlayer.target.is_floating = true
     goto lbl_7
-    eventPlayer.targets_5 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_5) == 0)
-    eventPlayer.targets_5[0].setStatusEffect(eventPlayer, Status.ROOTED, 5)
-    playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.targets_5[0], 3)
-    bigMessage(eventPlayer.targets_5[0], "{0}{1}".format(eventPlayer, ": Stop Yay!"))
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.setStatusEffect(eventPlayer, Status.ROOTED, 5)
+    playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
+    bigMessage(eventPlayer.target, "{0}{1}".format(eventPlayer, ": Stop Yay!"))
     goto lbl_8
-    eventPlayer.targets_6 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_6) == 0)
-    eventPlayer.target = eventPlayer.targets_6[0]
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
     bigMessage(eventPlayer.target, "{0}{1}".format(eventPlayer, "has presented you with a new god."))
     eventPlayer.target.is_spin_floating = eventPlayer
@@ -1857,41 +1859,36 @@ rule "on use":
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.GREEN, eventPlayer, 100)
     eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 9999)
     goto lbl_12
-    eventPlayer.targets_8 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_8) == 0)
-    eventPlayer.targets_8.setFacing(Vector.BACKWARD, Relativity.TO_PLAYER)
-    bigMessage(eventPlayer.targets_8, "{0} : Huh? behind you! haha".format(eventPlayer))
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.setFacing(Vector.BACKWARD, Relativity.TO_PLAYER)
+    bigMessage(eventPlayer.target, "{0} : Huh? behind you! haha".format(eventPlayer))
     goto lbl_13
-    eventPlayer.targets_9 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_9) == 0)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.tmp = eventPlayer.getEyePosition()
-    eventPlayer.targets_9.teleport(eventPlayer.tmp)
-    eventPlayer.teleport(eventPlayer.targets_9[0])
-    playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.targets_9[0], 3)
+    eventPlayer.target.teleport(eventPlayer.tmp)
+    eventPlayer.teleport(eventPlayer.target)
+    playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
     playEffect(getLivingPlayers(Team.ALL), DynamicEffect.GOOD_PICKUP_EFFECT, Color.YELLOW, eventPlayer, 3)
-    smallMessage(eventPlayer.targets_9, "Change location!")
+    smallMessage(eventPlayer.target, "Change location!")
     goto lbl_14
-    eventPlayer.targets_10 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_10) == 0)
-    eventPlayer.targets_10.teleport(worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION_AND_TRANSLATION))
-    bigMessage(eventPlayer.targets_10, "{0} : come here".format(eventPlayer))
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.teleport(worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION_AND_TRANSLATION))
+    bigMessage(eventPlayer.target, "{0} : come here".format(eventPlayer))
     goto lbl_15
-    eventPlayer.targets_11 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_11) == 0)
-    eventPlayer.targets_11.setStatusEffect(eventPlayer, Status.ASLEEP, 4)
-    playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.targets_11[0], 3)
-    bigMessage(eventPlayer.targets_11, "{0} : Good night hehe".format(eventPlayer))
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.setStatusEffect(eventPlayer, Status.ASLEEP, 4)
+    playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
+    bigMessage(eventPlayer.target, "{0} : Good night hehe".format(eventPlayer))
     goto lbl_16
     __abortIf__(not eventPlayer.isOnGround())
     eventPlayer.trap_pos = worldVector(vect([], -0.2, 1.5), eventPlayer, Transform.ROTATION_AND_TRANSLATION)
     eventPlayer.trap_size = 1
     goto lbl_17
-    eventPlayer.targets_12 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_12) == 0)
-    eventPlayer.teleport(worldVector(Vector.BACKWARD, eventPlayer.targets_12[0], Transform.ROTATION_AND_TRANSLATION))
-    eventPlayer.setFacing(localVector(eventPlayer.targets_12[0].getPosition(), eventPlayer, Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
-    eventPlayer.targets_12.setStatusEffect(eventPlayer, Status.STUNNED, 1.5)
-    bigMessage(eventPlayer.targets_12, "{0} : really behind you".format(eventPlayer))
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.teleport(worldVector(Vector.BACKWARD, eventPlayer.target, Transform.ROTATION_AND_TRANSLATION))
+    eventPlayer.setFacing(localVector(eventPlayer.target.getPosition(), eventPlayer, Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
+    eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 1.5)
+    bigMessage(eventPlayer.target, "{0} : really behind you".format(eventPlayer))
     goto lbl_18
     __abortIf__(eventPlayer.isInSpawnRoom())
     eventPlayer.targets_13 = getLivingPlayers(getOppositeTeam(eventPlayer.getTeam())).filter(lambda player: player.getHero() in targetHeros_0)
@@ -1901,16 +1898,12 @@ rule "on use":
     eventPlayer.target_1.setStatusEffect(eventPlayer, Status.STUNNED, 4)
     bigMessage(eventPlayer.target_1, "{0} : Talon is bad".format(eventPlayer))
     goto lbl_19
-    eventPlayer.targets_14 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_14) == 0)
-    eventPlayer.target = eventPlayer.targets_14[0]
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
     bigMessage(eventPlayer.target, "{0} : Rotating tornado!".format(eventPlayer))
     eventPlayer.target.is_rotating = true
     goto lbl_20
-    eventPlayer.targets_15 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_15) == 0)
-    eventPlayer.target = eventPlayer.targets_15[0]
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     __abortIf__(eventPlayer.target.isInAir())
     eventPlayer.target.setUltCharge(eventPlayer.target.getUltCharge() + 10)
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)
@@ -1929,9 +1922,7 @@ rule "on use":
     eventPlayer.target_2.setStatusEffect(eventPlayer, Status.STUNNED, 4)
     bigMessage(eventPlayer.target_2, "Have fun!")
     goto lbl_22
-    eventPlayer.targets_17 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_17) == 0)
-    eventPlayer.target = eventPlayer.targets_17[0]
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.target.setStatusEffect(eventPlayer, Status.ASLEEP, 5)
     eventPlayer.target.setStatusEffect(null, Status.PHASED_OUT, 5)
     bigMessage(eventPlayer.target, "{0} : Telekinesis".format(eventPlayer))
@@ -1947,21 +1938,18 @@ rule "on use":
     wait(0.1)
     heal(eventPlayer, null, 10000)
     goto lbl_24
-    eventPlayer.targets_18 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(Team.ALL) and player in eventPlayer.getPlayersInViewAngle(Team.ALL, 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_18) == 0)
+    eventPlayer.acquireViewedTarget(Team.ALL)
     eventPlayer.random_size = random.randint(10, 260) / 100
-    eventPlayer.targets_18.startScalingSize(eventPlayer.random_size, false)
-    eventPlayer.targets_18.startModifyingVoicelinePitch(1 / eventPlayer.random_size, false)
+    eventPlayer.target.startScalingSize(eventPlayer.random_size, false)
+    eventPlayer.target.startModifyingVoicelinePitch(1 / eventPlayer.random_size, false)
     smallMessage(eventPlayer, eventPlayer.random_size)
     goto lbl_25
-    eventPlayer.targets_19 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_19) == 0)
-    eventPlayer.targets_19.setAmmo(0, 0)
-    eventPlayer.targets_19.forceButtonPress(Button.RELOAD)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.setAmmo(0, 0)
+    eventPlayer.target.forceButtonPress(Button.RELOAD)
     goto lbl_26
-    eventPlayer.targets_20 = getPlayersInRadius(eventPlayer.getEyePosition(), 100, eventPlayer.getTeam()).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(eventPlayer.getTeam()) and player in eventPlayer.getPlayersInViewAngle(eventPlayer.getTeam(), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_20) == 0)
-    eventPlayer.target_3 = eventPlayer.targets_20[0]
+    eventPlayer.acquireViewedTarget(eventPlayer.getTeam(), 100, LosCheck.OFF)
+    eventPlayer.target_3 = eventPlayer.target
     eventPlayer.pos = eventPlayer.target_3.getPosition()
     eventPlayer.target_3.disableEnvironmentCollision(false)
     eventPlayer.target_3.setInvisibility(Invis.ALL)
@@ -1980,10 +1968,9 @@ rule "on use":
     else:
         eventPlayer.pulling_target = eventPlayer.target_3
     goto lbl_27
-    eventPlayer.targets = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets) == 0)
-    eventPlayer.targets.high_sens_remains = 6
-    eventPlayer.targets.setAimSpeed(1500)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.high_sens_remains = 6
+    eventPlayer.target.setAimSpeed(1500)
     goto lbl_28
     __abortIf__(not eventPlayer.isOnGround() or eventPlayer.isInSpawnRoom())
     eventPlayer.target_pos = eventPlayer.getPosition()
@@ -2004,10 +1991,9 @@ rule "on use":
     eventPlayer.decoy.startForcingOutlineFor(eventPlayer, true, Color.LIME_GREEN, OutlineVisibility.ALWAYS)
     eventPlayer.decoy.startThrottleInDirection(eventPlayer.decoy.getFacingDirection(), 1, Relativity.TO_WORLD, Throttle.REPLACE_EXISTING, ThrottleReeval.NONE)
     goto lbl_30
-    eventPlayer.targets = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets) == 0)
-    eventPlayer.targets.high_speed_remains = 4
-    eventPlayer.targets.setMoveSpeed(1000)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.high_speed_remains = 4
+    eventPlayer.target.setMoveSpeed(1000)
     goto lbl_31
     #pass
     pass #return
@@ -2048,42 +2034,35 @@ rule "on use":
     #pass
     pass #return
     goto lbl_32
-    eventPlayer.targets = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets) == 0)
-    eventPlayer.targets.strong_gravity_remains = 6
-    eventPlayer.targets.setGravity(500)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.strong_gravity_remains = 6
+    eventPlayer.target.setGravity(500)
     goto lbl_33
-    eventPlayer.targets_22 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_22) == 0)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.targets_22 = eventPlayer.target
     eventPlayer.allies = getPlayers(eventPlayer.getTeam()).filter(lambda player: player != eventPlayer and player.isAlive())
     __abortIf__(len(eventPlayer.allies) == 0)
     eventPlayer.target = random.choice(eventPlayer.allies)
-    eventPlayer.targets_22.setFacing(directionTowards(eventPlayer.targets_22[0], eventPlayer.target), Relativity.TO_WORLD)
-    bigMessage(eventPlayer.targets_22[0], "{0} : look at {1}".format(eventPlayer, eventPlayer.target))
+    eventPlayer.targets_22.setFacing(directionTowards(eventPlayer.targets_22, eventPlayer.target), Relativity.TO_WORLD)
+    bigMessage(eventPlayer.targets_22, "{0} : look at {1}".format(eventPlayer, eventPlayer.target))
     goto lbl_34
     __abortIf__(eventPlayer.target != null)
-    eventPlayer.targets = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets) == 0)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.controlling = eventPlayer
     eventPlayer.mindcontrol_time = 7
-    eventPlayer.target = eventPlayer.targets[0]
     #pass
     pass #return
     eventPlayer.setMoveSpeed(0)
     goto lbl_35
-    eventPlayer.targets_23 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_23) == 0)
-    eventPlayer.targets_23.teleport(nearestWalkablePosition(eventPlayer.targets_23[0].getPosition() + vect(random.randint(-10, 10), random.randint(-10, 10), random.randint(-10, 10))))
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.teleport(nearestWalkablePosition(eventPlayer.target.getPosition() + vect(random.randint(-10, 10), random.randint(-10, 10), random.randint(-10, 10))))
     goto lbl_36
-    eventPlayer.targets_24 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_24) == 0)
-    eventPlayer.target = eventPlayer.targets_24[0]
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     goto lbl_37
-    eventPlayer.targets_25 = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())) and player in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45) and player.isAlive())
-    __abortIf__(len(eventPlayer.targets_25) == 0)
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.buttons = [Button.ABILITY_1, Button.ABILITY_2, Button.CROUCH, Button.INTERACT, Button.JUMP, Button.MELEE, Button.PRIMARY_FIRE, Button.RELOAD, Button.SECONDARY_FIRE, Button.ULTIMATE]
     eventPlayer.button = random.choice(eventPlayer.buttons)
-    eventPlayer.targets_25.forceButtonPress(eventPlayer.button)
+    eventPlayer.target.forceButtonPress(eventPlayer.button)
     smallMessage(eventPlayer, eventPlayer.button)
     lbl_0:
     lbl_1:
@@ -3027,16 +3006,14 @@ rule "[taxi] attach system":
     @Condition _objectVariable_0[eventPlayer.ability] == Taxi
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     
-    eventPlayer.horse_target = getPlayersInRadius(eventPlayer.getEyePosition(), 80, Team.ALL, LosCheck.SURFACES).filter(lambda player: player == eventPlayer.getRealPlayerClosestToReticle(Team.ALL) and player in eventPlayer.getPlayersInViewAngle(Team.ALL, 45) and player.isAlive())
-    if eventPlayer.horse_target == null:
-        goto lbl_0
+    eventPlayer.acquireViewedTarget(Team.ALL)
+    eventPlayer.horse_target = eventPlayer.target
     if eventPlayer.ishobbihorsing == false:
         eventPlayer.ishobbihorsing = true
         eventPlayer.attachTo(eventPlayer.horse_target, vect(0, 2, 0))
     elif eventPlayer.ishobbihorsing == true:
         eventPlayer.ishobbihorsing = false
         eventPlayer.detach()
-        lbl_0:
 
 
 rule "[taxi] horse is dead":
@@ -3308,7 +3285,7 @@ rule "[portal gun] tp1 teleporting":
         eventPlayer.tp1_target = eventPlayer.tp1_targets[eventPlayer.i]
         if eventPlayer.tp1_target.teleported > 0:
             eventPlayer.tp1_target = null
-        else:
+        if eventPlayer.tp1_target != null:
             eventPlayer.tp1_target.setStatusEffect(eventPlayer, Status.STUNNED, 0.01)
             if not ruleCondition:
                 return
@@ -3354,7 +3331,7 @@ rule "[portal gun] tp2 teleporting":
         eventPlayer.target = eventPlayer.targets[eventPlayer.i]
         if eventPlayer.target.teleported > 0:
             eventPlayer.target = null
-        else:
+        if eventPlayer.target != null:
             eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.01)
             if not ruleCondition:
                 return
@@ -3511,10 +3488,9 @@ def SunCollision():
         stopChasingVariable(eventPlayer.SunPosition)
         eventPlayer.SunIsMoving = false
         wait(0.032)
-    else:
-        if eventPlayer.SunIsMoving == false:
-            chaseAtRate(eventPlayer.SunPosition, eventPlayer.SunPosition + eventPlayer.SunMovePosition, 7)
-            eventPlayer.SunIsMoving = true
+    if distance(eventPlayer.SunPosition, eventPlayer.Sun_R) >= 3 and eventPlayer.SunIsMoving == false:
+        chaseAtRate(eventPlayer.SunPosition, eventPlayer.SunPosition + eventPlayer.SunMovePosition, 7)
+        eventPlayer.SunIsMoving = true
 
 
 def StartSun():
