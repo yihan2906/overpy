@@ -690,13 +690,6 @@ rule ("register abilities2") {
         Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 38), 14);
         Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 38), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 38));
-        Set Global Variable At Index(_extendedGlobalCollection, 39, Index Of Array Value(Global._classIndexes, 0));
-        Set Global Variable At Index(_extendedGlobalCollection, 39, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 39), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 39)));
-        Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 39), 41);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 39), Global.GroupUp);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 39), Custom String("the more allies around you, the higher your status"));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 39), Add(Count Of(Global.abilities), 1));
-        Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 39));
         Set Global Variable At Index(_extendedGlobalCollection, 41, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 41, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 41), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 41)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 41), 43);
@@ -1192,14 +1185,7 @@ rule ("clear ability") {
             Set Global Variable(returnValue_onEnd, False);
             Skip(97);
             Skip(96);
-            Set Damage Received((Event Player).targets, 100);
-            Set Damage Dealt((Event Player).targets, 100);
-            Set Healing Dealt((Event Player).targets, 100);
-            Set Healing Received((Event Player).targets, 100);
-            Set Move Speed((Event Player).targets, 100);
-            Modify Player Variable((Event Player).targets, group_leaders, Remove From Array By Value, Event Player);
-            Set Player Variable((Event Player).targets, max_power, First Of(Sorted Array(Mapped Array(((Event Player).targets).group_leaders, (Current Array Element).power), Current Array Element)));
-            Set Global Variable(returnValue_onEnd, True);
+            Set Global Variable(returnValue_onEnd, False);
             Skip(87);
             Skip(86);
             Set Player Variable(Event Player, max_health, 100);
@@ -1609,15 +1595,7 @@ rule ("roll ability") {
         Set Global Variable(returnValue_onStart, False);
         Skip(103);
         Skip(102);
-        Set Player Variable(Event Player, targets, Players Within Radius(Position Of(Event Player), 15, All Teams, Off));
-        Set Player Variable(Event Player, power, Subtract(Count Of((Event Player).targets), 1));
-        Set Player Variable(Event Player, group_leaders, Array(Event Player));
-        Set Player Variable(Event Player, max_power, First Of(Sorted Array(Mapped Array((Event Player).group_leaders, (Current Array Element).power), Current Array Element)));
-        Create HUD Text((Event Player).targets, Null, Custom String("power  {0}", ((Event Player).targets).max_power), Null, Left, 19, Null, Color(White), Null, Visible To and String, Default Visibility);
-        Modify Player Variable(Event Player, text_ids, Append To Array, Last Text ID);
-        Create Effect(All Players(Team Of(Event Player)), Ring, Color(Orange), Event Player, 15, Visible To Position and Radius);
-        Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
-        Set Global Variable(returnValue_onStart, True);
+        Set Global Variable(returnValue_onStart, False);
         Skip(92);
         Skip(91);
         Create HUD Text(Event Player, Custom String("Health:{0}- Damage/Heal:{1}- Move speed:{2}", (Event Player).max_health, (Event Player).damage_dealt, (Event Player).movement_speed), Null, Null, Left, 10, Color(White), Null, Null, Visible To and String, Default Visibility);
@@ -3277,71 +3255,6 @@ rule ("[telekinesis] end") {
     actions {
         Wait(2.6, Abort When False);
         Set Player Variable(Event Player, target, Null);
-    }
-}
-
-rule ("[group up] update targets") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.GroupUp;
-    }
-    actions {
-        Set Player Variable(Event Player, targets_prev, (Event Player).targets);
-        Set Player Variable(Event Player, targets, Players Within Radius(Position Of(Event Player), 15, Team Of(Event Player), Off));
-        Set Player Variable(Event Player, power, Subtract(Count Of((Event Player).targets), 1));
-        Set Player Variable(Event Player, targets_new, Remove From Array((Event Player).targets, (Event Player).targets_prev));
-        Modify Player Variable(Event Player, targets_prev, Remove From Array By Value, (Event Player).targets);
-        Modify Player Variable((Event Player).targets_new, group_leaders, Append To Array, Event Player);
-        Modify Player Variable((Event Player).targets_prev, group_leaders, Remove From Array By Value, Event Player);
-        Set Player Variable((Event Player).targets_prev, max_power, First Of(Sorted Array(Mapped Array(((Event Player).targets_prev).group_leaders, (Current Array Element).power), Current Array Element)));
-        Set Player Variable((Event Player).targets, max_power, First Of(Sorted Array(Mapped Array(((Event Player).targets).group_leaders, (Current Array Element).power), Current Array Element)));
-        Wait(0.3, Ignore Condition);
-        Loop If Condition Is True;
-    }
-}
-
-rule ("[group up] update stat") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).ability != Null;
-        (Event Player).max_power != Null;
-        (Event Player).max_power > 0;
-        Is Alive(Event Player) == True;
-    }
-    actions {
-        Set Damage Dealt(Event Player, Add((Event Player).damage_dealt, Multiply((Event Player).max_power, 40)));
-        Set Damage Received(Event Player, Max(0, Subtract((Event Player).damage_received, Multiply((Event Player).max_power, 10))));
-        Set Move Speed(Event Player, Add((Event Player).movement_speed, Multiply((Event Player).max_power, 20)));
-        Set Max Health(Event Player, Add((Event Player).max_health, Multiply((Event Player).max_power, 20)));
-        Wait(0.35, Ignore Condition);
-        Loop If Condition Is True;
-    }
-}
-
-rule ("[group up] clear stat") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).ability != Null;
-        (Event Player).max_power == Null;
-        Is Alive(Event Player) == True;
-    }
-    actions {
-        Set Damage Dealt(Event Player, (Event Player).damage_dealt);
-        Set Damage Received(Event Player, (Event Player).damage_received);
-        Set Move Speed(Event Player, (Event Player).movement_speed);
-        Set Max Health(Event Player, (Event Player).max_health);
     }
 }
 
@@ -5138,4 +5051,3 @@ rule ("[katrina]") {
         Press Button(Event Player, Button(Ultimate));
     }
 }
-

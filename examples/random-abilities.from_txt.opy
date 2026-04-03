@@ -1,3 +1,6 @@
+## IMPORTANT: keep this header. Never delete or strip it.
+# Game code: 79C5D
+
 #!suppressWarnings w_player_closest_to_reticle
 
 #Global variables
@@ -676,13 +679,6 @@ def register_abilities2():
     _objectVariable_2[_extendedGlobalCollection[38]] = 14
     _objectVariable_3[_extendedGlobalCollection[38]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[38])
-    _extendedGlobalCollection[39] = _classIndexes.index(0)
-    _extendedGlobalCollection[39] = len(_classIndexes) if _extendedGlobalCollection[39] == -1 else _extendedGlobalCollection[39]
-    _classIndexes[_extendedGlobalCollection[39]] = 41
-    _objectVariable_0[_extendedGlobalCollection[39]] = GroupUp
-    _objectVariable_1[_extendedGlobalCollection[39]] = "the more allies around you, the higher your status"
-    _objectVariable_3[_extendedGlobalCollection[39]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[39])
     _extendedGlobalCollection[41] = _classIndexes.index(0)
     _extendedGlobalCollection[41] = len(_classIndexes) if _extendedGlobalCollection[41] == -1 else _extendedGlobalCollection[41]
     _classIndexes[_extendedGlobalCollection[41]] = 43
@@ -1127,14 +1123,7 @@ def clear_ability():
         returnValue_onEnd = false
         goto lbl_78
         goto lbl_79
-        eventPlayer.targets.setDamageReceived(100)
-        eventPlayer.targets.setDamageDealt(100)
-        eventPlayer.targets.setHealingDealt(100)
-        eventPlayer.targets.setHealingReceived(100)
-        eventPlayer.targets.setMoveSpeed(100)
-        eventPlayer.targets.group_leaders.remove(eventPlayer)
-        eventPlayer.targets.max_power = sorted(eventPlayer.targets.group_leaders.map(lambda x: x.power))[0]
-        returnValue_onEnd = true
+        returnValue_onEnd = false
         goto lbl_80
         goto lbl_81
         eventPlayer.max_health = 100
@@ -1533,15 +1522,7 @@ def roll_ability():
     returnValue_onStart = false
     goto lbl_78
     goto lbl_79
-    eventPlayer.targets = getPlayersInRadius(eventPlayer.getPosition(), 15, Team.ALL)
-    eventPlayer.power = len(eventPlayer.targets) - 1
-    eventPlayer.group_leaders = [eventPlayer]
-    eventPlayer.max_power = sorted(eventPlayer.group_leaders.map(lambda x: x.power))[0]
-    hudSubheader(eventPlayer.targets, "power  {0}".format(eventPlayer.targets.max_power), HudPosition.LEFT, 19, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    eventPlayer.text_ids.append(getLastCreatedText())
-    createEffect(getPlayers(eventPlayer.getTeam()), Effect.RING, Color.ORANGE, eventPlayer, 15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.effect_ids.append(getLastCreatedEntity())
-    returnValue_onStart = true
+    returnValue_onStart = false
     goto lbl_80
     goto lbl_81
     hudHeader(eventPlayer, "{0}{1}".format("{0}{1}{2}".format("{0}{1}{2}".format("Health:", eventPlayer.max_health, "- Damage/Heal:"), eventPlayer.damage_dealt, "- Move speed:"), eventPlayer.movement_speed), HudPosition.LEFT, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
@@ -2587,52 +2568,6 @@ rule "[telekinesis] end":
     
     wait(2.6, Wait.ABORT_WHEN_FALSE)
     eventPlayer.target = null
-
-
-rule "[group up] update targets":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == GroupUp
-    
-    eventPlayer.targets_prev = eventPlayer.targets
-    eventPlayer.targets = getPlayersInRadius(eventPlayer.getPosition(), 15, eventPlayer.getTeam())
-    eventPlayer.power = len(eventPlayer.targets) - 1
-    eventPlayer.targets_new = eventPlayer.targets.exclude(eventPlayer.targets_prev)
-    eventPlayer.targets_prev.remove(eventPlayer.targets)
-    eventPlayer.targets_new.group_leaders.append(eventPlayer)
-    eventPlayer.targets_prev.group_leaders.remove(eventPlayer)
-    eventPlayer.targets_prev.max_power = sorted(eventPlayer.targets_prev.group_leaders.map(lambda x: x.power))[0]
-    eventPlayer.targets.max_power = sorted(eventPlayer.targets.group_leaders.map(lambda x: x.power))[0]
-    wait(0.3)
-    if ruleCondition:
-        loop()
-
-
-rule "[group up] update stat":
-    @Event eachPlayer
-    @Condition eventPlayer.ability != null
-    @Condition eventPlayer.max_power != null
-    @Condition eventPlayer.max_power > 0
-    @Condition eventPlayer.isAlive() == true
-    
-    eventPlayer.setDamageDealt(eventPlayer.damage_dealt + eventPlayer.max_power * 40)
-    eventPlayer.setDamageReceived(max(0, eventPlayer.damage_received - eventPlayer.max_power * 10))
-    eventPlayer.setMoveSpeed(eventPlayer.movement_speed + eventPlayer.max_power * 20)
-    eventPlayer.setMaxHealth(eventPlayer.max_health + eventPlayer.max_power * 20)
-    wait(0.35)
-    if ruleCondition:
-        loop()
-
-
-rule "[group up] clear stat":
-    @Event eachPlayer
-    @Condition eventPlayer.ability != null
-    @Condition eventPlayer.max_power == null
-    @Condition eventPlayer.isAlive() == true
-    
-    eventPlayer.setDamageDealt(eventPlayer.damage_dealt)
-    eventPlayer.setDamageReceived(eventPlayer.damage_received)
-    eventPlayer.setMoveSpeed(eventPlayer.movement_speed)
-    eventPlayer.setMaxHealth(eventPlayer.max_health)
 
 
 rule "[earthquake] reset power":
