@@ -146,6 +146,7 @@ playervar decoy 47
 playervar control_decoy 48
 playervar is_decoy 49
 playervar decoy_ready 50
+playervar high_sens_speed 51
 playervar high_speed_remains 52
 playervar rider 53
 playervar strong_gravity_remains 54
@@ -221,6 +222,12 @@ macro Player.acquireViewedTarget(team, radius=80, losCheck=LosCheck.SURFACES):
 
 macro formatKeyPrompts(text):
     text.replace("[INTERACT]", inputBindingString(Button.INTERACT)).replace("[Interact]", inputBindingString(Button.INTERACT)).replace("[interact]", inputBindingString(Button.INTERACT)).replace("[RELOAD]", inputBindingString(Button.RELOAD)).replace("[Reload]", inputBindingString(Button.RELOAD)).replace("[reload]", inputBindingString(Button.RELOAD))
+
+macro getSpawnedTeammatesExcludingSelf(player):
+    [p for p in getLivingPlayers(player.getTeam()) if p.hasSpawned() and p != player]
+
+macro getClosestSpawnedTeammate(player):
+    sorted(getSpawnedTeammatesExcludingSelf(player), key=lambda x: distance(x, player))[0]
 
 
 #Subroutine names
@@ -323,6 +330,7 @@ rule "Initial Player":
     eventPlayer.earthquake_power = 0
     eventPlayer.show_icons = []
     eventPlayer.high_sens_remains = 0
+    eventPlayer.high_sens_speed = 100
     eventPlayer.reversed_movement = false
     eventPlayer.high_speed_remains = 0
     eventPlayer.strong_gravity_remains = 0
@@ -712,7 +720,7 @@ def register_abilities3():
     _extendedGlobalCollection[46] = len(_classIndexes) if _extendedGlobalCollection[46] == -1 else _extendedGlobalCollection[46]
     _classIndexes[_extendedGlobalCollection[46]] = 48
     _objectVariable_0[_extendedGlobalCollection[46]] = HighSensitivity
-    _objectVariable_1[_extendedGlobalCollection[46]] = "press [interact] to temporarily make the mouse sensitivity of the enemy you are looking at very high"
+    _objectVariable_1[_extendedGlobalCollection[46]] = "press [interact] to temporarily alternate the aim speed of the enemy you are looking at between very low and very high"
     _objectVariable_2[_extendedGlobalCollection[46]] = 15
     _objectVariable_3[_extendedGlobalCollection[46]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[46])
@@ -1947,7 +1955,8 @@ rule "on use":
     goto lbl_27
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.target.high_sens_remains = 6
-    eventPlayer.target.setAimSpeed(1500)
+    eventPlayer.target.high_sens_speed = random.choice([10, 2000])
+    eventPlayer.target.setAimSpeed(eventPlayer.target.high_sens_speed)
     goto lbl_28
     __abortIf__(not eventPlayer.isOnGround() or eventPlayer.isInSpawnRoom())
     eventPlayer.target_pos = eventPlayer.getPosition()
@@ -2617,8 +2626,14 @@ rule "[High sensitivity] countdown":
     @Event eachPlayer
     @Condition eventPlayer.high_sens_remains > 0
     
-    eventPlayer.high_sens_remains--
-    wait(1, Wait.ABORT_WHEN_FALSE)
+    wait(2, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.high_sens_remains -= 2
+    if eventPlayer.high_sens_remains > 0:
+        if eventPlayer.high_sens_speed == 10:
+            eventPlayer.high_sens_speed = 2000
+        else:
+            eventPlayer.high_sens_speed = 10
+        eventPlayer.setAimSpeed(eventPlayer.high_sens_speed)
     if ruleCondition:
         loop()
 
@@ -2627,6 +2642,7 @@ rule "[High sensitivity] end":
     @Event eachPlayer
     @Condition eventPlayer.high_sens_remains == 0
     
+    eventPlayer.high_sens_speed = 100
     eventPlayer.setAimSpeed(100)
 
 
@@ -3035,11 +3051,12 @@ rule "[widow is ugly] widow charge reset":
 rule "[widow is ugly] widow balance":
     @Event eachPlayer
     @Condition _objectVariable_0[eventPlayer.ability] == MadWidow
-    @Condition distance(eventPlayer, getRealClosestPlayer(eventPlayer, eventPlayer.getTeam())) <= 3
-    @Condition getRealClosestPlayer(eventPlayer, eventPlayer.getTeam()).isHoldingButton(Button.MELEE) == true
-    @Condition isInLoS(getRealClosestPlayer(eventPlayer, eventPlayer.getTeam()).getEyePosition(), eventPlayer, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS) == true
+    @Condition getSpawnedTeammatesExcludingSelf(eventPlayer) != []
+    @Condition distance(eventPlayer, getClosestSpawnedTeammate(eventPlayer)) <= 3
+    @Condition getClosestSpawnedTeammate(eventPlayer).isHoldingButton(Button.MELEE) == true
+    @Condition isInLoS(getClosestSpawnedTeammate(eventPlayer).getEyePosition(), eventPlayer, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS) == true
     
-    damage(eventPlayer, getRealClosestPlayer(eventPlayer, eventPlayer.getTeam()), 1000)
+    damage(eventPlayer, getClosestSpawnedTeammate(eventPlayer), 1000)
 
 
 rule "[widow is ugly] message":
@@ -3526,18 +3543,6 @@ rule "[katrina]":
     elif random.randint(1, 100) <= 50:
         kill(eventPlayer)
         bigMessage(eventPlayer, "Fate turns on you.")
-
-
-rule "[katrina]":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == katrina
-    @Condition eventPlayer.isAlive() == true
-    
-    if ruleCondition:
-        loop()
-    eventPlayer.setUltCharge(100)
-    wait(0.1)
-    eventPlayer.forceButtonPress(Button.ULTIMATE)
 
 
 rule "[katrina]":
