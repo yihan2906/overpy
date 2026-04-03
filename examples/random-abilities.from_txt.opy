@@ -214,6 +214,8 @@ playervar Sun_R 118
 playervar SunEffects 119
 playervar SunText 120
 playervar isMegaMauga 121
+playervar interact_press_count 122
+playervar interact_is_held 123
 
 macro Player.acquireViewedTarget(team, radius=80, losCheck=LosCheck.SURFACES):
     self.target = self.getPlayerClosestToReticle(team)
@@ -223,6 +225,9 @@ macro Player.acquireViewedTarget(team, radius=80, losCheck=LosCheck.SURFACES):
         return
     if self.target not in getPlayersInRadius(self.getEyePosition(), radius, team, losCheck):
         return
+
+macro formatKeyPrompts(text):
+    text.replace("[INTERACT]", inputBindingString(Button.INTERACT)).replace("[Interact]", inputBindingString(Button.INTERACT)).replace("[interact]", inputBindingString(Button.INTERACT)).replace("[RELOAD]", inputBindingString(Button.RELOAD)).replace("[Reload]", inputBindingString(Button.RELOAD)).replace("[reload]", inputBindingString(Button.RELOAD))
 
 
 #Subroutine names
@@ -335,6 +340,25 @@ rule "Initial Player":
     eventPlayer.reversed_movement = false
     eventPlayer.high_speed_remains = 0
     eventPlayer.strong_gravity_remains = 0
+    eventPlayer.interact_press_count = 0
+    eventPlayer.interact_is_held = false
+
+
+rule "track interact press count":
+    @Event eachPlayer
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.interact_is_held == false
+    
+    eventPlayer.interact_is_held = true
+    eventPlayer.interact_press_count++
+
+
+rule "track interact release":
+    @Event eachPlayer
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == false
+    @Condition eventPlayer.interact_is_held == true
+    
+    eventPlayer.interact_is_held = false
 
 
 rule "end death match":
@@ -873,9 +897,10 @@ rule "create hud texts":
     @Condition eventPlayer.isDummy() == false
     
     hud_created.append(eventPlayer)
-    hudSubheader(eventPlayer, "hold R to reset", HudPosition.LEFT, -1, Color.BLACK, HudReeval.VISIBILITY_AND_STRING)
+    hudSubheader(eventPlayer, "hold {0} to reset".format(inputBindingString(Button.RELOAD)), HudPosition.LEFT, -1, Color.BLACK, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(eventPlayer, eventPlayer.title, HudPosition.LEFT, 5, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(eventPlayer, eventPlayer.desc, HudPosition.LEFT, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    hudSubheader(eventPlayer, formatKeyPrompts(eventPlayer.desc), HudPosition.LEFT, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    hudSubheader(eventPlayer, "interact presses  {0}".format(eventPlayer.interact_press_count), HudPosition.LEFT, 15, Color.YELLOW, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(eventPlayer.cooldown_player, "cooldown  {0}".format(eventPlayer.cooldown_count), HudPosition.LEFT, 20, Color.RED, HudReeval.VISIBILITY_AND_STRING)
     if show_ability_on_the_name:
         createInWorldText(getAllPlayers(), eventPlayer.title, eventPlayer, 0.6, Clip.SURFACES, WorldTextReeval.VISIBILITY_POSITION_AND_STRING, Color.GRAY, SpecVisibility.ALWAYS)
@@ -3615,7 +3640,7 @@ rule "hold [reload] to self-reset":
     @Condition eventPlayer.isAlive() == true
     
     wait(1, Wait.ABORT_WHEN_FALSE)
-    bigMessage(eventPlayer, "Continue holding [Reload] to self-reset")
+    bigMessage(eventPlayer, "Continue holding {0} to self-reset".format(inputBindingString(Button.RELOAD)))
     if eventPlayer.getHero() == Hero.DVA:
         eventPlayer.egg_position = null
         eventPlayer.targets = null

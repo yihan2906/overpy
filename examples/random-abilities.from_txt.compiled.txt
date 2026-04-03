@@ -209,6 +209,8 @@ variables {
         119: SunEffects
         120: SunText
         121: isMegaMauga
+        122: interact_press_count
+        123: interact_is_held
 }
 subroutines {
     0: register_abilities1
@@ -324,6 +326,39 @@ rule ("Initial Player") {
         Set Player Variable(Event Player, reversed_movement, False);
         Set Player Variable(Event Player, high_speed_remains, 0);
         Set Player Variable(Event Player, strong_gravity_remains, 0);
+        Set Player Variable(Event Player, interact_press_count, 0);
+        Set Player Variable(Event Player, interact_is_held, False);
+    }
+}
+
+rule ("track interact press count") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is Button Held(Event Player, Button(Interact)) == True;
+        (Event Player).interact_is_held == False;
+    }
+    actions {
+        Set Player Variable(Event Player, interact_is_held, True);
+        Modify Player Variable(Event Player, interact_press_count, Add, 1);
+    }
+}
+
+rule ("track interact release") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is Button Held(Event Player, Button(Interact)) == False;
+        (Event Player).interact_is_held == True;
+    }
+    actions {
+        Set Player Variable(Event Player, interact_is_held, False);
     }
 }
 
@@ -893,9 +928,10 @@ rule ("create hud texts") {
     }
     actions {
         Modify Global Variable(hud_created, Append To Array, Event Player);
-        Create HUD Text(Event Player, Null, Custom String("hold R to reset"), Null, Left, -1, Null, Color(Black), Null, Visible To and String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("hold {0} to reset", Input Binding String(Button(Reload))), Null, Left, -1, Null, Color(Black), Null, Visible To and String, Default Visibility);
         Create HUD Text(Event Player, Null, (Event Player).title, Null, Left, 5, Null, Color(Green), Null, Visible To and String, Default Visibility);
-        Create HUD Text(Event Player, Null, (Event Player).desc, Null, Left, 10, Null, Color(White), Null, Visible To and String, Default Visibility);
+        Create HUD Text(Event Player, Null, String Replace(String Replace(String Replace(String Replace(String Replace(String Replace((Event Player).desc, Custom String("[INTERACT]"), Input Binding String(Button(Interact))), Custom String("[Interact]"), Input Binding String(Button(Interact))), Custom String("[interact]"), Input Binding String(Button(Interact))), Custom String("[RELOAD]"), Input Binding String(Button(Reload))), Custom String("[Reload]"), Input Binding String(Button(Reload))), Custom String("[reload]"), Input Binding String(Button(Reload))), Null, Left, 10, Null, Color(White), Null, Visible To and String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("interact presses  {0}", (Event Player).interact_press_count), Null, Left, 15, Null, Color(Yellow), Null, Visible To and String, Default Visibility);
         Create HUD Text((Event Player).cooldown_player, Null, Custom String("cooldown  {0}", (Event Player).cooldown_count), Null, Left, 20, Null, Color(Red), Null, Visible To and String, Default Visibility);
         If(Global.show_ability_on_the_name);
             Create In-World Text(All Players(All Teams), (Event Player).title, Event Player, 0.6, Clip Against Surfaces, Visible To Position and String, Color(Gray), Visible Always);
@@ -4787,7 +4823,7 @@ rule ("hold [reload] to self-reset") {
     }
     actions {
         Wait(1, Abort When False);
-        Big Message(Event Player, Custom String("Continue holding [Reload] to self-reset"));
+        Big Message(Event Player, Custom String("Continue holding {0} to self-reset", Input Binding String(Button(Reload))));
         If(Compare(Hero Of(Event Player), ==, Hero(D.Va)));
             Set Player Variable(Event Player, egg_position, Null);
             Set Player Variable(Event Player, targets, Null);
