@@ -1,0 +1,110 @@
+variables {
+    global:
+        0: A
+        1: phase
+        2: wave
+        3: spawnPoints
+        4: waveBonuses
+        5: totalBonus
+    player:
+        0: score
+        1: lives
+        2: isAlive
+}
+subroutines {
+    0: initPlayer
+    1: awardPoint
+}
+rule ("Initialize global variables") {
+    event {
+        Ongoing - Global;
+    }
+    actions {
+        Set Global Variable(phase, 1);
+        Set Global Variable(wave, 1);
+        Set Global Variable(spawnPoints, Array(Vector(0, 0, 0), Vector(10, 0, 0), Vector(-10, 0, 0)));
+        Set Global Variable(waveBonuses, Array(1, 2, 3));
+    }
+}
+
+rule ("Initialize player stats") {
+    event {
+        Subroutine;
+        initPlayer;
+    }
+    actions {
+        Set Player Variable(Event Player, score, 0);
+        Set Player Variable(Event Player, lives, 3);
+        Set Player Variable(Event Player, isAlive, True);
+    }
+}
+
+rule ("Award one score point") {
+    event {
+        Subroutine;
+        awardPoint;
+    }
+    actions {
+        Modify Player Variable(Event Player, score, Add, 1);
+    }
+}
+
+rule ("Match setup") {
+    event {
+        Ongoing - Global;
+    }
+    actions {
+        Set Global Variable(phase, 0);
+        Set Global Variable(wave, 1);
+    }
+}
+
+rule ("Per-player init") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    actions {
+        Call Subroutine(initPlayer);
+    }
+}
+
+rule ("Game running loop") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    actions {
+        If((Event Player).isAlive);
+            Call Subroutine(awardPoint);
+            If(Compare((Event Player).score, >=, 5));
+                Modify Player Variable(Event Player, lives, Subtract, 1);
+                Set Player Variable(Event Player, score, 0);
+                Set Player Variable(Event Player, isAlive, Compare((Event Player).lives, >, 0));
+    }
+}
+
+rule ("Wave array demo") {
+    event {
+        Ongoing - Global;
+    }
+    actions {
+        Set Global Variable(totalBonus, 0);
+        For Global Variable(A, 0, Count Of(Global.waveBonuses), 1);
+            Modify Global Variable(totalBonus, Add, Value In Array(Global.waveBonuses, Global.A));
+        End;
+        If(True);
+            Skip(Value In Array(Array(2, 0, 1), Add(1, Index Of Array Value(Array(1, 2), Global.wave))));
+        //__label_switch_2_0__:
+        Set Global Variable(phase, 1);
+        //__label_switch_2_1__:
+        Set Global Variable(phase, 0);
+        //__label_switch_2_default__:
+        Set Global Variable(phase, 2);
+        End;
+        Wait(1, Ignore Condition);
+    }
+}
+
