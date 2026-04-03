@@ -25,7 +25,7 @@ variables {
         23: UnclePopHummer
         24: SpinFloatUp
         25: Barrier
-        26: var1
+        26: OneShotName
         27: SleepWell
         28: ItsTimeToSleep
         29: LayingEgg
@@ -48,7 +48,7 @@ variables {
         46: LackOfConcentration
         47: FlushBang
         48: Telekinesis
-        49: GroupUp
+        50: nukeBlastRadius
         51: Earthquake
         52: ImAnAttentionSeeker
         53: RandomScale
@@ -62,7 +62,7 @@ variables {
         62: YouGotSpeed
         63: Taxi
         64: StrongGravity
-        65: LookAtMe
+        65: EyeContact
         66: MindControl
         67: Lag
         68: DancingGhost
@@ -77,10 +77,9 @@ variables {
         77: reroll_when_internal_death
         78: show_ability_on_the_name
         79: abilities
-        80: Sunstroke
         81: _classIndexes
         82: _extendedGlobalCollection
-        83: i
+        83: hudIndex
         84: returnValue_onEnd
         85: hero
         86: returnValue_onStart
@@ -95,7 +94,7 @@ variables {
         1: title
         2: desc
         3: should_reroll
-        4: i
+        4: targetIndex
         5: cooldown_player
         8: ability
         9: target
@@ -129,7 +128,6 @@ variables {
         37: power
         38: max_power_prev
         39: max_power
-        40: group_leaders
         41: earthquake_power
         42: is_jumping
         43: show_icons
@@ -200,14 +198,6 @@ variables {
         110: teleported
         111: tp1_targets
         112: tp1_target
-        113: SunPosition
-        114: SunState
-        115: SunMovePosition
-        116: SunIsMoving
-        117: Sun_Q
-        118: Sun_R
-        119: SunEffects
-        120: SunText
         121: isMegaMauga
         122: interact_press_count
         123: interact_is_held
@@ -219,10 +209,6 @@ subroutines {
     3: roll_ability
     4: clear_huds
     5: clear_ability
-    6: CalculateSunMovement
-    7: SunCollision
-    8: StartSun
-    9: StopSun
 }
 //Strict optimizations enabled
 rule ("Initial Global") {
@@ -246,7 +232,7 @@ rule ("Initial Global") {
         Set Global Variable(UnclePopHummer, Custom String("Uncle Poop Hammer"));
         Set Global Variable(SpinFloatUp, Custom String("Let's run in new shoes"));
         Set Global Variable(Barrier, Custom String("Barrier of bondage"));
-        Set Global Variable(var1, Custom String("One shot one **** "));
+        Set Global Variable(OneShotName, Custom String("One shot one **** "));
         Set Global Variable(SleepWell, Custom String("sleep well"));
         Set Global Variable(ItsTimeToSleep, Custom String("It's time to sleep"));
         Set Global Variable(LayingEgg, Custom String("Laying eggs"));
@@ -269,7 +255,6 @@ rule ("Initial Global") {
         Set Global Variable(LackOfConcentration, Custom String("Lack of concentration"));
         Set Global Variable(FlushBang, Custom String("Flush bang"));
         Set Global Variable(Telekinesis, Custom String("Telekinesis"));
-        Set Global Variable(GroupUp, Custom String("Group up"));
         Set Global Variable(Earthquake, Custom String("Earthquake"));
         Set Global Variable(ImAnAttentionSeeker, Custom String("I'm an attention seeker"));
         Set Global Variable(RandomScale, Custom String("scale randomizer"));
@@ -282,7 +267,7 @@ rule ("Initial Global") {
         Set Global Variable(YouGotSpeed, Custom String("You got speed"));
         Set Global Variable(Taxi, Custom String("Taxi"));
         Set Global Variable(StrongGravity, Custom String("Can't jump"));
-        Set Global Variable(LookAtMe, Custom String("Eye Contact"));
+        Set Global Variable(EyeContact, Custom String("Eye Contact"));
         Set Global Variable(MindControl, Custom String("Mind Control"));
         Set Global Variable(Lag, Custom String("lag"));
         Set Global Variable(DancingGhost, Custom String("Dancing Ghost"));
@@ -294,7 +279,6 @@ rule ("Initial Global") {
         Set Global Variable(MadWidow, Custom String("Mad Widow"));
         Set Global Variable(Hole, Custom String("Hole"));
         Set Global Variable(PortalGun, Custom String("Portal Gun"));
-        Set Global Variable(Sunstroke, Custom String("Rise and Shine"));
         Set Global Variable(NUKE, Custom String("Nuclear Obliteration"));
         Set Global Variable(megaMauga, Custom String("Mega Mauga"));
         Set Global Variable(StolenSoul, Custom String("Stolen Soul"));
@@ -319,7 +303,6 @@ rule ("Initial Player") {
         Set Player Variable(Event Player, power, 0);
         Set Player Variable(Event Player, max_power_prev, 0);
         Set Player Variable(Event Player, max_power, 0);
-        Set Player Variable(Event Player, group_leaders, Empty Array);
         Set Player Variable(Event Player, earthquake_power, 0);
         Set Player Variable(Event Player, show_icons, Empty Array);
         Set Player Variable(Event Player, high_sens_remains, 0);
@@ -502,7 +485,7 @@ rule ("register abilities1") {
         Set Global Variable At Index(_extendedGlobalCollection, 17, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 17, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 17), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 17)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 17), 19);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 17), Global.var1);
+        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 17), Global.OneShotName);
         Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 17), Custom String("increase damage dealt by a lot but reduce HP by a lot as well"));
         Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 17), All Support Heroes);
         Set Global Variable At Index(_objectVariable_6, Value In Array(Global._extendedGlobalCollection, 17), 1);
@@ -776,7 +759,7 @@ rule ("register abilities3") {
         Set Global Variable At Index(_extendedGlobalCollection, 53, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 53, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 53), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 53)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 53), 55);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 53), Global.LookAtMe);
+        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 53), Global.EyeContact);
         Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 53), Custom String("Press [Interact] to force the enemy you are looking at to look at a random ally"));
         Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 53), 5);
         Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 53), Add(Count Of(Global.abilities), 1));
@@ -845,15 +828,6 @@ rule ("register abilities3") {
         Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 62), 0);
         Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 62), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 62));
-        Set Global Variable At Index(_extendedGlobalCollection, 63, Index Of Array Value(Global._classIndexes, 0));
-        Set Global Variable At Index(_extendedGlobalCollection, 63, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 63), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 63)));
-        Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 63), 65);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 63), Global.Sunstroke);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 63), Custom String("press [interact] to summon the Sun and control it. The closer you are to the enemies, the more they burn"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 63), 0);
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 63), Array(Hero(Illari)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 63), Add(Count Of(Global.abilities), 1));
-        Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 63));
         Set Global Variable At Index(_extendedGlobalCollection, 100, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 100, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 100), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 100)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 100), 102);
@@ -895,7 +869,7 @@ rule ("init global variables") {
     }
     actions {
         Set Global Variable(hud_created, Empty Array);
-        Set Global Variable(cooldown_multiplier, Multiply(Workshop Setting Integer(Custom String("Ability setting"), Custom String("Ability Cooldown 󠀨%󠀩"), 100, 0, 500, 0), 0.01));
+        Set Global Variable(cooldown_multiplier, 2.0);
         Set Global Variable(reroll_when_internal_death, Workshop Setting Toggle(Custom String("Ability setting"), Custom String("Ability change in case of intentional death"), False, 0));
         Set Global Variable(show_ability_on_the_name, Workshop Setting Toggle(Custom String("Ability setting"), Custom String("Show ability name on the player name"), False, 0));
         Set Global Variable(unlimited_game_time, Workshop Setting Toggle(Custom String("Game settings"), Custom String("Unlimited game time"), False, 0));
@@ -978,20 +952,20 @@ rule ("clear huds") {
         clear_huds;
     }
     actions {
-        Set Global Variable(i, 0);
+        Set Global Variable(hudIndex, 0);
         "HUD"
-        For Global Variable(i, 0, Count Of((Event Player).text_ids), 1);
-            Destroy HUD Text(Value In Array((Event Player).text_ids, Global.i));
+        For Global Variable(hudIndex, 0, Count Of((Event Player).text_ids), 1);
+            Destroy HUD Text(Value In Array((Event Player).text_ids, Global.hudIndex));
         End;
         Set Player Variable(Event Player, text_ids, Empty Array);
         "Effect"
-        For Global Variable(i, 0, Count Of((Event Player).effect_ids), 1);
-            Destroy Effect(Value In Array((Event Player).effect_ids, Global.i));
+        For Global Variable(hudIndex, 0, Count Of((Event Player).effect_ids), 1);
+            Destroy Effect(Value In Array((Event Player).effect_ids, Global.hudIndex));
         End;
         Set Player Variable(Event Player, effect_ids, Empty Array);
         "Icon"
-        For Global Variable(i, 0, Count Of((Event Player).icon_ids), 1);
-            Destroy Icon(Value In Array((Event Player).icon_ids, Global.i));
+        For Global Variable(hudIndex, 0, Count Of((Event Player).icon_ids), 1);
+            Destroy Icon(Value In Array((Event Player).icon_ids, Global.hudIndex));
         End;
         Set Player Variable(Event Player, icon_ids, Empty Array);
     }
@@ -1007,10 +981,7 @@ rule ("clear ability") {
         Stop Camera(Event Player);
         Set Move Speed(Event Player, 100);
         Set Gravity(Event Player, 100);
-        Set Player Variable(Event Player, SunState, 0);
-        Destroy HUD Text((Event Player).SunText);
         Destroy Progress Bar HUD Text((Event Player).progressbar_id);
-        Destroy Effect((Event Player).SunEffects);
         Enable Movement Collision With Environment(Event Player);
         Detach Players(Event Player);
         Start Forcing Player To Be Hero(Event Player, Random Value In Array(All Heroes));
@@ -1052,139 +1023,139 @@ rule ("clear ability") {
             Stop Modifying Hero Voice Lines(Event Player);
             Skip(Value In Array(Array(230, 0, 3, 6, 9, 12, 15, 19, 22, 25, 29, 32, 35, 38, 43, 46, 49, 52, 55, 60, 64, 67, 70, 74, 77, 80, 83, 86, 89, 94, 97, 100, 104, 107, 111, 114, 117, 120, 123, 128, 131, 134, 144, 154, 160, 166, 169, 172, 175, 179, 182, 188, 194, 198, 204, 208, 211, 219, 222, 226, 229), Add(Index Of Array Value(Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
             Set Global Variable(returnValue_onEnd, False);
-            Skip(228);
-            Skip(227);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(225);
-            Skip(224);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(222);
             Skip(221);
+            Skip(220);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(219);
             Skip(218);
+            Skip(217);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(216);
             Skip(215);
-            Set Player Variable(Event Player, should_reroll, False);
-            Set Global Variable(returnValue_onEnd, True);
+            Skip(214);
+            Set Global Variable(returnValue_onEnd, False);
             Skip(212);
             Skip(211);
             Set Global Variable(returnValue_onEnd, False);
             Skip(209);
             Skip(208);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(206);
-            Skip(205);
-            Enable Movement Collision With Environment(Event Player);
+            Set Player Variable(Event Player, should_reroll, False);
             Set Global Variable(returnValue_onEnd, True);
+            Skip(205);
+            Skip(204);
+            Set Global Variable(returnValue_onEnd, False);
             Skip(202);
             Skip(201);
             Set Global Variable(returnValue_onEnd, False);
             Skip(199);
             Skip(198);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(196);
+            Enable Movement Collision With Environment(Event Player);
+            Set Global Variable(returnValue_onEnd, True);
             Skip(195);
+            Skip(194);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(193);
             Skip(192);
+            Skip(191);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(189);
+            Skip(188);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(186);
+            Skip(185);
             Set Damage Dealt(Event Player, 100);
             Set Move Speed(Event Player, 100);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(188);
-            Skip(187);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(185);
-            Skip(184);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(182);
             Skip(181);
+            Skip(180);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(179);
             Skip(178);
+            Skip(177);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(176);
             Skip(175);
+            Skip(174);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(172);
+            Skip(171);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(169);
+            Skip(168);
             Set Player Variable(Event Player, is_showing_barieer, False);
             Set Player Variable(Event Player, barieer_position, Null);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(171);
-            Skip(170);
-            Set Ability 2 Enabled(Event Player, True);
-            Set Global Variable(returnValue_onEnd, True);
-            Skip(167);
-            Skip(166);
-            Set Global Variable(returnValue_onEnd, False);
             Skip(164);
             Skip(163);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(161);
-            Skip(160);
-            Clear Status(Event Player, Unkillable);
+            Set Ability 2 Enabled(Event Player, True);
             Set Global Variable(returnValue_onEnd, True);
+            Skip(160);
+            Skip(159);
+            Set Global Variable(returnValue_onEnd, False);
             Skip(157);
             Skip(156);
             Set Global Variable(returnValue_onEnd, False);
             Skip(154);
             Skip(153);
+            Clear Status(Event Player, Unkillable);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(151);
             Skip(150);
+            Skip(149);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(148);
             Skip(147);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(145);
+            Skip(146);
+            Set Global Variable(returnValue_onEnd, True);
             Skip(144);
+            Skip(143);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(142);
             Skip(141);
+            Skip(140);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(138);
+            Skip(137);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(135);
+            Skip(134);
             Set Player Variable(Event Player, trap_size, 0);
             Set Player Variable(Event Player, trap_pos, Null);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(137);
-            Skip(136);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(134);
-            Skip(133);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(131);
             Skip(130);
-            Set Damage Dealt(Event Player, 100);
-            Set Global Variable(returnValue_onEnd, True);
+            Skip(129);
+            Set Global Variable(returnValue_onEnd, False);
             Skip(127);
             Skip(126);
             Set Global Variable(returnValue_onEnd, False);
             Skip(124);
             Skip(123);
-            Set Invisible(Event Player, None);
+            Set Damage Dealt(Event Player, 100);
             Set Global Variable(returnValue_onEnd, True);
             Skip(120);
             Skip(119);
             Set Global Variable(returnValue_onEnd, False);
             Skip(117);
             Skip(116);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(114);
+            Set Invisible(Event Player, None);
+            Set Global Variable(returnValue_onEnd, True);
             Skip(113);
+            Skip(112);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(111);
             Skip(110);
+            Skip(109);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(108);
             Skip(107);
+            Skip(106);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(104);
+            Skip(103);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(101);
+            Skip(100);
             Set Secondary Fire Enabled(Event Player, True);
             Set Ability 2 Enabled(Event Player, True);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(103);
-            Skip(102);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(100);
-            Skip(99);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(97);
             Skip(96);
+            Skip(95);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(93);
+            Skip(92);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(90);
+            Skip(89);
             Set Global Variable(returnValue_onEnd, False);
             Skip(87);
             Skip(86);
@@ -1446,63 +1417,63 @@ rule ("roll ability") {
         Set Player Variable(Event Player, target_pos, Null);
         Skip(Value In Array(Array(252, 0, 3, 6, 14, 17, 20, 24, 27, 30, 34, 37, 40, 43, 46, 49, 52, 55, 58, 67, 71, 74, 77, 89, 92, 95, 98, 101, 104, 111, 114, 117, 120, 123, 127, 130, 133, 136, 139, 144, 147, 150, 161, 177, 184, 192, 195, 198, 202, 205, 212, 218, 225, 228, 231, 234, 237, 242, 245, 248, 251), Add(Index Of Array Value(Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
         Set Global Variable(returnValue_onStart, False);
-        Skip(250);
-        Skip(249);
+        Skip(242);
+        Skip(241);
         Set Global Variable(returnValue_onStart, False);
-        Skip(247);
-        Skip(246);
+        Skip(239);
+        Skip(238);
         Create HUD Text((Event Player).rock_scissors_paper_players, Custom String("Q : Scissors / E : Rock / JUMP : Paper"), Null, Null, Top, 100, Color(White), Null, Null, Visible To and String, Default Visibility);
         Modify Player Variable(Event Player, text_ids, Append To Array, Last Text ID);
         Set Player Variable(Event Player, targets, 0);
         Set Player Variable(Event Player, rock_scissors_paper_players, Null);
         Set Player Variable(Event Player, rock_siccors_paper_status, 0);
         Set Global Variable(returnValue_onStart, True);
-        Skip(239);
-        Skip(238);
+        Skip(231);
+        Skip(230);
         Set Global Variable(returnValue_onStart, False);
-        Skip(236);
-        Skip(235);
+        Skip(228);
+        Skip(227);
         Set Global Variable(returnValue_onStart, False);
-        Skip(233);
-        Skip(232);
+        Skip(225);
+        Skip(224);
         Set Player Variable(Event Player, should_reroll, True);
         Set Global Variable(returnValue_onStart, True);
-        Skip(229);
-        Skip(228);
+        Skip(221);
+        Skip(220);
         Set Global Variable(returnValue_onStart, False);
-        Skip(226);
-        Skip(225);
+        Skip(218);
+        Skip(217);
         Set Global Variable(returnValue_onStart, False);
-        Skip(223);
-        Skip(222);
+        Skip(215);
+        Skip(214);
         Set Player Variable(Event Player, is_no_clip, False);
         Set Global Variable(returnValue_onStart, True);
-        Skip(219);
-        Skip(218);
-        Set Global Variable(returnValue_onStart, False);
-        Skip(216);
-        Skip(215);
-        Set Global Variable(returnValue_onStart, False);
-        Skip(213);
-        Skip(212);
-        Set Global Variable(returnValue_onStart, False);
+        Skip(211);
         Skip(210);
-        Skip(209);
         Set Global Variable(returnValue_onStart, False);
+        Skip(208);
         Skip(207);
-        Skip(206);
         Set Global Variable(returnValue_onStart, False);
+        Skip(205);
         Skip(204);
-        Skip(203);
         Set Global Variable(returnValue_onStart, False);
+        Skip(202);
         Skip(201);
-        Skip(200);
         Set Global Variable(returnValue_onStart, False);
+        Skip(199);
         Skip(198);
-        Skip(197);
         Set Global Variable(returnValue_onStart, False);
+        Skip(196);
         Skip(195);
-        Skip(194);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(193);
+        Skip(192);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(190);
+        Skip(189);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(187);
+        Skip(186);
         Set Player Variable(Event Player, is_showing_barieer, False);
         Set Player Variable(Event Player, barieer_position, Null);
         Create Effect((Event Player).targets, Light Shaft, Color(Purple), (Event Player).barieer_position, 7.5, Visible To Position and Radius);
@@ -1510,18 +1481,18 @@ rule ("roll ability") {
         Create Effect((Event Player).targets, Energy Sound, Color(Purple), (Event Player).barieer_position, 40, Visible To Position and Radius);
         Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
         Set Global Variable(returnValue_onStart, False);
-        Skip(186);
-        Skip(185);
+        Skip(178);
+        Skip(177);
         Set Ability 2 Enabled(Event Player, False);
         Set Global Variable(returnValue_onStart, True);
-        Skip(182);
-        Skip(181);
+        Skip(174);
+        Skip(173);
         Set Global Variable(returnValue_onStart, False);
-        Skip(179);
-        Skip(178);
+        Skip(171);
+        Skip(170);
         Set Global Variable(returnValue_onStart, False);
-        Skip(176);
-        Skip(175);
+        Skip(168);
+        Skip(167);
         Set Player Variable(Event Player, egg_position, Null);
         Set Player Variable(Event Player, show_text, Null);
         Set Player Variable(Event Player, allies, Null);
@@ -1532,69 +1503,69 @@ rule ("roll ability") {
         Create Effect((Event Player).targets, Sphere, Color(Red), (Event Player).egg_position, 0.5, Visible To Position and Radius);
         Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
         Set Global Variable(returnValue_onStart, True);
-        Skip(164);
-        Skip(163);
-        Set Global Variable(returnValue_onStart, False);
-        Skip(161);
-        Skip(160);
-        Set Global Variable(returnValue_onStart, True);
-        Skip(158);
-        Skip(157);
-        Set Global Variable(returnValue_onStart, False);
+        Skip(156);
         Skip(155);
-        Skip(154);
         Set Global Variable(returnValue_onStart, False);
+        Skip(153);
         Skip(152);
-        Skip(151);
-        Set Global Variable(returnValue_onStart, False);
+        Set Global Variable(returnValue_onStart, True);
+        Skip(150);
         Skip(149);
-        Skip(148);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(147);
+        Skip(146);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(144);
+        Skip(143);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(141);
+        Skip(140);
         Set Player Variable(Event Player, trap_size, 0);
         Set Player Variable(Event Player, trap_pos, Null);
         Create Effect(All Players(All Teams), Sphere, Custom Color(170, 255, 28, 255), (Event Player).trap_pos, (Event Player).trap_size, Position and Radius);
         Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
         Set Global Variable(returnValue_onStart, True);
-        Skip(142);
-        Skip(141);
-        Set Global Variable(returnValue_onStart, False);
-        Skip(139);
-        Skip(138);
-        Set Global Variable(returnValue_onStart, False);
-        Skip(136);
-        Skip(135);
-        Set Global Variable(returnValue_onStart, False);
+        Skip(134);
         Skip(133);
-        Skip(132);
         Set Global Variable(returnValue_onStart, False);
+        Skip(131);
         Skip(130);
-        Skip(129);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(128);
+        Skip(127);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(125);
+        Skip(124);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(122);
+        Skip(121);
         Set Invisible(Event Player, Enemies);
         Set Global Variable(returnValue_onStart, True);
-        Skip(126);
-        Skip(125);
-        Set Global Variable(returnValue_onStart, False);
-        Skip(123);
-        Skip(122);
-        Set Global Variable(returnValue_onStart, False);
-        Skip(120);
-        Skip(119);
-        Set Global Variable(returnValue_onStart, False);
+        Skip(118);
         Skip(117);
-        Skip(116);
         Set Global Variable(returnValue_onStart, False);
+        Skip(115);
         Skip(114);
-        Skip(113);
-        Set Secondary Fire Enabled(Event Player, False);
-        Set Ability 2 Enabled(Event Player, False);
-        Set Global Variable(returnValue_onStart, True);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(112);
+        Skip(111);
+        Set Global Variable(returnValue_onStart, False);
         Skip(109);
         Skip(108);
         Set Global Variable(returnValue_onStart, False);
         Skip(106);
         Skip(105);
+        Set Secondary Fire Enabled(Event Player, False);
+        Set Ability 2 Enabled(Event Player, False);
+        Set Global Variable(returnValue_onStart, True);
+        Skip(101);
+        Skip(100);
         Set Global Variable(returnValue_onStart, False);
-        Skip(103);
-        Skip(102);
+        Skip(98);
+        Skip(97);
+        Set Global Variable(returnValue_onStart, False);
+        Skip(95);
+        Skip(94);
         Set Global Variable(returnValue_onStart, False);
         Skip(92);
         Skip(91);
@@ -3097,8 +3068,8 @@ rule ("[jumping trap] jump") {
     }
     actions {
         Set Player Variable(Event Player, targets, Players Within Radius((Event Player).trap_pos, 1, All Teams, Off));
-        For Player Variable(Event Player, i, 0, Count Of((Event Player).targets), 1);
-            Set Player Variable(Event Player, target, Value In Array((Event Player).targets, (Event Player).i));
+        For Player Variable(Event Player, targetIndex, 0, Count Of((Event Player).targets), 1);
+            Set Player Variable(Event Player, target, Value In Array((Event Player).targets, (Event Player).targetIndex));
             Set Status((Event Player).target, Event Player, Stunned, 0.01);
             Apply Impulse((Event Player).target, Direction Towards((Event Player).trap_pos, (Event Player).target), 45, To World, Cancel Contrary Motion);
             Play Effect(All Players(All Teams), Good Explosion, Color(Lime Green), (Event Player).trap_pos, 1);
@@ -4207,8 +4178,8 @@ rule ("[hole] hole swallow") {
     }
     actions {
         Set Player Variable(Event Player, targets, Players Within Radius((Event Player).hole, 2, All Teams, Surfaces));
-        For Player Variable(Event Player, i, 0, Count Of((Event Player).targets), 1);
-            Set Player Variable(Event Player, target, Value In Array((Event Player).targets, (Event Player).i));
+        For Player Variable(Event Player, targetIndex, 0, Count Of((Event Player).targets), 1);
+            Set Player Variable(Event Player, target, Value In Array((Event Player).targets, (Event Player).targetIndex));
             Skip If(Is In Spawn Room((Event Player).target), 5);
             Disable Movement Collision With Environment((Event Player).target, True);
             Set Status((Event Player).target, Event Player, Stunned, 0.01);
@@ -4308,8 +4279,8 @@ rule ("[portal gun] tp1 teleporting") {
     }
     actions {
         Set Player Variable(Event Player, tp1_targets, Players Within Radius((Event Player).tp1, 2, All Teams, Surfaces));
-        For Player Variable(Event Player, i, 0, Count Of((Event Player).tp1_targets), 1);
-            Set Player Variable(Event Player, tp1_target, Value In Array((Event Player).tp1_targets, (Event Player).i));
+        For Player Variable(Event Player, targetIndex, 0, Count Of((Event Player).tp1_targets), 1);
+            Set Player Variable(Event Player, tp1_target, Value In Array((Event Player).tp1_targets, (Event Player).targetIndex));
             If(Compare(((Event Player).tp1_target).teleported, >, 0));
                 Set Player Variable(Event Player, tp1_target, Null);
             End;
@@ -4369,8 +4340,8 @@ rule ("[portal gun] tp2 teleporting") {
     }
     actions {
         Set Player Variable(Event Player, targets, Players Within Radius((Event Player).tp2, 2, All Teams, Surfaces));
-        For Player Variable(Event Player, i, 0, Count Of((Event Player).targets), 1);
-            Set Player Variable(Event Player, target, Value In Array((Event Player).targets, (Event Player).i));
+        For Player Variable(Event Player, targetIndex, 0, Count Of((Event Player).targets), 1);
+            Set Player Variable(Event Player, target, Value In Array((Event Player).targets, (Event Player).targetIndex));
             If(Compare(((Event Player).target).teleported, >, 0));
                 Set Player Variable(Event Player, target, Null);
             End;
@@ -4443,283 +4414,6 @@ rule ("[portal gun] tick") {
     actions {
         Wait(1, Abort When False);
         Modify Player Variable(Event Player, teleported, Subtract, 1);
-        Loop If Condition Is True;
-    }
-}
-
-rule ("[Sunstroke] Toggle sun") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Is Button Held(Event Player, Button(Interact)) == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Sunstroke;
-        (Event Player).cooldown_count <= 0;
-    }
-    actions {
-        If(And(Compare((Event Player).SunState, ==, 0), Not(Is In Spawn Room(Event Player))));
-            Call Subroutine(StartSun);
-        Else If(Compare((Event Player).SunState, ==, 1));
-            Call Subroutine(StopSun);
-    }
-}
-
-rule ("[Sunstroke]Control sun") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Or(Or(Compare(Throttle Of(Event Player), !=, Vector(0, 0, 0)), Is Button Held(Event Player, Button(Crouch))), Is Button Held(Event Player, Button(Jump))) == True;
-        (Event Player).SunState == 1;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Sunstroke;
-    }
-    actions {
-        Call Subroutine(CalculateSunMovement);
-        Call Subroutine(SunCollision);
-        Wait(0.016, Ignore Condition);
-        Loop If Condition Is True;
-        Stop Chasing Player Variable(Event Player, SunPosition);
-        Set Player Variable(Event Player, SunIsMoving, False);
-    }
-}
-
-rule ("[Sunstroke][sub] Stop sun") {
-    event {
-        Subroutine;
-        StopSun;
-    }
-    actions {
-        Play Effect(All Players(All Teams), Bad Explosion, Color(Orange), (Event Player).SunPosition, 5);
-        Play Effect(All Players(All Teams), Explosion Sound, Color(White), (Event Player).SunPosition, 200);
-        Stop Camera(Event Player);
-        Set Move Speed(Event Player, 100);
-        Set Gravity(Event Player, 100);
-        Allow Button(Event Player, Button(Primary Fire));
-        Allow Button(Event Player, Button(Secondary Fire));
-        Allow Button(Event Player, Button(Ability 1));
-        Allow Button(Event Player, Button(Ability 2));
-        Allow Button(Event Player, Button(Ultimate));
-        Allow Button(Event Player, Button(Melee));
-        Allow Button(Event Player, Button(Jump));
-        Allow Button(Event Player, Button(Crouch));
-        Set Player Variable(Event Player, SunState, 0);
-        Destroy Effect((Event Player).SunEffects);
-        Destroy HUD Text((Event Player).SunText);
-        Set Player Variable(Event Player, cooldown_count, Multiply(30, Global.cooldown_multiplier));
-        Set Max Health(Event Player, 100);
-        Destroy Progress Bar HUD Text((Event Player).progressbar_id);
-    }
-}
-
-rule ("[Sunstroke][sub] calculate Sun movement") {
-    event {
-        Subroutine;
-        CalculateSunMovement;
-    }
-    actions {
-        Set Player Variable(Event Player, Sun_Q, Vector(Multiply(X Component Of(Throttle Of(Event Player)), -1), 0, Z Component Of(Throttle Of(Event Player))));
-        If(Is Button Held(Event Player, Button(Jump)));
-            Modify Player Variable(Event Player, Sun_Q, Subtract, Up);
-        Else If(Is Button Held(Event Player, Button(Crouch)));
-            Modify Player Variable(Event Player, Sun_Q, Add, Up);
-        End;
-        If(Compare(Z Component Of(Throttle Of(Event Player)), ==, -1));
-            Set Player Variable(Event Player, SunMovePosition, Direction From Angles(Angle Difference(Horizontal Angle From Direction((Event Player).Sun_Q), Horizontal Facing Angle Of(Event Player)), Angle Difference(Vertical Angle From Direction((Event Player).Sun_Q), Multiply(Vertical Facing Angle Of(Event Player), -1))));
-        Else If(Or(Compare(Throttle Of(Event Player), ==, Left), Compare(Throttle Of(Event Player), ==, Right)));
-            Set Player Variable(Event Player, SunMovePosition, Direction From Angles(Angle Difference(Horizontal Angle From Direction((Event Player).Sun_Q), Horizontal Facing Angle Of(Event Player)), Angle Difference(Vertical Angle From Direction((Event Player).Sun_Q), 0)));
-        Else;
-            Set Player Variable(Event Player, SunMovePosition, Direction From Angles(Angle Difference(Horizontal Angle From Direction((Event Player).Sun_Q), Horizontal Facing Angle Of(Event Player)), Angle Difference(Vertical Angle From Direction((Event Player).Sun_Q), Vertical Facing Angle Of(Event Player))));
-        End;
-    }
-}
-
-rule ("[Sunstroke][sub] check Sun Collision") {
-    event {
-        Subroutine;
-        SunCollision;
-    }
-    actions {
-        Set Player Variable(Event Player, Sun_R, Ray Cast Hit Position((Event Player).SunPosition, Add((Event Player).SunPosition, Multiply((Event Player).SunMovePosition, 3)), All Players(All Teams), Event Player, True));
-        If(Compare(Distance Between((Event Player).SunPosition, (Event Player).Sun_R), <, 3));
-            For Player Variable(Event Player, Sun_Q, 20, 50, 15);
-                "-Q degree vertical"
-                Set Player Variable(Event Player, SunMovePosition, Direction From Angles(Horizontal Angle From Direction((Event Player).SunMovePosition), Subtract(Vertical Angle From Direction((Event Player).SunMovePosition), (Event Player).Sun_Q)));
-                Skip If(Compare(Vertical Angle From Direction((Event Player).SunMovePosition), <, Add(-89.98, (Event Player).Sun_Q)), 2);
-                Set Player Variable(Event Player, Sun_R, Ray Cast Hit Position((Event Player).SunPosition, Add((Event Player).SunPosition, Multiply((Event Player).SunMovePosition, 3)), All Players(All Teams), Event Player, True));
-                Abort If(Compare(Distance Between((Event Player).SunPosition, (Event Player).Sun_R), >=, 3));
-                //lbl_0:
-                Set Player Variable(Event Player, SunMovePosition, Direction From Angles(Horizontal Angle From Direction((Event Player).SunMovePosition), Add(Vertical Angle From Direction((Event Player).SunMovePosition), (Event Player).Sun_Q)));
-                Skip If(Compare(Vertical Angle From Direction((Event Player).SunMovePosition), >, Subtract(89.98, (Event Player).Sun_Q)), 2);
-                Set Player Variable(Event Player, Sun_R, Ray Cast Hit Position((Event Player).SunPosition, Add((Event Player).SunPosition, Multiply((Event Player).SunMovePosition, 3)), All Players(All Teams), Event Player, True));
-                Abort If(Compare(Distance Between((Event Player).SunPosition, (Event Player).Sun_R), >=, 3));
-                //lbl_1:
-                Set Player Variable(Event Player, SunMovePosition, Direction From Angles(Add(Horizontal Angle From Direction((Event Player).SunMovePosition), (Event Player).Sun_Q), Subtract(Vertical Angle From Direction((Event Player).SunMovePosition), (Event Player).Sun_Q)));
-                Set Player Variable(Event Player, Sun_R, Ray Cast Hit Position((Event Player).SunPosition, Add((Event Player).SunPosition, Multiply((Event Player).SunMovePosition, 3)), All Players(All Teams), Event Player, True));
-                Abort If(Compare(Distance Between((Event Player).SunPosition, (Event Player).Sun_R), >=, 3));
-                "-Q degree horizontal"
-                Set Player Variable(Event Player, SunMovePosition, Direction From Angles(Subtract(Horizontal Angle From Direction((Event Player).SunMovePosition), (Event Player).Sun_Q), Vertical Angle From Direction((Event Player).SunMovePosition)));
-                Set Player Variable(Event Player, Sun_R, Ray Cast Hit Position((Event Player).SunPosition, Add((Event Player).SunPosition, Multiply((Event Player).SunMovePosition, 3)), All Players(All Teams), Event Player, True));
-                Abort If(Compare(Distance Between((Event Player).SunPosition, (Event Player).Sun_R), >=, 3));
-                "back to 0 degree"
-                Set Player Variable(Event Player, SunMovePosition, Direction From Angles(Add(Horizontal Angle From Direction((Event Player).SunMovePosition), (Event Player).Sun_Q), Vertical Angle From Direction((Event Player).SunMovePosition)));
-            End;
-            Stop Chasing Player Variable(Event Player, SunPosition);
-            Set Player Variable(Event Player, SunIsMoving, False);
-            Wait(0.032, Ignore Condition);
-        End;
-        If(And(Compare(Distance Between((Event Player).SunPosition, (Event Player).Sun_R), >=, 3), Compare((Event Player).SunIsMoving, ==, False)));
-            Chase Player Variable At Rate(Event Player, SunPosition, Add((Event Player).SunPosition, (Event Player).SunMovePosition), 7, Destination and Rate);
-            Set Player Variable(Event Player, SunIsMoving, True);
-        End;
-    }
-}
-
-rule ("[Sunstroke][sub] Start sun") {
-    event {
-        Subroutine;
-        StartSun;
-    }
-    actions {
-        "If camera is not yet started"
-        If(Compare((Event Player).SunState, ==, 0));
-            Set Player Variable(Event Player, SunPosition, Eye Position(Event Player));
-            Set Player Variable(Event Player, SunMovePosition, Eye Position(Event Player));
-        End;
-        Start Camera(Event Player, Update Every Frame(Add(Facing Direction Of(Event Player), Ray Cast Hit Position((Event Player).SunPosition, Add(Add((Event Player).SunPosition, World Vector Of(Vector(0, 0.8, 0), Event Player, Rotation)), Multiply(Facing Direction Of(Event Player), Vector(-3, -3, -3))), All Players(All Teams), Event Player, True))), Add(Add((Event Player).SunPosition, World Vector Of(Vector(0, 0.8, 0), Event Player, Rotation)), Multiply(Facing Direction Of(Event Player), 500)), 50);
-        "-----------------------"
-        Set Move Speed(Event Player, 0);
-        Set Max Health(Event Player, 30);
-        Set Ultimate Charge(Event Player, 100);
-        Press Button(Event Player, Button(Ultimate));
-        Big Message(All Players(Opposite Team Of(Team Of(Event Player))), Custom String("{0} {1} summoned the SUN. You better run!", Icon String(Warning), Event Player));
-        Set Gravity(Event Player, 0);
-        Disallow Button(Event Player, Button(Primary Fire));
-        Disallow Button(Event Player, Button(Secondary Fire));
-        Disallow Button(Event Player, Button(Ability 1));
-        Disallow Button(Event Player, Button(Ability 2));
-        Disallow Button(Event Player, Button(Ultimate));
-        Disallow Button(Event Player, Button(Melee));
-        Disallow Button(Event Player, Button(Jump));
-        Disallow Button(Event Player, Button(Crouch));
-        Set Player Variable(Event Player, SunIsMoving, False);
-        Set Player Variable(Event Player, SunState, 1);
-        "sun effects"
-        Create Effect(All Players(All Teams), Good Aura, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 0, Last Created Entity);
-        Create HUD Text(Event Player, Null, Null, Custom String("[WASD] to move  [Jump/Crouch] to go up or down "), Left, 30, Null, Null, Color(Orange), Visible To and String, Default Visibility);
-        Set Player Variable(Event Player, SunText, Last Text ID);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 1, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 2, Last Created Entity);
-        Create Effect(All Players(All Teams), Energy Sound, Color(Yellow), (Event Player).SunPosition, 200, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 3, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 4, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 5, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 6, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 7, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 8, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 9, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 10, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 11, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 12, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 13, Last Created Entity);
-        Create Effect(Remove From Array(All Players(All Teams), Event Player), Sphere, Color(Orange), (Event Player).SunPosition, 3, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 14, Last Created Entity);
-        Create Effect(Event Player, Ring, Color(Orange), (Event Player).SunPosition, 10, Visible To Position and Radius);
-        Set Player Variable At Index(Event Player, SunEffects, 15, Last Created Entity);
-        Set Player Variable(Event Player, mindcontrol_time, 20);
-        Create Progress Bar HUD Text(Event Player, Multiply(Divide((Event Player).mindcontrol_time, 20), 100), Custom String("Rising And Shining"), Left, 30, Color(Orange), Color(Orange), Visible To and Values, Visible Always);
-        Set Player Variable(Event Player, progressbar_id, Last Text ID);
-    }
-}
-
-rule ("[Sunstroke] sun effect") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).SunState == 1;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Sunstroke;
-    }
-    actions {
-        Set Status(Event Player, Null, Burning, 1);
-        Wait(1, Ignore Condition);
-        Loop If Condition Is True;
-    }
-}
-
-rule ("[Sunstroke] sunstroke") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Sunstroke;
-        (Event Player).SunState == 1;
-    }
-    actions {
-        Set Player Variable(Event Player, targets, Players Within Radius((Event Player).SunPosition, 10, Opposite Team Of(Team Of(Event Player)), Surfaces));
-        For Player Variable(Event Player, i, 0, Count Of((Event Player).targets), 1);
-            Set Player Variable(Event Player, target, Value In Array((Event Player).targets, (Event Player).i));
-            Skip If(Is In Spawn Room((Event Player).target), 3);
-            Set Status((Event Player).target, Event Player, Burning, 1);
-            Damage((Event Player).target, Event Player, Divide(300, Distance Between((Event Player).target, (Event Player).SunPosition)));
-            Small Message((Event Player).target, Custom String("{0} RUN FROM THE SUN !!!", Icon String(Warning)));
-            //lbl_0:
-        End;
-        Wait(0.5, Ignore Condition);
-        Loop If Condition Is True;
-    }
-}
-
-rule ("[Sunstroke] time is over or dead") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Sunstroke;
-        (Event Player).SunState == 1;
-        Or(Compare((Event Player).mindcontrol_time, ==, 0), Is Dead(Event Player)) == True;
-    }
-    actions {
-        Call Subroutine(StopSun);
-    }
-}
-
-rule ("[Sunstroke] tick") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Sunstroke;
-        (Event Player).mindcontrol_time > 0;
-        (Event Player).SunState == 1;
-    }
-    actions {
-        Wait(1, Abort When False);
-        Modify Player Variable(Event Player, mindcontrol_time, Subtract, 1);
         Loop If Condition Is True;
     }
 }
@@ -4804,16 +4498,16 @@ rule ("[nuke]") {
             Teleport(All Players(All Teams), Vector(0, 750, 0));
             Communicate(All Players(All Teams), Goodbye);
             Wait(3, Ignore Condition);
-            Set Global Variable(var1, 1);
-            Create Effect(All Players(All Teams), Sphere, Color(Red), (Event Player).previous_pos, Global.var1, Visible To);
+            Set Global Variable(nukeBlastRadius, 1);
+            Create Effect(All Players(All Teams), Sphere, Color(Red), (Event Player).previous_pos, Global.nukeBlastRadius, Visible To);
             Loop If Condition Is True;
-            While(Compare(Global.var1, <, 300));
+            While(Compare(Global.nukeBlastRadius, <, 300));
                 Wait(0.05, Ignore Condition);
-                Modify Global Variable(var1, Add, 10);
-                Create Effect(All Players(All Teams), Cloud, Color(Green), (Event Player).previous_pos, Multiply(Global.var1, 1), Visible To);
-                Create Effect(All Players(All Teams), Sphere, Color(Red), (Event Player).previous_pos, Multiply(Global.var1, 2), Visible To);
-                Play Effect(All Players(All Teams), Explosion Sound, Color(Red), Event Player, Multiply(Global.var1, 50));
-                Play Effect(All Players(All Teams), Explosion Sound, Color(Black), Event Player, Multiply(Global.var1, 25));
+                Modify Global Variable(nukeBlastRadius, Add, 10);
+                Create Effect(All Players(All Teams), Cloud, Color(Green), (Event Player).previous_pos, Multiply(Global.nukeBlastRadius, 1), Visible To);
+                Create Effect(All Players(All Teams), Sphere, Color(Red), (Event Player).previous_pos, Multiply(Global.nukeBlastRadius, 2), Visible To);
+                Play Effect(All Players(All Teams), Explosion Sound, Color(Red), Event Player, Multiply(Global.nukeBlastRadius, 50));
+                Play Effect(All Players(All Teams), Explosion Sound, Color(Black), Event Player, Multiply(Global.nukeBlastRadius, 25));
             End;
             Kill(All Players(All Teams), Null);
             Wait(1, Ignore Condition);

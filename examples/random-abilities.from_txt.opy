@@ -30,7 +30,7 @@ globalvar WaterGhost 22
 globalvar UnclePopHummer 23
 globalvar SpinFloatUp 24
 globalvar Barrier 25
-globalvar var1 26
+globalvar OneShotName 26
 globalvar SleepWell 27
 globalvar ItsTimeToSleep 28
 globalvar LayingEgg 29
@@ -53,7 +53,7 @@ globalvar HealerEthernalFriend 45
 globalvar LackOfConcentration 46
 globalvar FlushBang 47
 globalvar Telekinesis 48
-globalvar GroupUp 49
+globalvar nukeBlastRadius 50
 globalvar Earthquake 51
 globalvar ImAnAttentionSeeker 52
 globalvar RandomScale 53
@@ -67,7 +67,7 @@ globalvar ElectricShockName 61
 globalvar YouGotSpeed 62
 globalvar Taxi 63
 globalvar StrongGravity 64
-globalvar LookAtMe 65
+globalvar EyeContact 65
 globalvar MindControl 66
 globalvar Lag 67
 globalvar DancingGhost 68
@@ -82,10 +82,9 @@ globalvar unlimited_game_time 76
 globalvar reroll_when_internal_death 77
 globalvar show_ability_on_the_name 78
 globalvar abilities 79
-globalvar Sunstroke 80
 globalvar _classIndexes 81
 globalvar _extendedGlobalCollection 82
-globalvar i 83
+globalvar hudIndex 83
 globalvar returnValue_onEnd 84
 globalvar hero 85
 globalvar returnValue_onStart 86
@@ -103,7 +102,7 @@ playervar next_ability 0
 playervar title 1
 playervar desc 2
 playervar should_reroll 3
-playervar i 4
+playervar targetIndex 4
 playervar cooldown_player 5
 playervar ability 8
 playervar target 9
@@ -137,7 +136,6 @@ playervar is_rotating 36
 playervar power 37
 playervar max_power_prev 38
 playervar max_power 39
-playervar group_leaders 40
 playervar earthquake_power 41
 playervar is_jumping 42
 playervar show_icons 43
@@ -208,14 +206,6 @@ playervar tp_placing 109
 playervar teleported 110
 playervar tp1_targets 111
 playervar tp1_target 112
-playervar SunPosition 113
-playervar SunState 114
-playervar SunMovePosition 115
-playervar SunIsMoving 116
-playervar Sun_Q 117
-playervar Sun_R 118
-playervar SunEffects 119
-playervar SunText 120
 playervar isMegaMauga 121
 playervar interact_press_count 122
 playervar interact_is_held 123
@@ -241,10 +231,6 @@ subroutine register_abilities3 2
 subroutine roll_ability 3
 subroutine clear_huds 4
 subroutine clear_ability 5
-subroutine CalculateSunMovement 6
-subroutine SunCollision 7
-subroutine StartSun 8
-subroutine StopSun 9
 
 
 #Only remove the following directive if the gamemode does not use tricks such as A+0, A*0, "am" == "**", etc which would otherwise be optimized out.
@@ -268,7 +254,7 @@ rule "Initial Global":
     UnclePopHummer = "Uncle Poop Hammer"
     SpinFloatUp = "Let's run in new shoes"
     Barrier = "Barrier of bondage"
-    var1 = "One shot one **** "
+    OneShotName = "One shot one **** "
     SleepWell = "sleep well"
     ItsTimeToSleep = "It's time to sleep"
     LayingEgg = "Laying eggs"
@@ -291,7 +277,6 @@ rule "Initial Global":
     LackOfConcentration = "Lack of concentration"
     FlushBang = "Flush bang"
     Telekinesis = "Telekinesis"
-    GroupUp = "Group up"
     Earthquake = "Earthquake"
     ImAnAttentionSeeker = "I'm an attention seeker"
     RandomScale = "scale randomizer"
@@ -304,7 +289,7 @@ rule "Initial Global":
     YouGotSpeed = "You got speed"
     Taxi = "Taxi"
     StrongGravity = "Can't jump"
-    LookAtMe = "Eye Contact"
+    EyeContact = "Eye Contact"
     MindControl = "Mind Control"
     Lag = "lag"
     DancingGhost = "Dancing Ghost"
@@ -316,7 +301,6 @@ rule "Initial Global":
     MadWidow = "Mad Widow"
     Hole = "Hole"
     PortalGun = "Portal Gun"
-    Sunstroke = "Rise and Shine"
     NUKE = "Nuclear Obliteration"
     megaMauga = "Mega Mauga"
     StolenSoul = "Stolen Soul"
@@ -336,7 +320,6 @@ rule "Initial Player":
     eventPlayer.power = 0
     eventPlayer.max_power_prev = 0
     eventPlayer.max_power = 0
-    eventPlayer.group_leaders = []
     eventPlayer.earthquake_power = 0
     eventPlayer.show_icons = []
     eventPlayer.high_sens_remains = 0
@@ -495,7 +478,7 @@ def register_abilities1():
     _extendedGlobalCollection[17] = _classIndexes.index(0)
     _extendedGlobalCollection[17] = len(_classIndexes) if _extendedGlobalCollection[17] == -1 else _extendedGlobalCollection[17]
     _classIndexes[_extendedGlobalCollection[17]] = 19
-    _objectVariable_0[_extendedGlobalCollection[17]] = var1
+    _objectVariable_0[_extendedGlobalCollection[17]] = OneShotName
     _objectVariable_1[_extendedGlobalCollection[17]] = "increase damage dealt by a lot but reduce HP by a lot as well"
     _objectVariable_8[_extendedGlobalCollection[17]] = getSupportHeroes()
     _objectVariable_6[_extendedGlobalCollection[17]] = 1
@@ -761,7 +744,7 @@ def register_abilities3():
     _extendedGlobalCollection[53] = _classIndexes.index(0)
     _extendedGlobalCollection[53] = len(_classIndexes) if _extendedGlobalCollection[53] == -1 else _extendedGlobalCollection[53]
     _classIndexes[_extendedGlobalCollection[53]] = 55
-    _objectVariable_0[_extendedGlobalCollection[53]] = LookAtMe
+    _objectVariable_0[_extendedGlobalCollection[53]] = EyeContact
     _objectVariable_1[_extendedGlobalCollection[53]] = "Press [Interact] to force the enemy you are looking at to look at a random ally"
     _objectVariable_2[_extendedGlobalCollection[53]] = 5
     _objectVariable_3[_extendedGlobalCollection[53]] = len(abilities) + 1
@@ -830,15 +813,6 @@ def register_abilities3():
     _objectVariable_2[_extendedGlobalCollection[62]] = 0
     _objectVariable_3[_extendedGlobalCollection[62]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[62])
-    _extendedGlobalCollection[63] = _classIndexes.index(0)
-    _extendedGlobalCollection[63] = len(_classIndexes) if _extendedGlobalCollection[63] == -1 else _extendedGlobalCollection[63]
-    _classIndexes[_extendedGlobalCollection[63]] = 65
-    _objectVariable_0[_extendedGlobalCollection[63]] = Sunstroke
-    _objectVariable_1[_extendedGlobalCollection[63]] = "press [interact] to summon the Sun and control it. The closer you are to the enemies, the more they burn"
-    _objectVariable_2[_extendedGlobalCollection[63]] = 0
-    _objectVariable_8[_extendedGlobalCollection[63]] = [Hero.ILLARI]
-    _objectVariable_3[_extendedGlobalCollection[63]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[63])
     _extendedGlobalCollection[100] = _classIndexes.index(0)
     _extendedGlobalCollection[100] = len(_classIndexes) if _extendedGlobalCollection[100] == -1 else _extendedGlobalCollection[100]
     _classIndexes[_extendedGlobalCollection[100]] = 102
@@ -875,7 +849,7 @@ def register_abilities3():
 
 rule "init global variables":
     hud_created = []
-    cooldown_multiplier = createWorkshopSettingInt("Ability setting", "Ability Cooldown (%)", 100, 0, 500) * 0.01
+    cooldown_multiplier = 2.0
     reroll_when_internal_death = createWorkshopSettingBool("Ability setting", "Ability change in case of intentional death", false)
     show_ability_on_the_name = createWorkshopSettingBool("Ability setting", "Show ability name on the player name", false)
     unlimited_game_time = createWorkshopSettingBool("Game settings", "Unlimited game time", false)
@@ -928,18 +902,18 @@ rule "hide cooldown text":
 def clear_huds():
     @Name "clear huds"
     
-    i = 0
+    hudIndex = 0
     #HUD
-    for i in range(len(eventPlayer.text_ids)):
-        destroyHudText(eventPlayer.text_ids[i])
+    for hudIndex in range(len(eventPlayer.text_ids)):
+        destroyHudText(eventPlayer.text_ids[hudIndex])
     eventPlayer.text_ids = []
     #Effect
-    for i in range(len(eventPlayer.effect_ids)):
-        destroyEffect(eventPlayer.effect_ids[i])
+    for hudIndex in range(len(eventPlayer.effect_ids)):
+        destroyEffect(eventPlayer.effect_ids[hudIndex])
     eventPlayer.effect_ids = []
     #Icon
-    for i in range(len(eventPlayer.icon_ids)):
-        destroyIcon(eventPlayer.icon_ids[i])
+    for hudIndex in range(len(eventPlayer.icon_ids)):
+        destroyIcon(eventPlayer.icon_ids[hudIndex])
     eventPlayer.icon_ids = []
 
 
@@ -950,10 +924,7 @@ def clear_ability():
     eventPlayer.stopCamera()
     eventPlayer.setMoveSpeed(100)
     eventPlayer.setGravity(100)
-    eventPlayer.SunState = 0
-    destroyHudText(eventPlayer.SunText)
     destroyProgressBarHud(eventPlayer.progressbar_id)
-    destroyEffect(eventPlayer.SunEffects)
     eventPlayer.enableEnvironmentCollision()
     eventPlayer.detach()
     eventPlayer.startForcingHero(random.choice(getAllHeroes()))
@@ -2470,8 +2441,8 @@ rule "[jumping trap] jump":
     @Condition eventPlayer.trap_pos != null
     
     eventPlayer.targets = getPlayersInRadius(eventPlayer.trap_pos, 1, Team.ALL)
-    for eventPlayer.i in range(len(eventPlayer.targets)):
-        eventPlayer.target = eventPlayer.targets[eventPlayer.i]
+    for eventPlayer.targetIndex in range(len(eventPlayer.targets)):
+        eventPlayer.target = eventPlayer.targets[eventPlayer.targetIndex]
         eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.01)
         eventPlayer.target.applyImpulse(directionTowards(eventPlayer.trap_pos, eventPlayer.target), 45, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
         playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.LIME_GREEN, eventPlayer.trap_pos, 1)
@@ -3167,8 +3138,8 @@ rule "[hole] hole swallow":
     @Condition _objectVariable_0[eventPlayer.ability] == Hole
     
     eventPlayer.targets = getPlayersInRadius(eventPlayer.hole, 2, Team.ALL, LosCheck.SURFACES)
-    for eventPlayer.i in range(len(eventPlayer.targets)):
-        eventPlayer.target = eventPlayer.targets[eventPlayer.i]
+    for eventPlayer.targetIndex in range(len(eventPlayer.targets)):
+        eventPlayer.target = eventPlayer.targets[eventPlayer.targetIndex]
         if eventPlayer.target.isInSpawnRoom():
             goto lbl_0
         eventPlayer.target.disableEnvironmentCollision(true)
@@ -3241,8 +3212,8 @@ rule "[portal gun] tp1 teleporting":
     @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
     
     eventPlayer.tp1_targets = getPlayersInRadius(eventPlayer.tp1, 2, Team.ALL, LosCheck.SURFACES)
-    for eventPlayer.i in range(len(eventPlayer.tp1_targets)):
-        eventPlayer.tp1_target = eventPlayer.tp1_targets[eventPlayer.i]
+    for eventPlayer.targetIndex in range(len(eventPlayer.tp1_targets)):
+        eventPlayer.tp1_target = eventPlayer.tp1_targets[eventPlayer.targetIndex]
         if eventPlayer.tp1_target.teleported > 0:
             eventPlayer.tp1_target = null
         if eventPlayer.tp1_target != null:
@@ -3287,8 +3258,8 @@ rule "[portal gun] tp2 teleporting":
     @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
     
     eventPlayer.targets = getPlayersInRadius(eventPlayer.tp2, 2, Team.ALL, LosCheck.SURFACES)
-    for eventPlayer.i in range(len(eventPlayer.targets)):
-        eventPlayer.target = eventPlayer.targets[eventPlayer.i]
+    for eventPlayer.targetIndex in range(len(eventPlayer.targets)):
+        eventPlayer.target = eventPlayer.targets[eventPlayer.targetIndex]
         if eventPlayer.target.teleported > 0:
             eventPlayer.target = null
         if eventPlayer.target != null:
@@ -3340,231 +3311,6 @@ rule "[portal gun] tick":
     
     wait(1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.teleported--
-    if ruleCondition:
-        loop()
-
-
-rule "[Sunstroke] Toggle sun":
-    @Event eachPlayer
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
-    @Condition _objectVariable_0[eventPlayer.ability] == Sunstroke
-    @Condition eventPlayer.cooldown_count <= 0
-    
-    if eventPlayer.SunState == 0 and eventPlayer.isInSpawnRoom() != true:
-        StartSun()
-    elif eventPlayer.SunState == 1:
-        StopSun()
-
-
-rule "[Sunstroke]Control sun":
-    @Event eachPlayer
-    @Condition (eventPlayer.getThrottle() != vect(0, 0, 0) or eventPlayer.isHoldingButton(Button.CROUCH) or eventPlayer.isHoldingButton(Button.JUMP)) == true
-    @Condition eventPlayer.SunState == 1
-    @Condition _objectVariable_0[eventPlayer.ability] == Sunstroke
-    
-    CalculateSunMovement()
-    SunCollision()
-    wait()
-    if ruleCondition:
-        loop()
-    stopChasingVariable(eventPlayer.SunPosition)
-    eventPlayer.SunIsMoving = false
-
-
-def StopSun():
-    @Name "[Sunstroke][sub] Stop sun"
-    
-    playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.ORANGE, eventPlayer.SunPosition, 5)
-    playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer.SunPosition, 200)
-    eventPlayer.stopCamera()
-    eventPlayer.setMoveSpeed(100)
-    eventPlayer.setGravity(100)
-    eventPlayer.allowButton(Button.PRIMARY_FIRE)
-    eventPlayer.allowButton(Button.SECONDARY_FIRE)
-    eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.allowButton(Button.ABILITY_2)
-    eventPlayer.allowButton(Button.ULTIMATE)
-    eventPlayer.allowButton(Button.MELEE)
-    eventPlayer.allowButton(Button.JUMP)
-    eventPlayer.allowButton(Button.CROUCH)
-    eventPlayer.SunState = 0
-    destroyEffect(eventPlayer.SunEffects)
-    destroyHudText(eventPlayer.SunText)
-    eventPlayer.cooldown_count = 30 * cooldown_multiplier
-    eventPlayer.setMaxHealth(100)
-    destroyProgressBarHud(eventPlayer.progressbar_id)
-
-
-def CalculateSunMovement():
-    @Name "[Sunstroke][sub] calculate Sun movement"
-    
-    eventPlayer.Sun_Q = vect(eventPlayer.getThrottle().x * -1, 0, eventPlayer.getThrottle().z)
-    if eventPlayer.isHoldingButton(Button.JUMP):
-        eventPlayer.Sun_Q -= vect(0, 1, 0)
-    elif eventPlayer.isHoldingButton(Button.CROUCH):
-        eventPlayer.Sun_Q += vect(0, 1, 0)
-    if eventPlayer.getThrottle().z == -1:
-        eventPlayer.SunMovePosition = directionFromAngles(angleDifference(horizontalAngleOfDirection(eventPlayer.Sun_Q), eventPlayer.getHorizontalFacingAngle()), angleDifference(verticalAngleOfDirection(eventPlayer.Sun_Q), eventPlayer.getVerticalFacingAngle() * -1))
-    elif eventPlayer.getThrottle() == Vector.LEFT or eventPlayer.getThrottle() == Vector.RIGHT:
-        eventPlayer.SunMovePosition = directionFromAngles(angleDifference(horizontalAngleOfDirection(eventPlayer.Sun_Q), eventPlayer.getHorizontalFacingAngle()), angleDifference(verticalAngleOfDirection(eventPlayer.Sun_Q), 0))
-    else:
-        eventPlayer.SunMovePosition = directionFromAngles(angleDifference(horizontalAngleOfDirection(eventPlayer.Sun_Q), eventPlayer.getHorizontalFacingAngle()), angleDifference(verticalAngleOfDirection(eventPlayer.Sun_Q), eventPlayer.getVerticalFacingAngle()))
-
-
-def SunCollision():
-    @Name "[Sunstroke][sub] check Sun Collision"
-    
-    eventPlayer.Sun_R = raycast(eventPlayer.SunPosition, eventPlayer.SunPosition + eventPlayer.SunMovePosition * 3, getAllPlayers(), eventPlayer, true).getHitPosition()
-    if distance(eventPlayer.SunPosition, eventPlayer.Sun_R) < 3:
-        for eventPlayer.Sun_Q in range(20, 50, 15):
-            #-Q degree vertical
-            eventPlayer.SunMovePosition = directionFromAngles(horizontalAngleOfDirection(eventPlayer.SunMovePosition), verticalAngleOfDirection(eventPlayer.SunMovePosition) - eventPlayer.Sun_Q)
-            if verticalAngleOfDirection(eventPlayer.SunMovePosition) < -89.98 + eventPlayer.Sun_Q:
-                goto lbl_0
-            eventPlayer.Sun_R = raycast(eventPlayer.SunPosition, eventPlayer.SunPosition + eventPlayer.SunMovePosition * 3, getAllPlayers(), eventPlayer, true).getHitPosition()
-            if distance(eventPlayer.SunPosition, eventPlayer.Sun_R) >= 3:
-                return
-            #+Q degree vertical
-            lbl_0:
-            eventPlayer.SunMovePosition = directionFromAngles(horizontalAngleOfDirection(eventPlayer.SunMovePosition), verticalAngleOfDirection(eventPlayer.SunMovePosition) + eventPlayer.Sun_Q)
-            if verticalAngleOfDirection(eventPlayer.SunMovePosition) > 89.98 - eventPlayer.Sun_Q:
-                goto lbl_1
-            eventPlayer.Sun_R = raycast(eventPlayer.SunPosition, eventPlayer.SunPosition + eventPlayer.SunMovePosition * 3, getAllPlayers(), eventPlayer, true).getHitPosition()
-            if distance(eventPlayer.SunPosition, eventPlayer.Sun_R) >= 3:
-                return
-            #-Q degree horizontal
-            lbl_1:
-            eventPlayer.SunMovePosition = directionFromAngles(horizontalAngleOfDirection(eventPlayer.SunMovePosition) + eventPlayer.Sun_Q, verticalAngleOfDirection(eventPlayer.SunMovePosition) - eventPlayer.Sun_Q)
-            eventPlayer.Sun_R = raycast(eventPlayer.SunPosition, eventPlayer.SunPosition + eventPlayer.SunMovePosition * 3, getAllPlayers(), eventPlayer, true).getHitPosition()
-            if distance(eventPlayer.SunPosition, eventPlayer.Sun_R) >= 3:
-                return
-            #-Q degree horizontal
-            eventPlayer.SunMovePosition = directionFromAngles(horizontalAngleOfDirection(eventPlayer.SunMovePosition) - eventPlayer.Sun_Q, verticalAngleOfDirection(eventPlayer.SunMovePosition))
-            eventPlayer.Sun_R = raycast(eventPlayer.SunPosition, eventPlayer.SunPosition + eventPlayer.SunMovePosition * 3, getAllPlayers(), eventPlayer, true).getHitPosition()
-            if distance(eventPlayer.SunPosition, eventPlayer.Sun_R) >= 3:
-                return
-            #back to 0 degree
-            eventPlayer.SunMovePosition = directionFromAngles(horizontalAngleOfDirection(eventPlayer.SunMovePosition) + eventPlayer.Sun_Q, verticalAngleOfDirection(eventPlayer.SunMovePosition))
-        stopChasingVariable(eventPlayer.SunPosition)
-        eventPlayer.SunIsMoving = false
-        wait(0.032)
-    if distance(eventPlayer.SunPosition, eventPlayer.Sun_R) >= 3 and eventPlayer.SunIsMoving == false:
-        chaseAtRate(eventPlayer.SunPosition, eventPlayer.SunPosition + eventPlayer.SunMovePosition, 7)
-        eventPlayer.SunIsMoving = true
-
-
-def StartSun():
-    @Name "[Sunstroke][sub] Start sun"
-    
-    #If camera is not yet started
-    if eventPlayer.SunState == 0:
-        eventPlayer.SunPosition = eventPlayer.getEyePosition()
-        eventPlayer.SunMovePosition = eventPlayer.getEyePosition()
-    eventPlayer.startCamera(updateEveryFrame(eventPlayer.getFacingDirection() + (raycast(eventPlayer.SunPosition, eventPlayer.SunPosition + worldVector(vect(0, 0.8, 0), eventPlayer, Transform.ROTATION) + eventPlayer.getFacingDirection() * vect(-3, -3, -3), getAllPlayers(), eventPlayer, true).getHitPosition())), eventPlayer.SunPosition + worldVector(vect(0, 0.8, 0), eventPlayer, Transform.ROTATION) + eventPlayer.getFacingDirection() * 500, 50)
-    #-----------------------
-    eventPlayer.setMoveSpeed(0)
-    eventPlayer.setMaxHealth(30)
-    eventPlayer.setUltCharge(100)
-    eventPlayer.forceButtonPress(Button.ULTIMATE)
-    bigMessage(getPlayers(getOppositeTeam(eventPlayer.getTeam())), "{1} {0} summoned the SUN. You better run!".format(eventPlayer, iconString(Icon.WARNING)))
-    eventPlayer.setGravity(0)
-    eventPlayer.disallowButton(Button.PRIMARY_FIRE)
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.disallowButton(Button.ULTIMATE)
-    eventPlayer.disallowButton(Button.MELEE)
-    eventPlayer.disallowButton(Button.JUMP)
-    eventPlayer.disallowButton(Button.CROUCH)
-    eventPlayer.SunIsMoving = false
-    eventPlayer.SunState = 1
-    #sun effects
-    createEffect(getAllPlayers(), Effect.GOOD_AURA, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[0] = getLastCreatedEntity()
-    hudSubtext(eventPlayer, "[WASD] to move  [Jump/Crouch] to go up or down ", HudPosition.LEFT, 30, Color.ORANGE, HudReeval.VISIBILITY_AND_STRING)
-    eventPlayer.SunText = getLastCreatedText()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[1] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[2] = getLastCreatedEntity()
-    createEffect(getAllPlayers(), Effect.ENERGY_SOUND, Color.YELLOW, eventPlayer.SunPosition, 200, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[3] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[4] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[5] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[6] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[7] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[8] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[9] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[10] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[11] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[12] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[13] = getLastCreatedEntity()
-    createEffect(getAllPlayers().exclude(eventPlayer), Effect.SPHERE, Color.ORANGE, eventPlayer.SunPosition, 3, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[14] = getLastCreatedEntity()
-    createEffect(eventPlayer, Effect.RING, Color.ORANGE, eventPlayer.SunPosition, 10, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.SunEffects[15] = getLastCreatedEntity()
-    eventPlayer.mindcontrol_time = 20
-    progressBarHud(eventPlayer, eventPlayer.mindcontrol_time / 20 * 100, "Rising And Shining", HudPosition.LEFT, 30, Color.ORANGE, Color.ORANGE, ProgressHudReeval.VISIBILITY_AND_VALUES, SpecVisibility.ALWAYS)
-    eventPlayer.progressbar_id = getLastCreatedText()
-
-
-rule "[Sunstroke] sun effect":
-    @Event eachPlayer
-    @Condition eventPlayer.SunState == 1
-    @Condition _objectVariable_0[eventPlayer.ability] == Sunstroke
-    
-    eventPlayer.setStatusEffect(null, Status.BURNING, 1)
-    wait(1)
-    if ruleCondition:
-        loop()
-
-
-rule "[Sunstroke] sunstroke":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Sunstroke
-    @Condition eventPlayer.SunState == 1
-    
-    eventPlayer.targets = getPlayersInRadius(eventPlayer.SunPosition, 10, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES)
-    for eventPlayer.i in range(len(eventPlayer.targets)):
-        eventPlayer.target = eventPlayer.targets[eventPlayer.i]
-        if eventPlayer.target.isInSpawnRoom():
-            goto lbl_0
-        eventPlayer.target.setStatusEffect(eventPlayer, Status.BURNING, 1)
-        damage(eventPlayer.target, eventPlayer, 300 / distance(eventPlayer.target, eventPlayer.SunPosition))
-        smallMessage(eventPlayer.target, "{0} RUN FROM THE SUN !!!".format(iconString(Icon.WARNING)))
-        lbl_0:
-    wait(0.5)
-    if ruleCondition:
-        loop()
-
-
-rule "[Sunstroke] time is over or dead":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Sunstroke
-    @Condition eventPlayer.SunState == 1
-    @Condition (eventPlayer.mindcontrol_time == 0 or eventPlayer.isDead()) == true
-    
-    StopSun()
-
-
-rule "[Sunstroke] tick":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Sunstroke
-    @Condition eventPlayer.mindcontrol_time > 0
-    @Condition eventPlayer.SunState == 1
-    
-    wait(1, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.mindcontrol_time--
     if ruleCondition:
         loop()
 
@@ -3631,17 +3377,17 @@ rule "[nuke]":
         getAllPlayers().teleport(vect(0, 750, 0))
         getAllPlayers().communicate(Comms.GOODBYE)
         wait(3)
-        var1 = 1
-        createEffect(getAllPlayers(), Effect.SPHERE, Color.RED, eventPlayer.previous_pos, var1, EffectReeval.VISIBILITY)
+        nukeBlastRadius = 1
+        createEffect(getAllPlayers(), Effect.SPHERE, Color.RED, eventPlayer.previous_pos, nukeBlastRadius, EffectReeval.VISIBILITY)
         if ruleCondition:
             loop()
-        while var1 < 300:
+        while nukeBlastRadius < 300:
             wait(0.05)
-            var1 += 10
-            createEffect(getAllPlayers(), Effect.CLOUD, Color.GREEN, eventPlayer.previous_pos, var1 * 1, EffectReeval.VISIBILITY)
-            createEffect(getAllPlayers(), Effect.SPHERE, Color.RED, eventPlayer.previous_pos, var1 * 2, EffectReeval.VISIBILITY)
-            playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.RED, eventPlayer, var1 * 50)
-            playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.BLACK, eventPlayer, var1 * 25)
+            nukeBlastRadius += 10
+            createEffect(getAllPlayers(), Effect.CLOUD, Color.GREEN, eventPlayer.previous_pos, nukeBlastRadius * 1, EffectReeval.VISIBILITY)
+            createEffect(getAllPlayers(), Effect.SPHERE, Color.RED, eventPlayer.previous_pos, nukeBlastRadius * 2, EffectReeval.VISIBILITY)
+            playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.RED, eventPlayer, nukeBlastRadius * 50)
+            playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.BLACK, eventPlayer, nukeBlastRadius * 25)
         kill(getAllPlayers())
         wait(1)
         kill(getAllPlayers())
