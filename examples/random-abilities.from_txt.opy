@@ -42,7 +42,6 @@ globalvar GoodNight 35
 globalvar JumpingTrap 36
 globalvar SleepyNinja 37
 globalvar ReallyBehindYou 38
-globalvar Slap 39
 globalvar TalonIsBad 40
 globalvar Invisible 41
 globalvar OneShot 42
@@ -50,10 +49,8 @@ globalvar RotatingTornado 43
 globalvar SponsoredReaction 44
 globalvar HealerEthernalFriend 45
 globalvar LackOfConcentration 46
-globalvar FlushBang 47
 globalvar Telekinesis 48
 globalvar nukeBlastRadius 50
-globalvar Earthquake 51
 globalvar ImAnAttentionSeeker 52
 globalvar RandomScale 53
 globalvar Reloading 54
@@ -86,7 +83,6 @@ globalvar hudIndex 83
 globalvar returnValue_onEnd 84
 globalvar hero 85
 globalvar returnValue_onStart 86
-globalvar Helicopter 87
 globalvar MadWidow 88
 globalvar Hole 89
 globalvar PortalGun 90
@@ -134,10 +130,7 @@ playervar is_rotating 36
 playervar power 37
 playervar max_power_prev 38
 playervar max_power 39
-playervar earthquake_power 41
-playervar is_jumping 42
 playervar show_icons 43
-playervar pulling_target 44
 playervar high_sens_remains 45
 playervar reversed_movement 46
 playervar decoy 47
@@ -258,7 +251,7 @@ rule "Initial Global":
     UnclePopHummer = "Uncle Poop Hammer"
     SpinFloatUp = "Let's run in new shoes"
     Barrier = "Barrier of bondage"
-    OneShotName = "One shot one **** "
+    OneShotName = "One shot one kill"
     SleepWell = "sleep well"
     ItsTimeToSleep = "It's time to sleep"
     LayingEgg = "Laying eggs"
@@ -271,7 +264,6 @@ rule "Initial Global":
     JumpingTrap = "jumping trap"
     SleepyNinja = "Sleepy ninja"
     ReallyBehindYou = "Really behind you!!"
-    Slap = "slap"
     TalonIsBad = "Talon is bad"
     Invisible = "The Invisible Man"
     OneShot = "Everything in one shot"
@@ -279,9 +271,7 @@ rule "Initial Global":
     SponsoredReaction = "Sponsored reaction"
     HealerEthernalFriend = "Healers' eternal friend"
     LackOfConcentration = "Lack of concentration"
-    FlushBang = "Flush bang"
     Telekinesis = "Telekinesis"
-    Earthquake = "Earthquake"
     ImAnAttentionSeeker = "I'm an attention seeker"
     RandomScale = "scale randomizer"
     Reloading = "Reloading?"
@@ -297,7 +287,6 @@ rule "Initial Global":
     MindControl = "Mind Control"
     Lag = "lag"
     MisClick = "MisClick"
-    Helicopter = "Helicopter"
     targetHeros = getTankHeroes()
     targetHeros_0 = getDamageHeroes()
     _classIndexes[0] = -1
@@ -323,7 +312,6 @@ rule "Initial Player":
     eventPlayer.power = 0
     eventPlayer.max_power_prev = 0
     eventPlayer.max_power = 0
-    eventPlayer.earthquake_power = 0
     eventPlayer.show_icons = []
     eventPlayer.high_sens_remains = 0
     eventPlayer.high_sens_speed = 100
@@ -421,7 +409,7 @@ def register_abilities1():
     _extendedGlobalCollection[8] = len(_classIndexes) if _extendedGlobalCollection[8] == -1 else _extendedGlobalCollection[8]
     _classIndexes[_extendedGlobalCollection[8]] = 10
     _objectVariable_0[_extendedGlobalCollection[8]] = UniqueExisance
-    _objectVariable_1[_extendedGlobalCollection[8]] = "press [interact] to **** everyone that is the same hero as you"
+    _objectVariable_1[_extendedGlobalCollection[8]] = "press [interact] to kill everyone, including you, that is the same role as you"
     _objectVariable_2[_extendedGlobalCollection[8]] = 30
     _objectVariable_3[_extendedGlobalCollection[8]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[8])
@@ -452,7 +440,7 @@ def register_abilities1():
     _extendedGlobalCollection[13] = len(_classIndexes) if _extendedGlobalCollection[13] == -1 else _extendedGlobalCollection[13]
     _classIndexes[_extendedGlobalCollection[13]] = 15
     _objectVariable_0[_extendedGlobalCollection[13]] = WaterGhost
-    _objectVariable_1[_extendedGlobalCollection[13]] = "the enemy who ****ed you will die as well"
+    _objectVariable_1[_extendedGlobalCollection[13]] = "the enemy who killed you will die as well"
     _objectVariable_3[_extendedGlobalCollection[13]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[13])
     _extendedGlobalCollection[14] = _classIndexes.index(0)
@@ -494,7 +482,7 @@ def register_abilities1():
     _extendedGlobalCollection[19] = len(_classIndexes) if _extendedGlobalCollection[19] == -1 else _extendedGlobalCollection[19]
     _classIndexes[_extendedGlobalCollection[19]] = 21
     _objectVariable_0[_extendedGlobalCollection[19]] = ItsTimeToSleep
-    _objectVariable_1[_extendedGlobalCollection[19]] = "****ing an enemy directly puts everyone to sleep."
+    _objectVariable_1[_extendedGlobalCollection[19]] = "killing an enemy directly puts everyone to sleep."
     _objectVariable_3[_extendedGlobalCollection[19]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[19])
     _extendedGlobalCollection[20] = _classIndexes.index(0)
@@ -570,14 +558,6 @@ def register_abilities1():
     _objectVariable_2[_extendedGlobalCollection[28]] = 10
     _objectVariable_3[_extendedGlobalCollection[28]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[28])
-    _extendedGlobalCollection[29] = _classIndexes.index(0)
-    _extendedGlobalCollection[29] = len(_classIndexes) if _extendedGlobalCollection[29] == -1 else _extendedGlobalCollection[29]
-    _classIndexes[_extendedGlobalCollection[29]] = 31
-    _objectVariable_0[_extendedGlobalCollection[29]] = Slap
-    _objectVariable_1[_extendedGlobalCollection[29]] = "increase chain hook damage"
-    _objectVariable_8[_extendedGlobalCollection[29]] = [Hero.ROADHOG]
-    _objectVariable_3[_extendedGlobalCollection[29]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[29])
     _extendedGlobalCollection[30] = _classIndexes.index(0)
     _extendedGlobalCollection[30] = len(_classIndexes) if _extendedGlobalCollection[30] == -1 else _extendedGlobalCollection[30]
     _classIndexes[_extendedGlobalCollection[30]] = 32
@@ -599,7 +579,7 @@ def register_abilities1():
     _extendedGlobalCollection[32] = len(_classIndexes) if _extendedGlobalCollection[32] == -1 else _extendedGlobalCollection[32]
     _classIndexes[_extendedGlobalCollection[32]] = 34
     _objectVariable_0[_extendedGlobalCollection[32]] = OneShot
-    _objectVariable_1[_extendedGlobalCollection[32]] = "When attacking, there is a 50% chance to instantly **** an enemy, and you are stunned for 6 seconds."
+    _objectVariable_1[_extendedGlobalCollection[32]] = "When attacking, there is a 50% chance to instantly kill an enemy, and you are stunned for 6 seconds."
     _objectVariable_2[_extendedGlobalCollection[32]] = 12
     _objectVariable_3[_extendedGlobalCollection[32]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[32])
@@ -642,14 +622,6 @@ def register_abilities2():
     _objectVariable_4[_extendedGlobalCollection[36]] = 500
     _objectVariable_3[_extendedGlobalCollection[36]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[36])
-    _extendedGlobalCollection[37] = _classIndexes.index(0)
-    _extendedGlobalCollection[37] = len(_classIndexes) if _extendedGlobalCollection[37] == -1 else _extendedGlobalCollection[37]
-    _classIndexes[_extendedGlobalCollection[37]] = 39
-    _objectVariable_0[_extendedGlobalCollection[37]] = FlushBang
-    _objectVariable_1[_extendedGlobalCollection[37]] = "the bullet creates a flashbang at the point of impact, stunning the enemy it hits"
-    _objectVariable_8[_extendedGlobalCollection[37]] = [Hero.CASSIDY]
-    _objectVariable_3[_extendedGlobalCollection[37]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[37])
     _extendedGlobalCollection[38] = _classIndexes.index(0)
     _extendedGlobalCollection[38] = len(_classIndexes) if _extendedGlobalCollection[38] == -1 else _extendedGlobalCollection[38]
     _classIndexes[_extendedGlobalCollection[38]] = 40
@@ -658,13 +630,6 @@ def register_abilities2():
     _objectVariable_2[_extendedGlobalCollection[38]] = 14
     _objectVariable_3[_extendedGlobalCollection[38]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[38])
-    _extendedGlobalCollection[41] = _classIndexes.index(0)
-    _extendedGlobalCollection[41] = len(_classIndexes) if _extendedGlobalCollection[41] == -1 else _extendedGlobalCollection[41]
-    _classIndexes[_extendedGlobalCollection[41]] = 43
-    _objectVariable_0[_extendedGlobalCollection[41]] = Earthquake
-    _objectVariable_1[_extendedGlobalCollection[41]] = "Hold [crouch] to increase power, press [interact] to jump. Shakes the ground upon landing."
-    _objectVariable_3[_extendedGlobalCollection[41]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[41])
     _extendedGlobalCollection[42] = _classIndexes.index(0)
     _extendedGlobalCollection[42] = len(_classIndexes) if _extendedGlobalCollection[42] == -1 else _extendedGlobalCollection[42]
     _classIndexes[_extendedGlobalCollection[42]] = 44
@@ -769,14 +734,6 @@ def register_abilities3():
     _objectVariable_2[_extendedGlobalCollection[58]] = 10
     _objectVariable_3[_extendedGlobalCollection[58]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[58])
-    _extendedGlobalCollection[59] = _classIndexes.index(0)
-    _extendedGlobalCollection[59] = len(_classIndexes) if _extendedGlobalCollection[59] == -1 else _extendedGlobalCollection[59]
-    _classIndexes[_extendedGlobalCollection[59]] = 61
-    _objectVariable_0[_extendedGlobalCollection[59]] = Helicopter
-    _objectVariable_1[_extendedGlobalCollection[59]] = "press [Interact] to start/stop flying"
-    _objectVariable_2[_extendedGlobalCollection[58]] = 0
-    _objectVariable_3[_extendedGlobalCollection[59]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[59])
     _extendedGlobalCollection[60] = _classIndexes.index(0)
     _extendedGlobalCollection[60] = len(_classIndexes) if _extendedGlobalCollection[60] == -1 else _extendedGlobalCollection[60]
     _classIndexes[_extendedGlobalCollection[60]] = 62
@@ -831,6 +788,7 @@ def register_abilities3():
     _classIndexes[_extendedGlobalCollection[102]] = 104
     _objectVariable_0[_extendedGlobalCollection[102]] = katrina
     _objectVariable_1[_extendedGlobalCollection[102]] = "Press [INTERACT] to defy fateâ€”steal a soul, or lose your own"
+    _objectVariable_2[_extendedGlobalCollection[102]] = 10
     _objectVariable_8[_extendedGlobalCollection[102]] = [Hero.MERCY]
     _objectVariable_3[_extendedGlobalCollection[102]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[102])
@@ -856,7 +814,7 @@ rule "create hud texts":
     @Condition eventPlayer.isDummy() == false
     
     hud_created.append(eventPlayer)
-    hudSubheader(eventPlayer, "hold {0} to reset".format(inputBindingString(Button.RELOAD)), HudPosition.LEFT, -1, Color.BLACK, HudReeval.VISIBILITY_AND_STRING)
+    hudSubheader(eventPlayer, "hold X to reset if stuck/perma stunned", HudPosition.LEFT, -1, Color.BLACK, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(eventPlayer, eventPlayer.title, HudPosition.LEFT, 5, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(eventPlayer, formatKeyPrompts(eventPlayer.desc), HudPosition.LEFT, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(eventPlayer, "interact presses  {0}".format(eventPlayer.interact_press_count), HudPosition.LEFT, 15, Color.YELLOW, HudReeval.VISIBILITY_AND_STRING)
@@ -1096,8 +1054,8 @@ def clear_ability():
         returnValue_onEnd = true
         goto lbl_82
         goto lbl_83
-        eventPlayer.earthquake_power = 0
-        eventPlayer.is_jumping = false
+        eventPlayer.power = 0
+        eventPlayer.is_floating = false
         eventPlayer.clearStatusEffect(Status.HACKED)
         returnValue_onEnd = true
         goto lbl_84
@@ -1501,9 +1459,9 @@ def roll_ability():
     returnValue_onStart = true
     goto lbl_82
     goto lbl_83
-    eventPlayer.earthquake_power = 0
-    eventPlayer.is_jumping = false
-    hudSubheader(eventPlayer, "power {0}".format(eventPlayer.earthquake_power), HudPosition.LEFT, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    eventPlayer.power = 0
+    eventPlayer.is_floating = false
+    hudSubheader(eventPlayer, "power {0}".format(eventPlayer.power), HudPosition.LEFT, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     eventPlayer.text_ids.append(getLastCreatedText())
     returnValue_onStart = true
     goto lbl_84
@@ -1522,7 +1480,6 @@ def roll_ability():
     returnValue_onStart = false
     goto lbl_90
     goto lbl_91
-    eventPlayer.pulling_target = null
     returnValue_onStart = false
     goto lbl_92
     goto lbl_93
@@ -1781,7 +1738,12 @@ rule "on use":
         eventPlayer.is_no_clip = false
         smallMessage(eventPlayer, "Disabled no-clip")
     goto lbl_5
-    eventPlayer.targets_3 = getPlayersOnHero(eventPlayer.getHero(), Team.ALL).exclude(eventPlayer)
+    if eventPlayer.getHero() in targetHeros:
+        eventPlayer.targets_3 = getPlayers(Team.ALL).filter(lambda player: player.getHero() in targetHeros)
+    elif eventPlayer.getHero() in targetHeros_0:
+        eventPlayer.targets_3 = getPlayers(Team.ALL).filter(lambda player: player.getHero() in targetHeros_0)
+    else:
+        eventPlayer.targets_3 = getPlayers(Team.ALL).filter(lambda player: player.getHero() in getSupportHeroes())
     __abortIf__(len(eventPlayer.targets_3) == 0)
     kill(eventPlayer.targets_3, eventPlayer)
     bigMessage(eventPlayer.targets_3, "{0}{1}".format(eventPlayer, ": Only me is enough!"))
@@ -1916,23 +1878,15 @@ rule "on use":
     goto lbl_26
     eventPlayer.acquireViewedTarget(eventPlayer.getTeam(), 100, LosCheck.OFF)
     eventPlayer.target_3 = eventPlayer.target
-    eventPlayer.pos = eventPlayer.target_3.getPosition()
     eventPlayer.target_3.disableEnvironmentCollision(false)
-    eventPlayer.target_3.setInvisibility(Invis.ALL)
     eventPlayer.target_3.setStatusEffect(eventPlayer, Status.ROOTED, 0)
-    eventPlayer.target_3.teleport(worldVector(vect([], [], 0.5), eventPlayer, Transform.ROTATION_AND_TRANSLATION))
+    eventPlayer.target_3.teleport(worldVector(vect([], [], 2), eventPlayer, Transform.ROTATION_AND_TRANSLATION))
     wait(0.1)
-    eventPlayer.target_3.setInvisibility(Invis.NONE)
     eventPlayer.target_3.clearStatusEffect(Status.ROOTED)
+    eventPlayer.target_3.enableEnvironmentCollision()
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
     eventPlayer.forceButtonPress(Button.ABILITY_2)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 9)
-    eventPlayer.target_3.teleport(eventPlayer.pos)
-    wait(0.1)
-    if not eventPlayer.target_3.hasStatus(Status.ROOTED):
-        eventPlayer.target_3.enableEnvironmentCollision()
-    else:
-        eventPlayer.pulling_target = eventPlayer.target_3
     goto lbl_27
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.target.high_sens_remains = 6
@@ -2438,22 +2392,6 @@ rule "[sleepy ninja] stun":
     victim.setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, 0.8)
 
 
-rule "[slap] increase damage":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Slap
-    @Condition eventPlayer.isUsingAbility1() == true
-    
-    eventPlayer.setDamageDealt(1000)
-
-
-rule "[slap] reset damage":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Slap
-    @Condition eventPlayer.isUsingAbility1() == false
-    
-    eventPlayer.setDamageDealt(100)
-
-
 rule "[one shot] on damage":
     @Event playerDealtDamage
     @Condition _objectVariable_0[eventPlayer.ability] == OneShot
@@ -2489,17 +2427,6 @@ rule "[lack of concentration] on attack":
         loop()
 
 
-rule "[flush bang] on attack":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == FlushBang
-    @Condition eventPlayer.isFiringPrimaryFire() == true
-    
-    eventPlayer.target_pos = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 1000, getPlayers(getOppositeTeam(eventPlayer.getTeam())), eventPlayer, true).getHitPosition()
-    playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.YELLOW, eventPlayer.target_pos, 1)
-    eventPlayer.target = getPlayersInRadius(eventPlayer.target_pos, 3, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS)
-    eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.25)
-
-
 rule "[telekinesis] stun":
     @Event eachPlayer
     @Condition _objectVariable_0[eventPlayer.ability] == Telekinesis
@@ -2518,78 +2445,6 @@ rule "[telekinesis] end":
     
     wait(2.6, Wait.ABORT_WHEN_FALSE)
     eventPlayer.target = null
-
-
-rule "[earthquake] reset power":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Earthquake
-    @Condition eventPlayer.is_jumping == false
-    @Condition (not eventPlayer.isHoldingButton(Button.CROUCH) or eventPlayer.isInAir()) == true
-    
-    wait(0.25, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.earthquake_power = 0
-
-
-rule "[earthquake] increase power":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Earthquake
-    @Condition eventPlayer.cooldown_count <= 0
-    @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
-    @Condition eventPlayer.isOnGround() == true
-    @Condition eventPlayer.earthquake_power < 10
-    
-    eventPlayer.earthquake_power++
-    wait(0.15)
-    playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.AQUA, eventPlayer, 2)
-    playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.AQUA, eventPlayer, 200)
-    if ruleCondition:
-        loop()
-
-
-rule "[earthquake] jump":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Earthquake
-    @Condition eventPlayer.cooldown_count <= 0
-    @Condition eventPlayer.earthquake_power >= 1
-    @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
-    @Condition eventPlayer.isOnGround() == true
-    
-    eventPlayer.applyImpulse(Vector.UP, eventPlayer.earthquake_power * 2, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
-    eventPlayer.setStatusEffect(null, Status.HACKED, 9999)
-    eventPlayer.cooldown_count = 8 * cooldown_multiplier
-    wait(0.15)
-    eventPlayer.is_jumping = true
-
-
-rule "[earthquake] earthquake":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Earthquake
-    @Condition eventPlayer.is_jumping == true
-    @Condition eventPlayer.isOnGround() == true
-    
-    playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer, eventPlayer.earthquake_power * 1.25)
-    playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.YELLOW, eventPlayer, eventPlayer.earthquake_power * 5000)
-    eventPlayer.is_jumping = false
-    damage(getPlayersInRadius(eventPlayer.getPosition(), eventPlayer.earthquake_power * 1.25, getOppositeTeam(eventPlayer.getTeam())), eventPlayer, eventPlayer.earthquake_power * 10)
-    (getPlayersInRadius(eventPlayer.getPosition(), eventPlayer.earthquake_power * 1.25, getOppositeTeam(eventPlayer.getTeam()))).applyImpulse(Vector.UP, eventPlayer.earthquake_power, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
-    (getPlayersInRadius(eventPlayer.getPosition(), eventPlayer.earthquake_power * 1.25, getOppositeTeam(eventPlayer.getTeam()))).setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, eventPlayer.earthquake_power * 0.2)
-    wait(0.1)
-    eventPlayer.earthquake_power = 0
-    eventPlayer.clearStatusEffect(Status.HACKED)
-
-
-rule "[lifesaver] finish ability":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == LifeSaver
-    @Condition eventPlayer.pulling_target != null
-    @Condition eventPlayer.pulling_target.hasStatus(Status.ROOTED) == false
-    
-    wait(0.1)
-    eventPlayer.pulling_target.enableEnvironmentCollision()
-    wait(0.1)
-    eventPlayer.pulling_target.teleport(worldVector(vect([], [], 0.5), eventPlayer, Transform.ROTATION_AND_TRANSLATION))
-    eventPlayer.pulling_target = null
 
 
 rule "[High sensitivity] countdown":
@@ -2925,19 +2780,7 @@ rule "[taxi] horse is dead":
     eventPlayer.detach()
 
 
-rule "[helicopter] flying":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Helicopter
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
-    @Condition (eventPlayer.hasStatus(Status.HACKED) or eventPlayer.hasStatus(Status.ASLEEP) or eventPlayer.hasStatus(Status.STUNNED) or eventPlayer.hasStatus(Status.KNOCKED_DOWN)) == false
-    
-    if eventPlayer.Is_Flying == false:
-        eventPlayer.Is_Flying = true
-    else:
-        eventPlayer.Is_Flying = false
-
-
-rule "[helicopter] controls":
+rule "[flight] controls":
     @Event eachPlayer
     @Condition eventPlayer.Is_Flying == true
     
@@ -2971,14 +2814,6 @@ rule "[helicopter] controls":
             eventPlayer.applyImpulse(Vector.DOWN, eventPlayer.flyspeed, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
         wait()
     eventPlayer.setGravity(100)
-
-
-rule "[helicopter] balance":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Helicopter
-    @Condition (eventPlayer.hasStatus(Status.HACKED) or eventPlayer.hasStatus(Status.ASLEEP) or eventPlayer.hasStatus(Status.STUNNED) or eventPlayer.hasStatus(Status.KNOCKED_DOWN)) == true
-    
-    eventPlayer.Is_Flying = false
 
 
 rule "[widow is ugly] widow charge chase":
@@ -3291,7 +3126,7 @@ rule "hold [reload] to self-reset":
     @Condition eventPlayer.isAlive() == true
     
     wait(1, Wait.ABORT_WHEN_FALSE)
-    bigMessage(eventPlayer, "Continue holding {0} to self-reset".format(inputBindingString(Button.RELOAD)))
+    bigMessage(eventPlayer, "Continue holding X to self-reset")
     if eventPlayer.getHero() == Hero.DVA:
         eventPlayer.egg_position = null
         eventPlayer.targets = null
@@ -3484,16 +3319,18 @@ rule "[katrina]":
     @Event eachPlayer
     @Condition _objectVariable_0[eventPlayer.ability] == katrina
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.cooldown_count <= 0
     
-    eventPlayer.target = (getPlayersInRadius(eventPlayer.getEyePosition(), 200, Team.ALL, LosCheck.SURFACES_AND_ALL_BARRIERS).filter(lambda player: player != eventPlayer and player.isAlive()))[0]
+    eventPlayer.target = (getPlayersInRadius(eventPlayer.getEyePosition(), 400, Team.ALL, LosCheck.SURFACES_AND_ALL_BARRIERS).filter(lambda player: player != eventPlayer and player.isAlive()))[0]
     if eventPlayer.target == null:
         return
+    eventPlayer.cooldown_count = _objectVariable_2[eventPlayer.ability] * cooldown_multiplier
     if random.randint(1, 100) <= 50:
         bigMessage(eventPlayer, "Soul stolen.")
         if eventPlayer.target == null:
             return
         kill(eventPlayer.target)
-    elif random.randint(1, 100) <= 50:
+    else:
         kill(eventPlayer)
         bigMessage(eventPlayer, "Fate turns on you.")
 
