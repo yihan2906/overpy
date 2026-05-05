@@ -1374,11 +1374,11 @@ def roll_ability():
     eventPlayer.egg_position = null
     eventPlayer.show_text = null
     eventPlayer.allies = null
-    hudHeader(eventPlayer.show_text, "Egg active - protect it", HudPosition.LEFT, 100, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
+    hudHeader(eventPlayer.show_text, eventPlayer.target_pos, HudPosition.LEFT, 100, Color.GREEN if eventPlayer.targetIndex == 0 else Color.RED if eventPlayer.targetIndex == 2 else Color.YELLOW, HudReeval.VISIBILITY_STRING_AND_COLOR)
     eventPlayer.text_ids.append(getLastCreatedText())
-    createEffect(eventPlayer.allies, Effect.SPHERE, Color.BLUE, eventPlayer.egg_position, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(eventPlayer.allies, Effect.SPHERE, Color.BLUE, eventPlayer.egg_position, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.effect_ids.append(getLastCreatedEntity())
-    createEffect(eventPlayer.targets, Effect.SPHERE, Color.RED, eventPlayer.egg_position, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(eventPlayer.targets, Effect.SPHERE, Color.RED, eventPlayer.egg_position, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.effect_ids.append(getLastCreatedEntity())
     returnValue_onStart = true
     goto lbl_42
@@ -1690,7 +1690,7 @@ rule "roll ability when player died":
     roll_ability()
 
 
-rule "DEBUG ONLY host force Sponsored Reaction":
+rule "DEBUG ONLY host force Laying Egg":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.isDummy() == false
@@ -1698,10 +1698,9 @@ rule "DEBUG ONLY host force Sponsored Reaction":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    eventPlayer.next_ability = abilityNames.index(SponsoredReaction)
+    eventPlayer.next_ability = abilityNames.index(LayingEgg)
     roll_ability()
-    eventPlayer.sponsored_reaction_press_count = eventPlayer.interact_press_count
-    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Sponsored Reaction")
+    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Laying Egg")
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or not eventPlayer.isHoldingButton(Button.RELOAD), 99999)
 
 
@@ -1733,6 +1732,7 @@ rule "on use":
     @Condition eventPlayer.ability != null
     @Condition abilityNames[eventPlayer.ability] != LifeSaver
     @Condition abilityNames[eventPlayer.ability] != SponsoredReaction
+    @Condition abilityNames[eventPlayer.ability] != LayingEgg
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true
@@ -2465,6 +2465,60 @@ rule "[laying egg] return to egg":
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.GREEN, eventPlayer, 100)
 
 
+rule "[laying egg] use":
+    @Event eachPlayer
+    @Condition eventPlayer.ability != null
+    @Condition abilityNames[eventPlayer.ability] == LayingEgg
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == false
+    @Condition eventPlayer.cooldown_count <= 0
+    @Condition eventPlayer.isAlive() == true
+    
+    __abortIf__(not eventPlayer.isOnGround() or eventPlayer.isInSpawnRoom())
+    eventPlayer.egg_position = eventPlayer.getPosition()
+    eventPlayer.targets = getPlayers(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.allies = getPlayers(eventPlayer.getTeam())
+    eventPlayer.targetIndex = 0
+    eventPlayer.target_pos = "Egg active - safe"
+    eventPlayer.show_text = eventPlayer
+    playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.GREEN, eventPlayer, 0.5)
+    playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.GREEN, eventPlayer, 100)
+    eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 9999)
+    eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
+
+
+rule "[laying egg] update owner hud":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == LayingEgg
+    @Condition eventPlayer.egg_position != null
+    
+    eventPlayer.targets_8 = sorted([player for player in getLivingPlayers(getOppositeTeam(eventPlayer.getTeam())) if player.hasSpawned() and distance(eventPlayer.egg_position, player) <= 20], key=lambda player: distance(eventPlayer.egg_position, player))
+    if len(eventPlayer.targets_8) == 0:
+        eventPlayer.targetIndex = 0
+        eventPlayer.target_pos = "Egg active - safe"
+    else:
+        eventPlayer.target_1 = eventPlayer.targets_8[0]
+        if distance(eventPlayer.egg_position, eventPlayer.target_1) <= 3:
+            eventPlayer.targetIndex = 2
+            eventPlayer.target_pos = "Egg danger - enemy very close ({0}m)".format(round(distance(eventPlayer.egg_position, eventPlayer.target_1)))
+        else:
+            eventPlayer.targetIndex = 1
+            eventPlayer.target_pos = "Egg unsafe - enemy nearby ({0}m)".format(round(distance(eventPlayer.egg_position, eventPlayer.target_1)))
+    wait(0.5)
+    if ruleCondition:
+        loop()
+
+
+rule "[laying egg] create enemy marker text":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == LayingEgg
+    @Condition eventPlayer.egg_position != null
+    @Condition len(eventPlayer.text_ids) == 1
+    
+    createInWorldText(eventPlayer.targets, "Stand on egg to break it", eventPlayer.egg_position + vect(0, 1.1, 0), 0.8, Clip.NONE, WorldTextReeval.VISIBILITY_AND_POSITION, Color.RED, SpecVisibility.DEFAULT)
+    eventPlayer.text_ids.append(getLastCreatedText())
+
+
 rule "[laying egg] egg broken":
     @Event eachPlayer
     @Condition abilityNames[eventPlayer.ability] == LayingEgg
@@ -2476,6 +2530,8 @@ rule "[laying egg] egg broken":
         eventPlayer.egg_position = null
         eventPlayer.targets = null
         eventPlayer.allies = null
+        eventPlayer.targetIndex = 0
+        eventPlayer.target_pos = null
         eventPlayer.show_text = null
         eventPlayer.cooldown_count = 15 * cooldown_multiplier
         eventPlayer.clearStatusEffect(Status.UNKILLABLE)

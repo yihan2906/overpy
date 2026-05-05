@@ -1450,11 +1450,11 @@ rule ("roll ability") {
         Set Player Variable(Event Player, egg_position, Null);
         Set Player Variable(Event Player, show_text, Null);
         Set Player Variable(Event Player, allies, Null);
-        Create HUD Text((Event Player).show_text, Custom String("Egg active - protect it"), Null, Null, Left, 100, Color(Green), Null, Null, Visible To and String, Default Visibility);
+        Create HUD Text((Event Player).show_text, (Event Player).target_pos, Null, Null, Left, 100, If-Then-Else(Compare((Event Player).targetIndex, ==, 0), Color(Green), If-Then-Else(Compare((Event Player).targetIndex, ==, 2), Color(Red), Color(Yellow))), Null, Null, Visible To String and Color, Default Visibility);
         Modify Player Variable(Event Player, text_ids, Append To Array, Last Text ID);
-        Create Effect((Event Player).allies, Sphere, Color(Blue), (Event Player).egg_position, 0.5, Visible To Position and Radius);
+        Create Effect((Event Player).allies, Sphere, Color(Blue), (Event Player).egg_position, 1, Visible To Position and Radius);
         Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
-        Create Effect((Event Player).targets, Sphere, Color(Red), (Event Player).egg_position, 0.5, Visible To Position and Radius);
+        Create Effect((Event Player).targets, Sphere, Color(Red), (Event Player).egg_position, 1, Visible To Position and Radius);
         Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
         Set Global Variable(returnValue_onStart, True);
         Skip(155);
@@ -1796,7 +1796,7 @@ rule ("roll ability when player died") {
     }
 }
 
-rule ("DEBUG ONLY host force Sponsored Reaction") {
+rule ("DEBUG ONLY host force Laying Egg") {
     event {
         Ongoing - Each Player;
         All;
@@ -1810,10 +1810,9 @@ rule ("DEBUG ONLY host force Sponsored Reaction") {
         Is Button Held(Event Player, Button(Reload)) == True;
     }
     actions {
-        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.SponsoredReaction));
+        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.LayingEgg));
         Call Subroutine(roll_ability);
-        Set Player Variable(Event Player, sponsored_reaction_press_count, (Event Player).interact_press_count);
-        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Sponsored Reaction"));
+        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Laying Egg"));
         Wait Until(Not(And(Is Button Held(Event Player, Button(Interact)), Is Button Held(Event Player, Button(Reload)))), 99999);
     }
 }
@@ -1859,6 +1858,7 @@ rule ("on use") {
         (Event Player).ability != Null;
         Value In Array(Global.abilityNames, (Event Player).ability) != Global.LifeSaver;
         Value In Array(Global.abilityNames, (Event Player).ability) != Global.SponsoredReaction;
+        Value In Array(Global.abilityNames, (Event Player).ability) != Global.LayingEgg;
         Is Button Held(Event Player, Button(Interact)) == True;
         (Event Player).cooldown_count <= 0;
         Is Alive(Event Player) == True;
@@ -2811,6 +2811,82 @@ rule ("[laying egg] return to egg") {
     }
 }
 
+rule ("[laying egg] use") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).ability != Null;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LayingEgg;
+        Is Button Held(Event Player, Button(Interact)) == True;
+        Is Button Held(Event Player, Button(Reload)) == False;
+        (Event Player).cooldown_count <= 0;
+        Is Alive(Event Player) == True;
+    }
+    actions {
+        Abort If(Or(Not(Is On Ground(Event Player)), Is In Spawn Room(Event Player)));
+        Set Player Variable(Event Player, egg_position, Position Of(Event Player));
+        Set Player Variable(Event Player, targets, All Players(Opposite Team Of(Team Of(Event Player))));
+        Set Player Variable(Event Player, allies, All Players(Team Of(Event Player)));
+        Set Player Variable(Event Player, targetIndex, 0);
+        Set Player Variable(Event Player, target_pos, Custom String("Egg active - safe"));
+        Set Player Variable(Event Player, show_text, Event Player);
+        Play Effect(All Players(All Teams), Bad Pickup Effect, Color(Green), Event Player, 0.5);
+        Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Green), Event Player, 100);
+        Set Status(Event Player, Null, Unkillable, 9999);
+        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
+    }
+}
+
+rule ("[laying egg] update owner hud") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LayingEgg;
+        (Event Player).egg_position != Null;
+    }
+    actions {
+        Set Player Variable(Event Player, targets_8, Sorted Array(Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), And(Has Spawned(Current Array Element), Compare(Distance Between((Event Player).egg_position, Current Array Element), <=, 20))), Distance Between((Event Player).egg_position, Current Array Element)));
+        If(Compare(Count Of((Event Player).targets_8), ==, 0));
+            Set Player Variable(Event Player, targetIndex, 0);
+            Set Player Variable(Event Player, target_pos, Custom String("Egg active - safe"));
+        Else;
+            Set Player Variable(Event Player, target_1, First Of((Event Player).targets_8));
+            If(Compare(Distance Between((Event Player).egg_position, (Event Player).target_1), <=, 3));
+                Set Player Variable(Event Player, targetIndex, 2);
+                Set Player Variable(Event Player, target_pos, Custom String("Egg danger - enemy very close ({0}m)", Round To Integer(Distance Between((Event Player).egg_position, (Event Player).target_1), To Nearest)));
+            Else;
+                Set Player Variable(Event Player, targetIndex, 1);
+                Set Player Variable(Event Player, target_pos, Custom String("Egg unsafe - enemy nearby ({0}m)", Round To Integer(Distance Between((Event Player).egg_position, (Event Player).target_1), To Nearest)));
+            End;
+        End;
+        Wait(0.5, Ignore Condition);
+        Loop If Condition Is True;
+    }
+}
+
+rule ("[laying egg] create enemy marker text") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LayingEgg;
+        (Event Player).egg_position != Null;
+        Count Of((Event Player).text_ids) == 1;
+    }
+    actions {
+        Create In-World Text((Event Player).targets, Custom String("Stand on egg to break it"), Add((Event Player).egg_position, Vector(0, 1.1, 0)), 0.8, Do Not Clip, Visible To and Position, Color(Red), Default Visibility);
+        Modify Player Variable(Event Player, text_ids, Append To Array, Last Text ID);
+    }
+}
+
 rule ("[laying egg] egg broken") {
     event {
         Ongoing - Each Player;
@@ -2828,6 +2904,8 @@ rule ("[laying egg] egg broken") {
             Set Player Variable(Event Player, egg_position, Null);
             Set Player Variable(Event Player, targets, Null);
             Set Player Variable(Event Player, allies, Null);
+            Set Player Variable(Event Player, targetIndex, 0);
+            Set Player Variable(Event Player, target_pos, Null);
             Set Player Variable(Event Player, show_text, Null);
             Set Player Variable(Event Player, cooldown_count, Multiply(15, Global.cooldown_multiplier));
             Clear Status(Event Player, Unkillable);
