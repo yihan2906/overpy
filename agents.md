@@ -18,3 +18,15 @@ Notes:
 - The command also works from stdin/stdout:
   - `Get-Content <source> | overpy compile > <source_without_ext>.compiled.txt`
 - In VS Code with the OverPy extension, save the `.opy` file and use the extension's compile step (it writes Workshop text automatically).
+
+# Random abilities maintenance
+
+- For `examples/random-abilities.from_txt.opy`, prefer moving edited Interact abilities into dedicated rules instead of changing the decompiled `on use` jump table.
+- The large `on use`, `roll_ability`, and `clear_ability` sections contain decompiled `goto loc+[ ... ]` / `Skip(...)` jump tables. Do not casually delete or insert actions inside those jump-table bodies; offsets and labels can break later abilities.
+- When an ability needs custom use logic:
+  - Add a dedicated rule such as `rule "[ability name] use":`.
+  - Gate it with `abilityNames[eventPlayer.ability] == AbilityName`.
+  - Exclude that ability from the generic `on use` rule, usually by name and, when safe, by removing its class id from the `on use` selector arrays.
+  - Leave the old unreachable jump-table block in place unless doing a full offset recalculation/refactor.
+- After any `.opy` edit, compile with:
+  - `node out/overpy_cli.js compile -i examples/random-abilities.from_txt.opy -o examples/random-abilities.from_txt.compiled.txt`

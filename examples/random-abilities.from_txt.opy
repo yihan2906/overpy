@@ -199,6 +199,7 @@ playervar isMegaMauga 121
 playervar interact_press_count 122
 playervar interact_is_held 123
 playervar lifesaver_press_count 124
+playervar sponsored_reaction_press_count 125
 
 macro Player.acquireViewedTarget(team, radius=80, losCheck=LosCheck.SURFACES):
     self.target = sorted([player for player in getPlayersInRadius(self.getEyePosition(), radius, team, losCheck) if player != self and player.isAlive() and player.hasSpawned() and angleBetweenVectors(self.getFacingDirection(), directionTowards(self.getEyePosition(), player.getEyePosition())) <= 45], key=lambda player: angleBetweenVectors(self.getFacingDirection(), directionTowards(self.getEyePosition(), player.getEyePosition())) * 1000 + distance(self, player))[0]
@@ -313,6 +314,7 @@ rule "Initial Player":
     eventPlayer.interact_press_count = 0
     eventPlayer.interact_is_held = false
     eventPlayer.lifesaver_press_count = 0
+    eventPlayer.sponsored_reaction_press_count = 0
 
 
 rule "track interact press count":
@@ -589,7 +591,7 @@ def register_abilities1():
     _classIndexes[_extendedGlobalCollection[34]] = 36
     abilityNames[_extendedGlobalCollection[34]] = SponsoredReaction
     abilityDescriptions[_extendedGlobalCollection[34]] = "press [Interact] to force the enemy you are looking at to use an equipped emote"
-    abilityCooldowns[_extendedGlobalCollection[34]] = 9
+    abilityCooldowns[_extendedGlobalCollection[34]] = 5
     abilityOrder[_extendedGlobalCollection[34]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[34])
     _extendedGlobalCollection[35] = _classIndexes.index(0)
@@ -1250,6 +1252,7 @@ def clear_ability():
         lbl_116:
         lbl_117:
         eventPlayer.target = null
+        eventPlayer.mindcontrol_time = 0
         eventPlayer.targets = null
         eventPlayer.target_pos = null
         eventPlayer.damage_dealt = 100
@@ -1687,6 +1690,44 @@ rule "roll ability when player died":
     roll_ability()
 
 
+rule "DEBUG ONLY host force Sponsored Reaction":
+    @Event eachPlayer
+    @Condition eventPlayer == hostPlayer
+    @Condition eventPlayer.isDummy() == false
+    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
+    
+    eventPlayer.next_ability = abilityNames.index(SponsoredReaction)
+    roll_ability()
+    eventPlayer.sponsored_reaction_press_count = eventPlayer.interact_press_count
+    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Sponsored Reaction")
+    waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or not eventPlayer.isHoldingButton(Button.RELOAD), 99999)
+
+
+rule "[mind control] use":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == MindControl
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.cooldown_count <= 0
+    @Condition eventPlayer.isAlive() == true
+    @Condition eventPlayer.target == null
+    
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.disallowButton(Button.PRIMARY_FIRE)
+    eventPlayer.target.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.target.disallowButton(Button.ABILITY_1)
+    eventPlayer.target.disallowButton(Button.ABILITY_2)
+    eventPlayer.target.disallowButton(Button.ULTIMATE)
+    eventPlayer.target.disallowButton(Button.JUMP)
+    eventPlayer.target.disallowButton(Button.CROUCH)
+    eventPlayer.target.disallowButton(Button.MELEE)
+    eventPlayer.controlling = eventPlayer
+    eventPlayer.mindcontrol_time = 7
+    smallMessage(eventPlayer, "Mind Control: {0}".format(eventPlayer.target))
+    eventPlayer.setMoveSpeed(0)
+
+
 rule "on use":
     @Event eachPlayer
     @Condition eventPlayer.ability != null
@@ -1695,9 +1736,9 @@ rule "on use":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true
-    @Condition _classIndexes[eventPlayer.ability] in [1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60]
+    @Condition _classIndexes[eventPlayer.ability] in [1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 57, 59, 60]
     
-    goto loc+[299, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 14, 22, 37, 47, 58, 64, 70, 76, 82, 91, 100, 105, 114, 119, 125, 129, 136, 144, 150, 160, 168, 174, 185, 192, 198, 209, 215, 220, 235, 240, 260, 265, 276, 284, 288, 291][[1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60].index(_classIndexes[eventPlayer.ability]) + 1]
+    goto loc+[299, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 14, 22, 37, 47, 58, 64, 70, 76, 82, 91, 100, 105, 114, 119, 125, 129, 136, 144, 160, 168, 174, 185, 192, 198, 209, 215, 220, 235, 240, 260, 276, 284, 288, 291][[1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 57, 59, 60].index(_classIndexes[eventPlayer.ability]) + 1]
     return
     goto lbl_0
     __abortIf__(eventPlayer.rock_scissors_paper_players != null)
@@ -1836,8 +1877,8 @@ rule "on use":
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     __abortIf__(eventPlayer.target.isInAir())
     eventPlayer.target.setUltCharge(eventPlayer.target.getUltCharge() + 10)
-    eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.001)
-    wait(0.05)
+    eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.15)
+    wait(0.16)
     eventPlayer.target.communicate(Comms.EMOTE_UP)
     bigMessage(eventPlayer.target, "$45 sponsorship by {0}!".format(eventPlayer))
     playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
@@ -1992,7 +2033,7 @@ rule "on use":
     eventPlayer.controlling = eventPlayer
     eventPlayer.mindcontrol_time = 7
     #pass
-    pass #return
+    smallMessage(eventPlayer, "Mind Control: {0}".format(eventPlayer.target))
     eventPlayer.setMoveSpeed(0)
     goto lbl_35
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
@@ -2050,13 +2091,15 @@ rule "[sponsored reaction] force emote":
     @Event eachPlayer
     @Condition abilityNames[eventPlayer.ability] == SponsoredReaction
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.interact_press_count != eventPlayer.sponsored_reaction_press_count
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true
     
-    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
-    __abortIf__(eventPlayer.target.isInAir())
-    eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
-    eventPlayer.target.setUltCharge(eventPlayer.target.getUltCharge() + 10)
+    eventPlayer.target = sorted([player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player != eventPlayer and player.isAlive() and player.hasSpawned() and isInLoS(eventPlayer.getEyePosition(), player.getEyePosition()) and angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) <= 45], key=lambda player: angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) * 1000 + distance(eventPlayer, player))[0]
+    __abortIf__(eventPlayer.target == null)
+    eventPlayer.sponsored_reaction_press_count = eventPlayer.interact_press_count
+    eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.15)
+    wait(0.16)
     eventPlayer.target.communicate(Comms.EMOTE_UP)
     wait(0.3)
     if not eventPlayer.target.isCommunicatingEmote():
@@ -2069,6 +2112,7 @@ rule "[sponsored reaction] force emote":
         eventPlayer.target.communicate(Comms.EMOTE_LEFT)
         wait(0.3)
     if eventPlayer.target.isCommunicatingEmote():
+        eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
         bigMessage(eventPlayer.target, "$45 sponsorship by {0}!".format(eventPlayer))
         playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
     else:
@@ -2563,6 +2607,7 @@ rule "[You are speed] countdown":
 rule "[You are speed] end":
     @Event eachPlayer
     @Condition eventPlayer.high_speed_remains == 0
+    @Condition eventPlayer.mindcontrol_time <= 0
     
     eventPlayer.setMoveSpeed(eventPlayer.movement_speed)
 
@@ -2623,6 +2668,7 @@ rule "[mind control] on death":
     eventPlayer.target.allowButton(Button.MELEE)
     eventPlayer.target = null
     eventPlayer.controlling = false
+    eventPlayer.mindcontrol_time = 0
     eventPlayer.setMoveSpeed(eventPlayer.movement_speed)
     eventPlayer.stopCamera()
     destroyEffect(eventPlayer.control_beam)

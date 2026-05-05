@@ -193,6 +193,7 @@ variables {
         122: interact_press_count
         123: interact_is_held
         124: lifesaver_press_count
+        125: sponsored_reaction_press_count
 }
 subroutines {
     0: register_abilities1
@@ -297,6 +298,7 @@ rule ("Initial Player") {
         Set Player Variable(Event Player, interact_press_count, 0);
         Set Player Variable(Event Player, interact_is_held, False);
         Set Player Variable(Event Player, lifesaver_press_count, 0);
+        Set Player Variable(Event Player, sponsored_reaction_press_count, 0);
     }
 }
 
@@ -597,7 +599,7 @@ rule ("register abilities1") {
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 34), 36);
         Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 34), Global.SponsoredReaction);
         Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 34), Custom String("press [Interact] to force the enemy you are looking at to use an equipped emote"));
-        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 34), 9);
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 34), 5);
         Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 34), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 34));
         Set Global Variable At Index(_extendedGlobalCollection, 35, Index Of Array Value(Global._classIndexes, 0));
@@ -1315,6 +1317,7 @@ rule ("clear ability") {
             //lbl_116:
             //lbl_117:
             Set Player Variable(Event Player, target, Null);
+            Set Player Variable(Event Player, mindcontrol_time, 0);
             Set Player Variable(Event Player, targets, Null);
             Set Player Variable(Event Player, target_pos, Null);
             Set Player Variable(Event Player, damage_dealt, 100);
@@ -1793,6 +1796,59 @@ rule ("roll ability when player died") {
     }
 }
 
+rule ("DEBUG ONLY host force Sponsored Reaction") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Event Player == Host Player;
+        Is Dummy Bot(Event Player) == False;
+        Is Alive(Event Player) == True;
+        Is Button Held(Event Player, Button(Interact)) == True;
+        Is Button Held(Event Player, Button(Reload)) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.SponsoredReaction));
+        Call Subroutine(roll_ability);
+        Set Player Variable(Event Player, sponsored_reaction_press_count, (Event Player).interact_press_count);
+        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Sponsored Reaction"));
+        Wait Until(Not(And(Is Button Held(Event Player, Button(Interact)), Is Button Held(Event Player, Button(Reload)))), 99999);
+    }
+}
+
+rule ("[mind control] use") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
+        Is Button Held(Event Player, Button(Interact)) == True;
+        (Event Player).cooldown_count <= 0;
+        Is Alive(Event Player) == True;
+        (Event Player).target == Null;
+    }
+    actions {
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
+        Disallow Button((Event Player).target, Button(Primary Fire));
+        Disallow Button((Event Player).target, Button(Secondary Fire));
+        Disallow Button((Event Player).target, Button(Ability 1));
+        Disallow Button((Event Player).target, Button(Ability 2));
+        Disallow Button((Event Player).target, Button(Ultimate));
+        Disallow Button((Event Player).target, Button(Jump));
+        Disallow Button((Event Player).target, Button(Crouch));
+        Disallow Button((Event Player).target, Button(Melee));
+        Set Player Variable(Event Player, controlling, Event Player);
+        Set Player Variable(Event Player, mindcontrol_time, 7);
+        Small Message(Event Player, Custom String("Mind Control: {0}", (Event Player).target));
+        Set Move Speed(Event Player, 0);
+    }
+}
+
 rule ("on use") {
     event {
         Ongoing - Each Player;
@@ -1806,10 +1862,10 @@ rule ("on use") {
         Is Button Held(Event Player, Button(Interact)) == True;
         (Event Player).cooldown_count <= 0;
         Is Alive(Event Player) == True;
-        Array Contains(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)) == True;
+        Array Contains(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)) == True;
     }
     actions {
-        Skip(Value In Array(Array(299, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 14, 22, 37, 47, 58, 64, 70, 76, 82, 91, 100, 105, 114, 119, 125, 129, 136, 144, 150, 160, 168, 174, 185, 192, 198, 209, 215, 220, 235, 240, 260, 265, 276, 284, 288, 291), Add(Index Of Array Value(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
+        Skip(Value In Array(Array(299, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 14, 22, 37, 47, 58, 64, 70, 76, 82, 91, 100, 105, 114, 119, 125, 129, 136, 144, 160, 168, 174, 185, 192, 198, 209, 215, 220, 235, 240, 260, 276, 284, 288, 291), Add(Index Of Array Value(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
         Abort;
         Skip(314);
         Abort If(Compare((Event Player).rock_scissors_paper_players, !=, Null));
@@ -1964,8 +2020,8 @@ rule ("on use") {
         Abort If(Compare((Event Player).target, ==, Null));
         Abort If(Is In Air((Event Player).target));
         Set Ultimate Charge((Event Player).target, Add(Ultimate Charge Percent((Event Player).target), 10));
-        Set Status((Event Player).target, Event Player, Stunned, 0.001);
-        Wait(0.05, Ignore Condition);
+        Set Status((Event Player).target, Event Player, Stunned, 0.15);
+        Wait(0.16, Ignore Condition);
         Communicate((Event Player).target, Emote Up);
         Big Message((Event Player).target, Custom String("$45 sponsorship by {0}!", Event Player));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
@@ -2129,8 +2185,8 @@ rule ("on use") {
         Disallow Button((Event Player).target, Button(Melee));
         Set Player Variable(Event Player, controlling, Event Player);
         Set Player Variable(Event Player, mindcontrol_time, 7);
-        "pass\nreturn"
-        disabled Abort;
+        "pass"
+        Small Message(Event Player, Custom String("Mind Control: {0}", (Event Player).target));
         Set Move Speed(Event Player, 0);
         Skip(13);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
@@ -2197,15 +2253,16 @@ rule ("[sponsored reaction] force emote") {
     conditions {
         Value In Array(Global.abilityNames, (Event Player).ability) == Global.SponsoredReaction;
         Is Button Held(Event Player, Button(Interact)) == True;
+        (Event Player).interact_press_count != (Event Player).sponsored_reaction_press_count;
         (Event Player).cooldown_count <= 0;
         Is Alive(Event Player) == True;
     }
     actions {
-        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(All Players(Opposite Team Of(Team Of(Event Player))), And(And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Is In Line of Sight(Eye Position(Event Player), Eye Position(Current Array Element), Barriers Do Not Block LOS)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
-        Abort If(Is In Air((Event Player).target));
-        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
-        Set Ultimate Charge((Event Player).target, Add(Ultimate Charge Percent((Event Player).target), 10));
+        Set Player Variable(Event Player, sponsored_reaction_press_count, (Event Player).interact_press_count);
+        Set Status((Event Player).target, Event Player, Stunned, 0.15);
+        Wait(0.16, Ignore Condition);
         Communicate((Event Player).target, Emote Up);
         Wait(0.3, Ignore Condition);
         If(Not(Is Communicating Any Emote((Event Player).target)));
@@ -2221,6 +2278,7 @@ rule ("[sponsored reaction] force emote") {
             Wait(0.3, Ignore Condition);
         End;
         If(Is Communicating Any Emote((Event Player).target));
+            Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
             Big Message((Event Player).target, Custom String("$45 sponsorship by {0}!", Event Player));
             Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Else;
@@ -2981,6 +3039,7 @@ rule ("[You are speed] end") {
     }
     conditions {
         (Event Player).high_speed_remains == 0;
+        (Event Player).mindcontrol_time <= 0;
     }
     actions {
         Set Move Speed(Event Player, (Event Player).movement_speed);
@@ -3068,6 +3127,7 @@ rule ("[mind control] on death") {
         Allow Button((Event Player).target, Button(Melee));
         Set Player Variable(Event Player, target, Null);
         Set Player Variable(Event Player, controlling, False);
+        Set Player Variable(Event Player, mindcontrol_time, 0);
         Set Move Speed(Event Player, (Event Player).movement_speed);
         Stop Camera(Event Player);
         Destroy Effect((Event Player).control_beam);
