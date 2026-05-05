@@ -11,6 +11,18 @@ const PACKAGE_JSON = path.join(__dirname, "package.json");
 const NPM_TOKEN_PATH = path.join(os.homedir(), "npm_token.owo");
 const NPM_TOKEN_MAX_AGE_DAYS = 89;
 
+function parseArgs() {
+    const args = process.argv.slice(2);
+    const result = {};
+    for (let i = 0; i < args.length; i++) {
+        if (args[i] === "-m" && i + 1 < args.length) {
+            result.message = args[++i];
+        }
+    }
+    return result;
+}
+const cliArgs = parseArgs();
+
 function run(cmd) {
     console.log(`\n> ${cmd}`);
     execSync(cmd, { stdio: "inherit", cwd: __dirname });
@@ -193,12 +205,13 @@ async function getNpmToken() {
     const version = JSON.parse(fs.readFileSync(PACKAGE_JSON, "utf-8")).version;
 
     if (modifiedFiles.length > 0) {
-        let commitMsg;
-        if (modifiedFiles.every(f => f.trim().match(/^M\s+(package\.json|out\/overpy_standalone\.js|customGameSettingsSchema\.json)$/))) {
-            commitMsg = `v${version}`;
-        } else {
-            const userMsg = await prompt(`Enter a commit message for release ${version}: `);
-            commitMsg = `v${version} - ${userMsg}`;
+        let commitMsg = `v${version}`;
+        let userMsg = cliArgs.message ? cliArgs.message.trim() : "";
+        if (!userMsg && !modifiedFiles.every(f => f.trim().match(/^M\s+(package\.json|out\/overpy_standalone\.js|customGameSettingsSchema\.json)$/))) {
+            userMsg = (await prompt(`Enter a commit message for release ${version}: `)).trim();
+        }
+        if (userMsg) {
+            commitMsg += ` - ${userMsg}`;
         }
         console.log(`\nCommitting and pushing ${commitMsg}...`);
         let commitMsgEscaped = commitMsg.replace(/"/g, '\\"');

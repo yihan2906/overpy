@@ -3615,6 +3615,8 @@ export const valueFuncKw: Record<string, Value> =
                 "name": "index",
                 "description": "The index of the character to be acquired (with 0 as the first character, 1 as the second character, etc.).",
                 "type": "unsigned int",
+                "canReplace0ByFalse": true,
+                "canReplace1ByTrue": true,
             }
         ],
         isConstant: true,
@@ -5239,7 +5241,7 @@ export const valueFuncKw: Record<string, Value> =
         "th-TH": "Current Game Mode",
         "zh-TW": "Current Game Mode"
     },
-    "getCurrentMap": {
+    "__getCurrentMap__": {
         "guid": "00000000D418",
         "description": "The current map of the custom game.",
         "args": [],

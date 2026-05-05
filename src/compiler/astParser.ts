@@ -130,6 +130,7 @@ import "./functions/dotProduct.ts";
 import "./functions/eventPlayer.ts";
 import "./functions/floor.ts";
 import "./functions/getClosestPlayer";
+import "./functions/getCurrentMap";
 import "./functions/getFarthestPlayer";
 import "./functions/getOppositeTeam.ts";
 import "./functions/healee.ts";
@@ -336,6 +337,8 @@ export function parseAstRules(rules: Ast[]) {
             rule.originalName = "__def__";
         } else if (rule.name in astMacros) {
             rulesResult.push(...parseAstRules(parseAstMacro(rule)));
+            continue;
+        } else if (rule.name === "pass") {
             continue;
         } else {
             error("Unexpected function '" + rule.name + "' outside a rule");

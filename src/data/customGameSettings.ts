@@ -3099,6 +3099,72 @@ export const customGameSettingsSchema: CustomGameSettingSchema =
                     }
                 }
             },
+            "stadiumPracticeRange": {
+                "values": {
+                    "spawnTrainingBots": {
+                        "values": "__boolOnOff__",
+                        "default": "on",
+                        "guid": "00000000EC7E",
+                        "en-US": "Spawn Training Bots",
+                        "de-DE": "Trainingsbots erscheinen lassen",
+                        "es-ES": "Poner robots de entrenamiento",
+                        "es-MX": "Reaparición de robots de entrenamiento",
+                        "fr-FR": "Générer des robots d’entraînement",
+                        "it-IT": "Generazione Addestra-bot",
+                        "ja-JP": "トレーニング・ボット リスポーン",
+                        "ko-KR": "훈련용 봇 생성",
+                        "pl-PL": "Odrodź boty treningowe",
+                        "pt-BR": "Gerar bots de treinamento",
+                        "ru-RU": "Возродить тренировочных роботов",
+                        "th-TH": "เรียกบอทฝึกฝน",
+                        "tr-TR": "Talim Robotu Yaratımı",
+                        "zh-CN": "刷新训练机器人",
+                        "zh-TW": "產生訓練機器人"
+                    },
+                    "trainingBotsRespawnTime%": {
+                        "values": "__percent__",
+                        "min": 10,
+                        "max": 500,
+                        "default": 100,
+                        "guid": "00000000F0CC",
+                        "en-US": "Training Bot Respawn Time Scalar",
+                        "de-DE": "Wiederbelebungszeit von Trainingsbots",
+                        "es-ES": "Tiempo de reaparición de robot de entrenamiento",
+                        "es-MX": "Escala de tiempo de reaparición de robot de entrenamiento",
+                        "fr-FR": "Temps de réapparition des robots d’entraînement",
+                        "it-IT": "Frequenza di ricomparsa degli Addestra-bot",
+                        "ja-JP": "トレーニング・ボット リスポーン時間スカラー",
+                        "ko-KR": "훈련용 봇 재생성 시간 조정",
+                        "pl-PL": "Skalowanie czasu odświeżania botów treningowych",
+                        "pt-BR": "Tempo escalar de ressurgimento de bots de treinamento",
+                        "ru-RU": "Время возрождения тренировочных роботов",
+                        "th-TH": "ปรับเวลาเกิดใหม่เกิดใหม่ของบอทฝึกฝน",
+                        "tr-TR": "Talim Robotu Yeniden Doğma Süre Skaleri",
+                        "zh-CN": "训练机器人刷新时间",
+                        "zh-TW": "訓練機器人重生時間"
+                    },
+                    "enableTrainingPartner": {
+                        "values": "__boolOnOff__",
+                        "default": "on",
+                        "guid": "0000000105D8",
+                        "en-US": "Training Partner",
+                        "de-DE": "Trainingspartner",
+                        "es-ES": "Pareja de entrenamiento",
+                        "es-MX": "Compañero de entrenamiento",
+                        "fr-FR": "Partenaire d’entraînement",
+                        "it-IT": "Assistente d'Addestramento",
+                        "ja-JP": "トレーニング・パートナー",
+                        "ko-KR": "훈련 상대",
+                        "pl-PL": "Partner treningowy",
+                        "pt-BR": "Parceiro de Treinamento",
+                        "ru-RU": "Спарринг-партнер",
+                        "th-TH": "คู่หูฝึกฝน",
+                        "tr-TR": "Talim Arkadaşı",
+                        "zh-CN": "训练伙伴",
+                        "zh-TW": "訓練夥伴"
+                    }
+                }
+            },
             "junkenstein": {
                 "values": {
                     "difficulty": {
@@ -4855,6 +4921,9 @@ export const customGameSettingsSchema: CustomGameSettingSchema =
                     "guid": "000000005B4B",
                     "values": "__boolOnOff__",
                     "default": "on",
+                    "exclude": [
+                        "mauga",
+                    ],
                     "en-US": "Primary Fire",
                     "de-DE": "Primärer Feuermodus",
                     "es-ES": "Disparo principal",
@@ -5243,7 +5312,7 @@ export const customGameSettingsSchema: CustomGameSettingSchema =
                         "orisa",
                         "pharah",
                         "reinhardt",
-                        "roadhog",
+                        "sierra",
                         "sigma",
                         "sojourn",
                         "soldier",
@@ -5289,6 +5358,7 @@ export const customGameSettingsSchema: CustomGameSettingSchema =
                         "pharah",
                         "reinhardt",
                         "roadhog",
+                        "sierra",
                         "sigma",
                         "soldier",
                         "sombra",
@@ -5376,6 +5446,7 @@ export const customGameSettingsSchema: CustomGameSettingSchema =
                     "values": "__boolOnOff__",
                     "default": "on",
                     "include": [
+                        "anran",
                         "baptiste",
                         "genji",
                         "illari",
@@ -5384,7 +5455,7 @@ export const customGameSettingsSchema: CustomGameSettingSchema =
                         "mei",
                         "mercy",
                         "moira",
-                        "sojourn",
+                        "roadhog",
                         "symmetra",
                         "torbjorn",
                         "winston",
@@ -7031,6 +7102,18 @@ export const customGameSettingsSchema: CustomGameSettingSchema =
                         "tr-TR": "Domuz Çevirme Geri İtme Skaleri",
                         "zh-CN": "鸡飞狗跳击退倍率",
                         "zh-TW": "火力全開擊退距離"
+                    }
+                }
+            },
+            "sierra": {
+                "values": {
+                    "ability2Kb%": {
+                        "values": "__percent__",
+                        "min": 0,
+                        "max": 400,
+                        "default": 100,
+                        "en-US": "Tremor Charge Knockback Scalar",
+                        "zh-CN": "震地手雷击退倍率",
                     }
                 }
             },

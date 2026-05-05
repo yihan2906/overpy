@@ -18058,6 +18058,72 @@ var customGameSettingsSchema = (
             }
           }
         },
+        "stadiumPracticeRange": {
+          "values": {
+            "spawnTrainingBots": {
+              "values": "__boolOnOff__",
+              "default": "on",
+              "guid": "00000000EC7E",
+              "en-US": "Spawn Training Bots",
+              "de-DE": "Trainingsbots erscheinen lassen",
+              "es-ES": "Poner robots de entrenamiento",
+              "es-MX": "Reaparici\xF3n de robots de entrenamiento",
+              "fr-FR": "G\xE9n\xE9rer des robots d\u2019entra\xEEnement",
+              "it-IT": "Generazione Addestra-bot",
+              "ja-JP": "\u30C8\u30EC\u30FC\u30CB\u30F3\u30B0\u30FB\u30DC\u30C3\u30C8 \u30EA\u30B9\u30DD\u30FC\u30F3",
+              "ko-KR": "\uD6C8\uB828\uC6A9 \uBD07 \uC0DD\uC131",
+              "pl-PL": "Odrod\u017A boty treningowe",
+              "pt-BR": "Gerar bots de treinamento",
+              "ru-RU": "\u0412\u043E\u0437\u0440\u043E\u0434\u0438\u0442\u044C \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u0447\u043D\u044B\u0445 \u0440\u043E\u0431\u043E\u0442\u043E\u0432",
+              "th-TH": "\u0E40\u0E23\u0E35\u0E22\u0E01\u0E1A\u0E2D\u0E17\u0E1D\u0E36\u0E01\u0E1D\u0E19",
+              "tr-TR": "Talim Robotu Yarat\u0131m\u0131",
+              "zh-CN": "\u5237\u65B0\u8BAD\u7EC3\u673A\u5668\u4EBA",
+              "zh-TW": "\u7522\u751F\u8A13\u7DF4\u6A5F\u5668\u4EBA"
+            },
+            "trainingBotsRespawnTime%": {
+              "values": "__percent__",
+              "min": 10,
+              "max": 500,
+              "default": 100,
+              "guid": "00000000F0CC",
+              "en-US": "Training Bot Respawn Time Scalar",
+              "de-DE": "Wiederbelebungszeit von Trainingsbots",
+              "es-ES": "Tiempo de reaparici\xF3n de robot de entrenamiento",
+              "es-MX": "Escala de tiempo de reaparici\xF3n de robot de entrenamiento",
+              "fr-FR": "Temps de r\xE9apparition des robots d\u2019entra\xEEnement",
+              "it-IT": "Frequenza di ricomparsa degli Addestra-bot",
+              "ja-JP": "\u30C8\u30EC\u30FC\u30CB\u30F3\u30B0\u30FB\u30DC\u30C3\u30C8 \u30EA\u30B9\u30DD\u30FC\u30F3\u6642\u9593\u30B9\u30AB\u30E9\u30FC",
+              "ko-KR": "\uD6C8\uB828\uC6A9 \uBD07 \uC7AC\uC0DD\uC131 \uC2DC\uAC04 \uC870\uC815",
+              "pl-PL": "Skalowanie czasu od\u015Bwie\u017Cania bot\xF3w treningowych",
+              "pt-BR": "Tempo escalar de ressurgimento de bots de treinamento",
+              "ru-RU": "\u0412\u0440\u0435\u043C\u044F \u0432\u043E\u0437\u0440\u043E\u0436\u0434\u0435\u043D\u0438\u044F \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u0447\u043D\u044B\u0445 \u0440\u043E\u0431\u043E\u0442\u043E\u0432",
+              "th-TH": "\u0E1B\u0E23\u0E31\u0E1A\u0E40\u0E27\u0E25\u0E32\u0E40\u0E01\u0E34\u0E14\u0E43\u0E2B\u0E21\u0E48\u0E40\u0E01\u0E34\u0E14\u0E43\u0E2B\u0E21\u0E48\u0E02\u0E2D\u0E07\u0E1A\u0E2D\u0E17\u0E1D\u0E36\u0E01\u0E1D\u0E19",
+              "tr-TR": "Talim Robotu Yeniden Do\u011Fma S\xFCre Skaleri",
+              "zh-CN": "\u8BAD\u7EC3\u673A\u5668\u4EBA\u5237\u65B0\u65F6\u95F4",
+              "zh-TW": "\u8A13\u7DF4\u6A5F\u5668\u4EBA\u91CD\u751F\u6642\u9593"
+            },
+            "enableTrainingPartner": {
+              "values": "__boolOnOff__",
+              "default": "on",
+              "guid": "0000000105D8",
+              "en-US": "Training Partner",
+              "de-DE": "Trainingspartner",
+              "es-ES": "Pareja de entrenamiento",
+              "es-MX": "Compa\xF1ero de entrenamiento",
+              "fr-FR": "Partenaire d\u2019entra\xEEnement",
+              "it-IT": "Assistente d'Addestramento",
+              "ja-JP": "\u30C8\u30EC\u30FC\u30CB\u30F3\u30B0\u30FB\u30D1\u30FC\u30C8\u30CA\u30FC",
+              "ko-KR": "\uD6C8\uB828 \uC0C1\uB300",
+              "pl-PL": "Partner treningowy",
+              "pt-BR": "Parceiro de Treinamento",
+              "ru-RU": "\u0421\u043F\u0430\u0440\u0440\u0438\u043D\u0433-\u043F\u0430\u0440\u0442\u043D\u0435\u0440",
+              "th-TH": "\u0E04\u0E39\u0E48\u0E2B\u0E39\u0E1D\u0E36\u0E01\u0E1D\u0E19",
+              "tr-TR": "Talim Arkada\u015F\u0131",
+              "zh-CN": "\u8BAD\u7EC3\u4F19\u4F34",
+              "zh-TW": "\u8A13\u7DF4\u5925\u4F34"
+            }
+          }
+        },
         "junkenstein": {
           "values": {
             "difficulty": {
@@ -19814,6 +19880,9 @@ var customGameSettingsSchema = (
             "guid": "000000005B4B",
             "values": "__boolOnOff__",
             "default": "on",
+            "exclude": [
+              "mauga"
+            ],
             "en-US": "Primary Fire",
             "de-DE": "Prim\xE4rer Feuermodus",
             "es-ES": "Disparo principal",
@@ -20202,7 +20271,7 @@ var customGameSettingsSchema = (
               "orisa",
               "pharah",
               "reinhardt",
-              "roadhog",
+              "sierra",
               "sigma",
               "sojourn",
               "soldier",
@@ -20248,6 +20317,7 @@ var customGameSettingsSchema = (
               "pharah",
               "reinhardt",
               "roadhog",
+              "sierra",
               "sigma",
               "soldier",
               "sombra",
@@ -20335,6 +20405,7 @@ var customGameSettingsSchema = (
             "values": "__boolOnOff__",
             "default": "on",
             "include": [
+              "anran",
               "baptiste",
               "genji",
               "illari",
@@ -20343,7 +20414,7 @@ var customGameSettingsSchema = (
               "mei",
               "mercy",
               "moira",
-              "sojourn",
+              "roadhog",
               "symmetra",
               "torbjorn",
               "winston",
@@ -21990,6 +22061,18 @@ var customGameSettingsSchema = (
               "tr-TR": "Domuz \xC7evirme Geri \u0130tme Skaleri",
               "zh-CN": "\u9E21\u98DE\u72D7\u8DF3\u51FB\u9000\u500D\u7387",
               "zh-TW": "\u706B\u529B\u5168\u958B\u64CA\u9000\u8DDD\u96E2"
+            }
+          }
+        },
+        "sierra": {
+          "values": {
+            "ability2Kb%": {
+              "values": "__percent__",
+              "min": 0,
+              "max": 400,
+              "default": 100,
+              "en-US": "Tremor Charge Knockback Scalar",
+              "zh-CN": "\u9707\u5730\u624B\u96F7\u51FB\u9000\u500D\u7387"
             }
           }
         },
@@ -37768,7 +37851,7 @@ function decompileCustomGameSettingsDict(dict, kwObj, options = {}) {
       }
     }
     if (keyName === null || value === null) {
-      error("No translation found for key of element '" + potentialKey + "'");
+      error("No translation found for key of element '" + (options.parent ? options.parent + " > " : "") + potentialKey + "'");
     }
     if (isInvalidButAcceptedProperty) {
       continue;
@@ -37781,6 +37864,10 @@ function decompileCustomGameSettingsDict(dict, kwObj, options = {}) {
       if (!value.endsWith("%")) {
         if (kwObj[keyName]["en-US"] === "Glide Boost Duration Scalar" && keyName === "ability1Duration%") {
           warn("w_dead_workshop", "Juno's 'Glide Boost Duration Scalar' cannot be copied from text settings and has been reset to defaults.");
+          continue;
+        }
+        if (kwObj[keyName]["en-US"] === "Katashiro Return Duration Scalar" && keyName === "ability1Duration%") {
+          warn("w_dead_workshop", "Mizuki's 'Katashiro Return Duration Scalar' cannot be copied from text settings and has been reset to defaults.");
           continue;
         }
         error("Expected a percentage for value of elem '" + elem + "'");
@@ -40404,8 +40491,8 @@ var gamemodeKw = (
       "zh-CN": "\u96EA\u7403\u6B7B\u6597",
       "zh-TW": "\u96EA\u7403\u6B7B\u9B25\u5927\u4F5C\u6230"
     },
-    "stadium": {
-      "en-US": "Stadium",
+    "stadiumPracticeRange": {
+      "en-US": "Stadium Practice Range",
       "zh-CN": "\u51B3\u6597\u9886\u57DF"
     },
     "tdm": {
@@ -40447,6 +40534,21 @@ var gamemodeKw = (
       "tr-TR": "Yeti Avc\u0131s\u0131",
       "zh-CN": "\u96EA\u57DF\u72E9\u730E",
       "zh-TW": "\u96EA\u602A\u5927\u4F5C\u6230"
+    },
+    "assaultBalancedOverwatch": {
+      "en-US": "Assault Balanced Overwatch"
+    },
+    "controlBalancedOverwatch": {
+      "en-US": "Control Balanced Overwatch"
+    },
+    "escortBalancedOverwatch": {
+      "en-US": "Escort Balanced Overwatch"
+    },
+    "hybridBalancedOverwatch": {
+      "en-US": "Hybrid Balanced Overwatch"
+    },
+    "pushBalancedOverwatch": {
+      "en-US": "Push Balanced Overwatch"
     }
   }
 );
@@ -41677,7 +41779,7 @@ var heroKw = (
     "junkerQueen": {
       "secondaryFire": {
         "guid": "00000000D3A4",
-        "en-US": "Jagged Blade",
+        "en-US": "Jagged Blade Gracie",
         "de-DE": "Gezackte Klinge",
         "es-ES": "Cuchilla dentada",
         "es-MX": "Hoja dentada",
@@ -42815,6 +42917,26 @@ var heroKw = (
       "pt-BR": "Roadhog",
       "tr-TR": "Roadhog"
     },
+    "sierra": {
+      "secondaryFire": {
+        "en-US": "Tracking Shot",
+        "zh-CN": "\u8FFD\u8E2A\u5F39"
+      },
+      "ability1": {
+        "en-US": "Anchor Drone",
+        "zh-CN": "\u951A\u70B9\u65E0\u4EBA\u673A"
+      },
+      "ability2": {
+        "en-US": "Tremor Charge",
+        "zh-CN": "\u9707\u5730\u624B\u96F7"
+      },
+      "ultimate": {
+        "en-US": "Trailblazer",
+        "zh-CN": "\u5F00\u8DEF\u5148\u950B"
+      },
+      "en-US": "Sierra",
+      "zh-CN": "\u897F\u62C9"
+    },
     "sigma": {
       "guid": "000000009E9E",
       "secondaryFire": {
@@ -42907,22 +43029,7 @@ var heroKw = (
     },
     "sojourn": {
       "secondaryFire": {
-        "guid": "00000000796B",
-        "en-US": "Railgun Alt Fire",
-        "de-DE": "Railgun \u2013 Alternativer Feuermodus",
-        "es-ES": "Disparo secundario del ca\xF1\xF3n de riel",
-        "es-MX": "Disparo secundario de Ca\xF1\xF3n de riel",
-        "fr-FR": "Canon \xE9lectrique : tir alternatif",
-        "it-IT": "Fuoco Alternativo Fucile a Rotaia",
-        "ja-JP": "\u30EC\u30FC\u30EB\u30AC\u30F3 - \u30B5\u30D6\u653B\u6483",
-        "ko-KR": "\uB808\uC77C\uAC74 \uBCF4\uC870 \uBC1C\uC0AC",
-        "pl-PL": "Alternatywny atak Karabinu Kinetycznego",
-        "pt-BR": "Canh\xE3o El\xE9trico - Disparo alternativo",
-        "ru-RU": "\u0414\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0439 \u0440\u0435\u0436\u0438\u043C \u043E\u0433\u043D\u044F \u0440\u0435\u043B\u044C\u0441\u043E\u0442\u0440\u043E\u043D\u0430",
-        "th-TH": "\u0E2D\u0E32\u0E27\u0E38\u0E18\u0E2A\u0E33\u0E23\u0E2D\u0E07\u0E40\u0E23\u0E25\u0E01\u0E31\u0E19",
-        "tr-TR": "Rayl\u0131 T\xFCfek Alternatif Ate\u015Fi",
-        "zh-CN": "\u5145\u80FD\u5C04\u51FB",
-        "zh-TW": "\u78C1\u8ECC\u69CD\u6B21\u8981\u653B\u64CA"
+        "en-US": "Charged Shot"
       },
       "ability1": {
         "guid": "000000007964",
@@ -44761,6 +44868,20 @@ astParsingFunctions.__equals__ = function(content) {
       return content.args[1];
     }
   }
+  if (content.args[0].name === "getCurrentMap" && content.args[1].name === "__map__") {
+    if (["COLOSSEO", "ESPERANCA", "SAMOA"].includes(content.args[1].args[0].name)) {
+      return parseOpyMacro(`"{}".format(__getCurrentMap__()) == "{}".format(Map.${content.args[1].args[0].name})`, [], []);
+    } else {
+      content.args[0].name = "__getCurrentMap__";
+    }
+  }
+  if (content.args[1].name === "getCurrentMap" && content.args[0].name === "__map__") {
+    if (["COLOSSEO", "ESPERANCA", "SAMOA"].includes(content.args[0].args[0].name)) {
+      return parseOpyMacro(`"{}".format(__getCurrentMap__()) == "{}".format(Map.${content.args[0].args[0].name})`, [], []);
+    } else {
+      content.args[1].name = "__getCurrentMap__";
+    }
+  }
   return content;
 };
 
@@ -45328,10 +45449,9 @@ astParsingFunctions.__raiseToPower__ = function(content) {
 astParsingFunctions.__rule__ = function(content) {
   var isRelativeGotoEncountered = false;
   var isGotoEncountered = false;
-  var hasMeaningfulInstructionBeenEncountered = false;
   var declaredLabels = [];
   function iterateOnRuleActions(children) {
-    for (var i2 = 0; i2 < children.length; i2++) {
+    for (let i2 = 0; i2 < children.length; i2++) {
       setFileStack(content.fileStack);
       if (children[i2].name === "__skip__" && children[i2].args[0].name !== "__distanceTo__" || children[i2].name === "__skipIf__" && children[i2].args[1].name !== "__distanceTo__") {
         isRelativeGotoEncountered = true;
@@ -45344,39 +45464,6 @@ astParsingFunctions.__rule__ = function(content) {
           error("Label '" + content.name + "' is already declared in this rule");
         }
         declaredLabels.push(content.name);
-      }
-      if (!hasMeaningfulInstructionBeenEncountered && ![
-        "__abortIf__",
-        "__abortIfConditionIsFalse__",
-        "__abortIfConditionIsTrue__",
-        "break",
-        "continue",
-        "__disableOptimizations__",
-        "__disableOptimizeForSize__",
-        "__disableOptimizeStrict__",
-        "__enableOptimizations__",
-        "__enableOptimizeForSize__",
-        "__enableOptimizeStrict__",
-        "__else__",
-        "__elif__",
-        "__end__",
-        //"__for__", //meaningful because it modifies the loop variable
-        //"__forGlobalVariable__",
-        //"__forPlayerVariable__",
-        "__if__",
-        "loop",
-        "__loopIf__",
-        "__loopIfConditionIsFalse__",
-        "__loopIfConditionIsTrue__",
-        "pass",
-        "return",
-        "__skip__",
-        "__skipIf__",
-        //"wait",
-        "__while__"
-      ].includes(children[i2].name) && children[i2].type !== "Label" && !(children[i2].name === "wait" && content.ruleAttributes.event !== "__subroutine__")) {
-        debug("meaningful instruction :" + children[i2].name);
-        hasMeaningfulInstructionBeenEncountered = true;
       }
       iterateOnRuleActions(children[i2].children);
       if (!isRelativeGotoEncountered) {
@@ -45397,7 +45484,14 @@ astParsingFunctions.__rule__ = function(content) {
             }
           }
           if (isDefinitelyFalsy(children[i2].args[0]) && (children[i2].children.length === 0 || !isGotoEncountered)) {
-            if (children[i2 + 1].name === "__else__") {
+            if (i2 === children.length - 1 || children[i2 + 1].name === "__end__") {
+              children.splice(i2, 1);
+              if (i2 < children.length && children[i2].name === "__end__") {
+                children.splice(i2, 1);
+              }
+              i2--;
+              continue;
+            } else if (children[i2 + 1].name === "__else__") {
               children[i2 + 1].name = "__if__";
               children[i2 + 1].args = [getAstForTrue()];
               children.splice(i2, 1);
@@ -45446,10 +45540,51 @@ astParsingFunctions.__rule__ = function(content) {
       }
     }
   }
+  function checkForMeaningfulInstructions(instructions) {
+    for (let instruction of instructions) {
+      if (![
+        "__abortIf__",
+        "__abortIfConditionIsFalse__",
+        "__abortIfConditionIsTrue__",
+        "break",
+        "continue",
+        "__disableOptimizations__",
+        "__disableOptimizeForSize__",
+        "__disableOptimizeStrict__",
+        "__enableOptimizations__",
+        "__enableOptimizeForSize__",
+        "__enableOptimizeStrict__",
+        "__else__",
+        "__elif__",
+        "__end__",
+        //"__for__", //meaningful because it modifies the loop variable
+        //"__forGlobalVariable__",
+        //"__forPlayerVariable__",
+        "__if__",
+        "loop",
+        "__loopIf__",
+        "__loopIfConditionIsFalse__",
+        "__loopIfConditionIsTrue__",
+        "pass",
+        "return",
+        "__skip__",
+        "__skipIf__",
+        //"wait",
+        "__while__"
+      ].includes(instruction.name) && instruction.type !== "Label" && !(instruction.name === "wait" && content.ruleAttributes.event !== "__subroutine__")) {
+        debug("meaningful instruction :" + instruction.name);
+        return true;
+      }
+      if (checkForMeaningfulInstructions(instruction.children)) {
+        return true;
+      }
+    }
+    return false;
+  }
   if (enableOptimization) {
     iterateOnRuleActions(content.children);
   }
-  if (enableOptimization && !hasMeaningfulInstructionBeenEncountered && !content.ruleAttributes.isDelimiter) {
+  if (enableOptimization && !checkForMeaningfulInstructions(content.children) && !content.ruleAttributes.isDelimiter) {
     return getAstForUselessInstruction();
   }
   function resolveDistanceTo(content2) {
@@ -46659,14 +46794,14 @@ function getDecompressionAst(compressedString, compressionInfo) {
   let { minDecimalPlace, maxDecimalPlace, offset, arrayType } = compressionInfo;
   if (arrayType === "number") {
     let decompressionFormula = Array(Math.ceil((maxDecimalPlace - minDecimalPlace) / 2)).fill(0).map((x, i) => i).map((x) => `${Math.pow(100, x + minDecimalPlace / 2)}*x.last().strIndex(x[0].charAt(${x}))`).join(" + ");
-    return parseOpyMacro(`[${decompressionFormula} - ${offset} for x in [[e, ${escapeString(alphabet2, false)}] for e in $compressedString.split(null[0])]]`, ["$compressedString"], [compressedString]);
+    return parseOpyMacro(`[${decompressionFormula} - ${offset} for x in [e.concat(${escapeString(alphabet2, false)}) for e in $compressedString.split(null[0])]]`, ["$compressedString"], [compressedString]);
   } else {
     let decompressionFormulas = Array(3).fill(0).map((_, h) => {
       return Array(Math.ceil((maxDecimalPlace - minDecimalPlace) / 2)).fill(0).map((x, i) => i).map((x) => `
                     ${Math.pow(100, x + minDecimalPlace / 2)}*x.last().strIndex(x[0].charAt(${x + Math.ceil((maxDecimalPlace - minDecimalPlace) / 2) * h}))
                 `).join(" + ");
     });
-    return parseOpyMacro(`[vect(${decompressionFormulas[0]},${decompressionFormulas[2]},${decompressionFormulas[1]}) - vect(1,1,1)*${offset} for x in [[e, ${escapeString(alphabet2, false)}] for e in $compressedString.split(null[0])]]`, ["$compressedString"], [compressedString]);
+    return parseOpyMacro(`[vect(${decompressionFormulas[0]},${decompressionFormulas[2]},${decompressionFormulas[1]}) - vect(1,1,1)*${offset} for x in [e.concat(${escapeString(alphabet2, false)}) for e in $compressedString.split(null[0])]]`, ["$compressedString"], [compressedString]);
   }
 }
 astParsingFunctions.compressed = function(content) {
@@ -47032,6 +47167,18 @@ astParsingFunctions.floor = function(content) {
 astParsingFunctions.getClosestPlayer = function(content) {
   warn("w_closest_player", "The getClosestPlayer() function targets dead and unspawned players (at 0,0,0). Use getRealClosestPlayer() instead.");
   return content;
+};
+
+// src/compiler/functions/getCurrentMap.ts
+astParsingFunctions.getCurrentMap = function(content) {
+  if (content.parent?.name === "__equals__" && (content.parent.args[0].name === "__map__" || content.parent.args[1].name === "__map__")) {
+    return content;
+  }
+  if (usedMaps.has("colosseo") || usedMaps.has("esperanca") || usedMaps.has("samoa")) {
+    let buggedUsedMaps = ["colosseo", "esperanca", "samoa"].filter((m) => usedMaps.has(m));
+    return parseOpyMacro(`[${buggedUsedMaps.map((m) => "Map." + m.toUpperCase()).join(", ")}, __getCurrentMap__()].filter(lambda x: "{}".format(__getCurrentMap__()) == x.split([]))[0]`, [], []);
+  }
+  return new Ast2("__getCurrentMap__");
 };
 
 // src/compiler/functions/getFarthestPlayer.ts
@@ -47729,6 +47876,8 @@ function parseAstRules(rules) {
       rule.originalName = "__def__";
     } else if (rule.name in astMacros) {
       rulesResult.push(...parseAstRules(parseAstMacro(rule)));
+      continue;
+    } else if (rule.name === "pass") {
       continue;
     } else {
       error("Unexpected function '" + rule.name + "' outside a rule");
@@ -59935,7 +60084,9 @@ var valueFuncKw = (
         {
           "name": "index",
           "description": "The index of the character to be acquired (with 0 as the first character, 1 as the second character, etc.).",
-          "type": "unsigned int"
+          "type": "unsigned int",
+          "canReplace0ByFalse": true,
+          "canReplace1ByTrue": true
         }
       ],
       isConstant: true,
@@ -61560,7 +61711,7 @@ var valueFuncKw = (
       "th-TH": "Current Game Mode",
       "zh-TW": "Current Game Mode"
     },
-    "getCurrentMap": {
+    "__getCurrentMap__": {
       "guid": "00000000D418",
       "description": "The current map of the custom game.",
       "args": [],
@@ -65049,7 +65200,7 @@ function exportToPoFiles(translatedStrings2) {
     }
     error("Cannot do translations in browsers (fs not found)");
   }
-  translatedStrings2 = translatedStrings2.filter((x) => x.occurrences.length > 0 || keepUnusedTranslations).sort((a, b) => +(b.occurrences.length > 0) - +(a.occurrences.length > 0) || a.occurrences[0].localeCompare(b.occurrences[0]));
+  translatedStrings2 = translatedStrings2.filter((x) => x.occurrences.length > 0 || keepUnusedTranslations).sort((a, b) => +(b.occurrences.length > 0) - +(a.occurrences.length > 0) || (a.occurrences[0] ?? "zzzzz").localeCompare(b.occurrences[0] ?? "zzzzz"));
   for (let language of translationLanguages2.slice(1)) {
     let po = new import_pofile.default();
     po.headers = {
@@ -65313,7 +65464,7 @@ rule "Disable inspector":
   }
   if (DEBUG_MODE) {
     for (var elem of astRules) {
-      console.log(astToString2(elem));
+      console.log(astToString3(elem));
     }
     console.log(astRules);
   }
@@ -66930,6 +67081,9 @@ function parseMember(object, member) {
         if (astInfo.name === "__color__" && constantValues[astInfo.type][name]?.onlyInOverpy) {
           return new Ast2("rgb", [getAstForNumber(constantValues[astInfo.type][name].red ?? 0), getAstForNumber(constantValues[astInfo.type][name].green ?? 0), getAstForNumber(constantValues[astInfo.type][name].blue ?? 0), getAstForNumber(constantValues[astInfo.type][name].alpha ?? 255)]);
         }
+        if (astInfo.name === "__map__") {
+          usedMaps.add(name.toLowerCase());
+        }
         return new Ast2(astInfo.name, [new Ast2(name, [], [], astInfo.type)]);
       } else if (object[0].text === "Math") {
         if (name === "PI") {
@@ -67736,7 +67890,7 @@ function nthOfNumber(nb) {
     return nb + "th";
   }
 }
-function astToString2(ast, nbTabs2 = 0) {
+function astToString3(ast, nbTabs2 = 0) {
   var result = "";
   if (ast === void 0) {
     return "__undefined__";
@@ -67745,14 +67899,14 @@ function astToString2(ast, nbTabs2 = 0) {
   if (ast.args === void 0) {
     result += "(__undefined__)";
   } else if (ast.args.length > 0) {
-    result += "(" + ast.args.map((x) => astToString2(x)).join(", ") + ")";
+    result += "(" + ast.args.map((x) => astToString3(x)).join(", ") + ")";
   }
   if (ast.children === void 0) {
     result += ":__undefined__";
   } else if (ast.children.length > 0) {
     result += ":\n";
     for (var child of ast.children) {
-      result += tabLevel(nbTabs2 + 1) + astToString2(child, nbTabs2 + 1) + "\n";
+      result += tabLevel(nbTabs2 + 1) + astToString3(child, nbTabs2 + 1) + "\n";
     }
   }
   return result;
@@ -67896,6 +68050,7 @@ var Overwatch2Heroes = /* @__PURE__ */ ((Overwatch2Heroes3) => {
   Overwatch2Heroes3["reaper"] = "reaper";
   Overwatch2Heroes3["reinhardt"] = "reinhardt";
   Overwatch2Heroes3["roadhog"] = "roadhog";
+  Overwatch2Heroes3["sierra"] = "sierra";
   Overwatch2Heroes3["sigma"] = "sigma";
   Overwatch2Heroes3["sojourn"] = "sojourn";
   Overwatch2Heroes3["soldier76"] = "soldier";
@@ -68668,7 +68823,7 @@ Wrapping a string with \`___\` has the same caveats as putting a translated stri
     "return": "void"
   },
   "compress": {
-    "description": "Compresses the specified array of numbers or vectors into a string. Strings take much fewer elements, so use this function if you are running out of elements.\n\nNote that numbers will get rounded to 3 decimal places, and vectors to 2 decimal places.\n\nUse the `decompress()` function to get the original array back.",
+    "description": "Compresses the specified array of numbers or vectors into a string. Strings take much fewer elements, so use this function if you are running out of elements.\n\nNote that numbers will get rounded to 3 decimal places, and vectors to 2 decimal places.\n\nUse the `decompressNumbers()` or `decompressVectors()` function to get the original array back.",
     "args": [
       {
         "name": "array",
@@ -68679,7 +68834,7 @@ Wrapping a string with \`___\` has the same caveats as putting a translated stri
     return: "String"
   },
   "compressed": {
-    "description": "Compresses in-place the specified array of numbers or vectors into a string, then returns the decompressed array. Strings take much fewer elements, so use this function if you are running out of elements.\n\nNote that numbers will get rounded to 3 decimal places, and vectors to 2 decimal places.\n\nThis function is only effective once the array has at least 18 vectors or 26 numbers.\n\nFor some use cases, it might be more effective to use this function instead of `compress()` and `decompressNumbers()`/`decompressVectors()`, as it can apply optimizations if all numbers have a low amount of significant digits or if they are all positive.",
+    "description": "Compresses in-place the specified array of numbers or vectors into a string, then returns the decompressed array. Strings take much fewer elements, so use this function if you are running out of elements.\n\nNote that numbers will get rounded to 3 decimal places, and vectors to 2 decimal places.\n\nThis function is only effective once the array has at least 18 vectors or 26 numbers.\n\nThis function can be more effective than `compress()` and `decompressNumbers()` / `decompressVectors()`, as it can apply optimizations if all numbers have a low amount of significant digits or if they are all positive.",
     "args": [
       {
         "name": "array",
@@ -68817,6 +68972,12 @@ Wrapping a string with \`___\` has the same caveats as putting a translated stri
     ],
     class: "String",
     return: "String"
+  },
+  "getCurrentMap": {
+    "description": "The current map of the custom game.",
+    "args": [],
+    "isConstant": true,
+    "return": "Map"
   },
   ".getNormal": {
     "description": "The surface normal at the raycast hit position (or from end pos to start pos if no hit occurs).",
@@ -69198,6 +69359,7 @@ var activatedExtensions;
 var setActivatedExtensions = (extensions) => activatedExtensions = extensions;
 var availableExtensionPoints;
 var setAvailableExtensionPoints = (points) => availableExtensionPoints = points;
+var usedMaps = /* @__PURE__ */ new Set();
 var enableTagsSetup;
 var setEnableTagsSetup = (enable) => enableTagsSetup = enable;
 var translationLanguages2 = [];
@@ -69293,6 +69455,7 @@ function resetGlobalVariables(language) {
   disableInspector = false;
   keepUnusedTranslations = false;
   disableTranslationSourceLines = false;
+  usedMaps = /* @__PURE__ */ new Set();
   postCompileHook = null;
 }
 var operatorPrecedence = {
@@ -69682,12 +69845,16 @@ function computeCustomGameSettingsSchema() {
     } else {
       Object.assign(customGameSettingsSchema.gamemodes.values[gamemode].values, customGameSettingsSchema.gamemodes.values.general.values);
     }
+    if (gamemode.endsWith("BalancedOverwatch")) {
+      Object.assign(customGameSettingsSchema.gamemodes.values[gamemode].values, customGameSettingsSchema.gamemodes.values[gamemode.replace("BalancedOverwatch", "")].values);
+    }
   }
   delete customGameSettingsSchema.gamemodes.values.general.values.enabledMaps;
   delete customGameSettingsSchema.gamemodes.values.general.values.disabledMaps;
   for (var gamemode in customGameSettingsSchema.gamemodes.values) {
     Object.assign(customGameSettingsSchema.gamemodes.values.general.values, customGameSettingsSchema.gamemodes.values[gamemode].values);
   }
+  customGameSettingsSchema.gamemodes.values.general.values.scoreToWin = customGameSettingsSchema.gamemodes.values.ffa.values.scoreToWin;
   customGameSettingsSchema.heroes.values["general"] = { values: {} };
   customGameSettingsSchema.heroes.values["general"].values = Object.assign(
     {},
@@ -71103,7 +71270,7 @@ function decompileCustomGameSettings(content) {
             }
           }
         }
-        Object.assign(result[opyCategory][opyGamemode], decompileCustomGameSettingsDict(dict, customGameSettingsSchema[opyCategory].values[opyGamemode].values));
+        Object.assign(result[opyCategory][opyGamemode], decompileCustomGameSettingsDict(dict, customGameSettingsSchema[opyCategory].values[opyGamemode].values, { parent: gamemode }));
       }
     } else if (opyCategory === "heroes") {
       for (var team of Object.keys(serialized[category])) {
@@ -71133,6 +71300,7 @@ function decompileCustomGameSettings(content) {
               Object.assign(
                 result[opyCategory][opyTeam][opyHero],
                 decompileCustomGameSettingsDict(Object.keys(serialized[category][team][property]), heroValues, {
+                  parent: property,
                   invalidButAcceptedProperties: customGameSettingsSchema[opyCategory].values.general?.values ?? error("No general values for heroes")
                 })
               );

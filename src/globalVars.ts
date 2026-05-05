@@ -195,6 +195,10 @@ export const setActivatedExtensions = (extensions: string[]) => (activatedExtens
 export var availableExtensionPoints: number;
 export const setAvailableExtensionPoints = (points: number) => (availableExtensionPoints = points);
 
+//List of used maps for the getCurrentMap() fix, in lowercase
+export var usedMaps: Set<string> = new Set();
+export const addUsedMap = (map: string) => usedMaps.add(map.toLowerCase());
+
 //Bypass for <tx> and <fg>
 export var enableTagsSetup: boolean;
 export const setEnableTagsSetup = (enable: boolean) => (enableTagsSetup = enable);
@@ -327,6 +331,7 @@ export function resetGlobalVariables(language: OWLanguage) {
     disableInspector = false;
     keepUnusedTranslations = false;
     disableTranslationSourceLines = false;
+    usedMaps = new Set();
     postCompileHook = null;
 }
 
@@ -767,6 +772,9 @@ export function computeCustomGameSettingsSchema() {
         } else {
             Object.assign(customGameSettingsSchema.gamemodes.values[gamemode].values, customGameSettingsSchema.gamemodes.values.general.values);
         }
+        if (gamemode.endsWith("BalancedOverwatch")) {
+            Object.assign(customGameSettingsSchema.gamemodes.values[gamemode].values, customGameSettingsSchema.gamemodes.values[gamemode.replace("BalancedOverwatch", "")].values);
+        }
     }
     //Can't enable/disable maps in general
     delete customGameSettingsSchema.gamemodes.values.general.values.enabledMaps;
@@ -776,6 +784,7 @@ export function computeCustomGameSettingsSchema() {
     for (var gamemode in customGameSettingsSchema.gamemodes.values) {
         Object.assign(customGameSettingsSchema.gamemodes.values.general.values, customGameSettingsSchema.gamemodes.values[gamemode].values);
     }
+    customGameSettingsSchema.gamemodes.values.general.values.scoreToWin = customGameSettingsSchema.gamemodes.values.ffa.values.scoreToWin; //other gamemodes have a more restrictive "score to win" setting
 
     //Generate settings for heroes.general
     customGameSettingsSchema.heroes.values["general"] = {values: {}};

@@ -1249,7 +1249,7 @@ export const heroKw: Record<Overwatch2Heroes, HeroData> =
     "junkerQueen": {
         "secondaryFire": {
             "guid": "00000000D3A4",
-            "en-US": "Jagged Blade",
+            "en-US": "Jagged Blade Gracie",
             "de-DE": "Gezackte Klinge",
             "es-ES": "Cuchilla dentada",
             "es-MX": "Hoja dentada",
@@ -2387,6 +2387,26 @@ export const heroKw: Record<Overwatch2Heroes, HeroData> =
         "pt-BR": "Roadhog",
         "tr-TR": "Roadhog"
     },
+    "sierra": {
+        "secondaryFire": {
+            "en-US": "Tracking Shot",
+            "zh-CN": "追踪弹",
+        },
+        "ability1": {
+            "en-US": "Anchor Drone",
+            "zh-CN": "锚点无人机"
+        },
+        "ability2": {
+            "en-US": "Tremor Charge",
+            "zh-CN": "震地手雷"
+        },
+        "ultimate": {
+            "en-US": "Trailblazer",
+            "zh-CN": "开路先锋"
+        },
+        "en-US": "Sierra",
+        "zh-CN": "西拉"
+    },
     "sigma": {
         "guid": "000000009E9E",
         "secondaryFire": {
@@ -2479,22 +2499,7 @@ export const heroKw: Record<Overwatch2Heroes, HeroData> =
     },
     "sojourn": {
         "secondaryFire": {
-            "guid": "00000000796B",
-            "en-US": "Railgun Alt Fire",
-            "de-DE": "Railgun – Alternativer Feuermodus",
-            "es-ES": "Disparo secundario del cañón de riel",
-            "es-MX": "Disparo secundario de Cañón de riel",
-            "fr-FR": "Canon électrique : tir alternatif",
-            "it-IT": "Fuoco Alternativo Fucile a Rotaia",
-            "ja-JP": "レールガン - サブ攻撃",
-            "ko-KR": "레일건 보조 발사",
-            "pl-PL": "Alternatywny atak Karabinu Kinetycznego",
-            "pt-BR": "Canhão Elétrico - Disparo alternativo",
-            "ru-RU": "Дополнительный режим огня рельсотрона",
-            "th-TH": "อาวุธสำรองเรลกัน",
-            "tr-TR": "Raylı Tüfek Alternatif Ateşi",
-            "zh-CN": "充能射击",
-            "zh-TW": "磁軌槍次要攻擊"
+            "en-US": "Charged Shot",
         },
         "ability1": {
             "guid": "000000007964",
