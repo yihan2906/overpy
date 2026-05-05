@@ -810,7 +810,7 @@ rule ("init global variables") {
     }
     actions {
         Set Global Variable(hud_created, Empty Array);
-        Set Global Variable(cooldown_multiplier, 2.0);
+        Set Global Variable(cooldown_multiplier, 1.0);
         Set Global Variable(reroll_when_internal_death, Workshop Setting Toggle(Custom String("Ability setting"), Custom String("Ability change in case of intentional death"), False, 0));
         Set Global Variable(show_ability_on_the_name, Workshop Setting Toggle(Custom String("Ability setting"), Custom String("Show ability name on the player name"), False, 0));
         Set Global Variable(unlimited_game_time, Workshop Setting Toggle(Custom String("Game settings"), Custom String("Unlimited game time"), False, 0));
@@ -836,7 +836,7 @@ rule ("create hud texts") {
     }
     actions {
         Modify Global Variable(hud_created, Append To Array, Event Player);
-        Create HUD Text(Event Player, Null, Custom String("hold X to reset if stuck/perma stunned"), Null, Left, -1, Null, Color(Black), Null, Visible To and String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("hold {0} to reset if stuck/perma stunned", Input Binding String(Button(Reload))), Null, Left, -1, Null, Color(Black), Null, Visible To and String, Default Visibility);
         Create HUD Text(Event Player, Null, (Event Player).title, Null, Left, 5, Null, Color(Green), Null, Visible To and String, Default Visibility);
         Create HUD Text(Event Player, Null, String Replace(String Replace(String Replace(String Replace(String Replace(String Replace((Event Player).desc, Custom String("[INTERACT]"), Input Binding String(Button(Interact))), Custom String("[Interact]"), Input Binding String(Button(Interact))), Custom String("[interact]"), Input Binding String(Button(Interact))), Custom String("[RELOAD]"), Input Binding String(Button(Reload))), Custom String("[Reload]"), Input Binding String(Button(Reload))), Custom String("[reload]"), Input Binding String(Button(Reload))), Null, Left, 10, Null, Color(White), Null, Visible To and String, Default Visibility);
         Create HUD Text(Event Player, Null, Custom String("interact presses  {0}", (Event Player).interact_press_count), Null, Left, 15, Null, Color(Yellow), Null, Visible To and String, Default Visibility);
@@ -4143,7 +4143,7 @@ rule ("hold [reload] to self-reset") {
     }
     actions {
         Wait(1, Abort When False);
-        Big Message(Event Player, Custom String("Continue holding X to self-reset"));
+        Big Message(Event Player, Custom String("Continue holding {0} to self-reset", Input Binding String(Button(Reload))));
         If(Compare(Hero Of(Event Player), ==, Hero(D.Va)));
             Set Player Variable(Event Player, egg_position, Null);
             Set Player Variable(Event Player, targets, Null);

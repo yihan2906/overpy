@@ -796,7 +796,7 @@ def register_abilities3():
 
 rule "init global variables":
     hud_created = []
-    cooldown_multiplier = 2.0
+    cooldown_multiplier = 1.0
     reroll_when_internal_death = createWorkshopSettingBool("Ability setting", "Ability change in case of intentional death", false)
     show_ability_on_the_name = createWorkshopSettingBool("Ability setting", "Show ability name on the player name", false)
     unlimited_game_time = createWorkshopSettingBool("Game settings", "Unlimited game time", false)
@@ -814,7 +814,7 @@ rule "create hud texts":
     @Condition eventPlayer.isDummy() == false
     
     hud_created.append(eventPlayer)
-    hudSubheader(eventPlayer, "hold X to reset if stuck/perma stunned", HudPosition.LEFT, -1, Color.BLACK, HudReeval.VISIBILITY_AND_STRING)
+    hudSubheader(eventPlayer, "hold {0} to reset if stuck/perma stunned".format(inputBindingString(Button.RELOAD)), HudPosition.LEFT, -1, Color.BLACK, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(eventPlayer, eventPlayer.title, HudPosition.LEFT, 5, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(eventPlayer, formatKeyPrompts(eventPlayer.desc), HudPosition.LEFT, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(eventPlayer, "interact presses  {0}".format(eventPlayer.interact_press_count), HudPosition.LEFT, 15, Color.YELLOW, HudReeval.VISIBILITY_AND_STRING)
@@ -3128,7 +3128,7 @@ rule "hold [reload] to self-reset":
     @Condition eventPlayer.isAlive() == true
     
     wait(1, Wait.ABORT_WHEN_FALSE)
-    bigMessage(eventPlayer, "Continue holding X to self-reset")
+    bigMessage(eventPlayer, "Continue holding {0} to self-reset".format(inputBindingString(Button.RELOAD)))
     if eventPlayer.getHero() == Hero.DVA:
         eventPlayer.egg_position = null
         eventPlayer.targets = null
