@@ -1670,7 +1670,7 @@ rule "roll ability when player died":
     roll_ability()
 
 
-rule "DEBUG ONLY host force Laying Egg":
+rule "DEBUG ONLY host force Eye Contact":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.isDummy() == false
@@ -1678,9 +1678,9 @@ rule "DEBUG ONLY host force Laying Egg":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    eventPlayer.next_ability = abilityNames.index(LayingEgg)
+    eventPlayer.next_ability = abilityNames.index(EyeContact)
     roll_ability()
-    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Laying Egg")
+    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Eye Contact")
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or not eventPlayer.isHoldingButton(Button.RELOAD), 99999)
 
 
@@ -1741,6 +1741,36 @@ rule "[mind control] create progress bar":
     eventPlayer.progressbar_id = getLastCreatedText()
 
 
+rule "[eye contact] use":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == EyeContact
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == false
+    @Condition eventPlayer.cooldown_count <= 0
+    @Condition eventPlayer.isAlive() == true
+    
+    eventPlayer.targets = sorted([player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player != eventPlayer and player.isAlive() and player.hasSpawned() and isInLoS(eventPlayer.getEyePosition(), player.getEyePosition()) and angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) <= 45], key=lambda player: angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) * 1000 + distance(eventPlayer, player))
+    if len(eventPlayer.targets) == 0:
+        smallMessage(eventPlayer, "No enemy targeted")
+        return
+    eventPlayer.targets_22 = eventPlayer.targets[0]
+    eventPlayer.allies = getPlayers(eventPlayer.targets_22.getTeam()).filter(lambda player: player != eventPlayer.targets_22 and player != eventPlayer and player.isAlive() and player.hasSpawned())
+    if len(eventPlayer.allies) == 0:
+        smallMessage(eventPlayer, "Target has no living ally")
+        return
+    eventPlayer.target = random.choice(eventPlayer.allies)
+    eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
+    eventPlayer.targets_22.startFacing(directionTowards(eventPlayer.targets_22, eventPlayer.target), 500, Relativity.TO_WORLD, FacingReeval.DIRECTION_AND_TURN_RATE)
+    bigMessage(eventPlayer, "Eye Contact: {0} is looking at {1}".format(eventPlayer.targets_22, eventPlayer.target))
+    playEffect(eventPlayer, DynamicEffect.GOOD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.targets_22, 2)
+    playEffect(eventPlayer, DynamicEffect.BUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.targets_22, 80)
+    bigMessage(eventPlayer.targets_22, "Eye Contact from {0}: look at {1}".format(eventPlayer, eventPlayer.target))
+    playEffect(eventPlayer.targets_22, DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.target, 2)
+    playEffect(eventPlayer.targets_22, DynamicEffect.DEBUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.targets_22, 80)
+    wait(3)
+    eventPlayer.targets_22.stopFacing()
+
+
 rule "on use":
     @Event eachPlayer
     @Condition eventPlayer.ability != null
@@ -1749,6 +1779,7 @@ rule "on use":
     @Condition abilityNames[eventPlayer.ability] != LayingEgg
     @Condition abilityNames[eventPlayer.ability] != SleepWell
     @Condition abilityNames[eventPlayer.ability] != MindControl
+    @Condition abilityNames[eventPlayer.ability] != EyeContact
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true

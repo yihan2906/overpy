@@ -1780,7 +1780,7 @@ rule ("roll ability when player died") {
     }
 }
 
-rule ("DEBUG ONLY host force Laying Egg") {
+rule ("DEBUG ONLY host force Eye Contact") {
     event {
         Ongoing - Each Player;
         All;
@@ -1794,9 +1794,9 @@ rule ("DEBUG ONLY host force Laying Egg") {
         Is Button Held(Event Player, Button(Reload)) == True;
     }
     actions {
-        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.LayingEgg));
+        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.EyeContact));
         Call Subroutine(roll_ability);
-        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Laying Egg"));
+        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Eye Contact"));
         Wait Until(Not(And(Is Button Held(Event Player, Button(Interact)), Is Button Held(Event Player, Button(Reload)))), 99999);
     }
 }
@@ -1881,6 +1881,45 @@ rule ("[mind control] create progress bar") {
     }
 }
 
+rule ("[eye contact] use") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.EyeContact;
+        Is Button Held(Event Player, Button(Interact)) == True;
+        Is Button Held(Event Player, Button(Reload)) == False;
+        (Event Player).cooldown_count <= 0;
+        Is Alive(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, targets, Sorted Array(Filtered Array(All Players(Opposite Team Of(Team Of(Event Player))), And(And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Is In Line of Sight(Eye Position(Event Player), Eye Position(Current Array Element), Barriers Do Not Block LOS)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element))));
+        If(Compare(Count Of((Event Player).targets), ==, 0));
+            Small Message(Event Player, Custom String("No enemy targeted"));
+            Abort;
+        End;
+        Set Player Variable(Event Player, targets_22, First Of((Event Player).targets));
+        Set Player Variable(Event Player, allies, Filtered Array(All Players(Team Of((Event Player).targets_22)), And(And(And(Compare(Current Array Element, !=, (Event Player).targets_22), Compare(Current Array Element, !=, Event Player)), Is Alive(Current Array Element)), Has Spawned(Current Array Element))));
+        If(Compare(Count Of((Event Player).allies), ==, 0));
+            Small Message(Event Player, Custom String("Target has no living ally"));
+            Abort;
+        End;
+        Set Player Variable(Event Player, target, Random Value In Array((Event Player).allies));
+        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
+        Start Facing((Event Player).targets_22, Direction Towards((Event Player).targets_22, (Event Player).target), 500, To World, Direction and Turn Rate);
+        Big Message(Event Player, Custom String("Eye Contact: {0} is looking at {1}", (Event Player).targets_22, (Event Player).target));
+        Play Effect(Event Player, Good Pickup Effect, Color(Purple), (Event Player).targets_22, 2);
+        Play Effect(Event Player, Buff Impact Sound, Color(Purple), (Event Player).targets_22, 80);
+        Big Message((Event Player).targets_22, Custom String("Eye Contact from {0}: look at {1}", Event Player, (Event Player).target));
+        Play Effect((Event Player).targets_22, Bad Pickup Effect, Color(Purple), (Event Player).target, 2);
+        Play Effect((Event Player).targets_22, Debuff Impact Sound, Color(Purple), (Event Player).targets_22, 80);
+        Wait(3, Ignore Condition);
+        Stop Facing((Event Player).targets_22);
+    }
+}
+
 rule ("on use") {
     event {
         Ongoing - Each Player;
@@ -1894,6 +1933,7 @@ rule ("on use") {
         Value In Array(Global.abilityNames, (Event Player).ability) != Global.LayingEgg;
         Value In Array(Global.abilityNames, (Event Player).ability) != Global.SleepWell;
         Value In Array(Global.abilityNames, (Event Player).ability) != Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) != Global.EyeContact;
         Is Button Held(Event Player, Button(Interact)) == True;
         (Event Player).cooldown_count <= 0;
         Is Alive(Event Player) == True;
