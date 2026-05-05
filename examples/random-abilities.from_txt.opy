@@ -40,12 +40,10 @@ globalvar GoodNight 35
 globalvar JumpingTrap 36
 globalvar SleepyNinja 37
 globalvar ReallyBehindYou 38
-globalvar TalonIsBad 40
 globalvar Invisible 41
 globalvar OneShot 42
 globalvar RotatingTornado 43
 globalvar SponsoredReaction 44
-globalvar HealerEthernalFriend 45
 globalvar LackOfConcentration 46
 globalvar Telekinesis 48
 globalvar nukeBlastRadius 50
@@ -246,7 +244,7 @@ rule "Initial Global":
     SpinFloatUp = "Let's run in new shoes"
     Barrier = "Barrier of bondage"
     OneShotName = "One shot one kill"
-    SleepWell = "sleep well"
+    SleepWell = "Role Call"
     ItsTimeToSleep = "It's time to sleep"
     LayingEgg = "Laying eggs"
     UFO = "uh? UFO"
@@ -258,12 +256,10 @@ rule "Initial Global":
     JumpingTrap = "jumping trap"
     SleepyNinja = "Sleepy ninja"
     ReallyBehindYou = "Really behind you!!"
-    TalonIsBad = "Talon is bad"
     Invisible = "The Invisible Man"
     OneShot = "Everything in one shot"
     RotatingTornado = "Rotating tornado"
     SponsoredReaction = "Sponsored reaction"
-    HealerEthernalFriend = "Healers' eternal friend"
     LackOfConcentration = "Lack of concentration"
     Telekinesis = "Telekinesis"
     RandomScale = "scale randomizer"
@@ -468,8 +464,8 @@ def register_abilities1():
     _extendedGlobalCollection[18] = len(_classIndexes) if _extendedGlobalCollection[18] == -1 else _extendedGlobalCollection[18]
     _classIndexes[_extendedGlobalCollection[18]] = 20
     abilityNames[_extendedGlobalCollection[18]] = SleepWell
-    abilityDescriptions[_extendedGlobalCollection[18]] = "press [interact] to summon random enemy TANK and sleep them"
-    abilityCooldowns[_extendedGlobalCollection[18]] = 30
+    abilityDescriptions[_extendedGlobalCollection[18]] = "press [interact] to summon a random enemy Tank, DPS, or Support and disable them"
+    abilityCooldowns[_extendedGlobalCollection[18]] = 45
     abilityForcedHeroes[_extendedGlobalCollection[18]] = getAllPlayers()
     abilityOrder[_extendedGlobalCollection[18]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[18])
@@ -553,15 +549,6 @@ def register_abilities1():
     abilityCooldowns[_extendedGlobalCollection[28]] = 10
     abilityOrder[_extendedGlobalCollection[28]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[28])
-    _extendedGlobalCollection[30] = _classIndexes.index(0)
-    _extendedGlobalCollection[30] = len(_classIndexes) if _extendedGlobalCollection[30] == -1 else _extendedGlobalCollection[30]
-    _classIndexes[_extendedGlobalCollection[30]] = 32
-    abilityNames[_extendedGlobalCollection[30]] = TalonIsBad
-    abilityDescriptions[_extendedGlobalCollection[30]] = "press [Interact] to summom random enemy DPS and stun"
-    abilityCooldowns[_extendedGlobalCollection[30]] = 30
-    abilityForcedHeroes[_extendedGlobalCollection[30]] = getAllPlayers()
-    abilityOrder[_extendedGlobalCollection[30]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[30])
     _extendedGlobalCollection[31] = _classIndexes.index(0)
     _extendedGlobalCollection[31] = len(_classIndexes) if _extendedGlobalCollection[31] == -1 else _extendedGlobalCollection[31]
     _classIndexes[_extendedGlobalCollection[31]] = 33
@@ -594,15 +581,6 @@ def register_abilities1():
     abilityCooldowns[_extendedGlobalCollection[34]] = 5
     abilityOrder[_extendedGlobalCollection[34]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[34])
-    _extendedGlobalCollection[35] = _classIndexes.index(0)
-    _extendedGlobalCollection[35] = len(_classIndexes) if _extendedGlobalCollection[35] == -1 else _extendedGlobalCollection[35]
-    _classIndexes[_extendedGlobalCollection[35]] = 37
-    abilityNames[_extendedGlobalCollection[35]] = HealerEthernalFriend
-    abilityDescriptions[_extendedGlobalCollection[35]] = "press [interact] to summon enemy support and stun"
-    abilityCooldowns[_extendedGlobalCollection[35]] = 30
-    abilityForcedHeroes[_extendedGlobalCollection[35]] = getAllPlayers()
-    abilityOrder[_extendedGlobalCollection[35]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[35])
 
 
 def register_abilities2():
@@ -1690,7 +1668,7 @@ rule "roll ability when player died":
     roll_ability()
 
 
-rule "DEBUG ONLY host force Laying Egg":
+rule "DEBUG ONLY host force Role Call":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.isDummy() == false
@@ -1698,10 +1676,33 @@ rule "DEBUG ONLY host force Laying Egg":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    eventPlayer.next_ability = abilityNames.index(LayingEgg)
+    eventPlayer.next_ability = abilityNames.index(SleepWell)
     roll_ability()
-    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Laying Egg")
+    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Role Call")
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or not eventPlayer.isHoldingButton(Button.RELOAD), 99999)
+
+
+rule "[role call] use":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == SleepWell
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == false
+    @Condition eventPlayer.cooldown_count <= 0
+    @Condition eventPlayer.isAlive() == true
+
+    __abortIf__(eventPlayer.isInSpawnRoom())
+    eventPlayer.targets_7 = getLivingPlayers(getOppositeTeam(eventPlayer.getTeam()))
+    __abortIf__(len(eventPlayer.targets_7) == 0)
+    eventPlayer.target_0 = random.choice(eventPlayer.targets_7)
+    eventPlayer.target_0.teleport(worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION_AND_TRANSLATION))
+    if eventPlayer.target_0.getHero() in targetHeros:
+        eventPlayer.target_0.setStatusEffect(eventPlayer, Status.ASLEEP, 5)
+        eventPlayer.target_0.setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, 5)
+        bigMessage(eventPlayer.target_0, "{0}{1}".format(eventPlayer, ": Oh, good night"))
+    else:
+        eventPlayer.target_0.setStatusEffect(eventPlayer, Status.STUNNED, 4)
+        bigMessage(eventPlayer.target_0, "{0} : Role call".format(eventPlayer))
+    eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
 
 
 rule "[mind control] use":
@@ -1733,6 +1734,7 @@ rule "on use":
     @Condition abilityNames[eventPlayer.ability] != LifeSaver
     @Condition abilityNames[eventPlayer.ability] != SponsoredReaction
     @Condition abilityNames[eventPlayer.ability] != LayingEgg
+    @Condition abilityNames[eventPlayer.ability] != SleepWell
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true
