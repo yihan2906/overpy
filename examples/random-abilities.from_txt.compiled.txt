@@ -18,7 +18,6 @@ variables {
         16: NoClip
         17: UniqueExisance
         18: Repay
-        19: Float
         20: IAmSpeed
         21: Stop
         22: WaterGhost
@@ -65,7 +64,6 @@ variables {
         65: EyeContact
         66: MindControl
         67: Lag
-        68: DancingGhost
         69: StolenSoul
         70: MisClick
         71: targetHeros
@@ -226,7 +224,6 @@ rule ("Initial Global") {
         Set Global Variable(NoClip, Custom String("no-clip"));
         Set Global Variable(UniqueExisance, Custom String("A unique existence"));
         Set Global Variable(Repay, Custom String("Repay"));
-        Set Global Variable(Float, Custom String("Fluttering"));
         Set Global Variable(IAmSpeed, Custom String("i am speed!"));
         Set Global Variable(Stop, Custom String("Stop! yap!"));
         Set Global Variable(WaterGhost, Custom String("Water ghost"));
@@ -271,7 +268,6 @@ rule ("Initial Global") {
         Set Global Variable(EyeContact, Custom String("Eye Contact"));
         Set Global Variable(MindControl, Custom String("Mind Control"));
         Set Global Variable(Lag, Custom String("lag"));
-        Set Global Variable(DancingGhost, Custom String("Dancing Ghost"));
         Set Global Variable(MisClick, Custom String("MisClick"));
         Set Global Variable(Helicopter, Custom String("Helicopter"));
         Set Global Variable(targetHeros, All Tank Heroes);
@@ -437,14 +433,6 @@ rule ("register abilities1") {
         Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 9), Custom String("Reflects 70% of the damage taken to enemies."));
         Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 9), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 9));
-        Set Global Variable At Index(_extendedGlobalCollection, 10, Index Of Array Value(Global._classIndexes, 0));
-        Set Global Variable At Index(_extendedGlobalCollection, 10, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 10), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 10)));
-        Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 10), 12);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 10), Global.Float);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 10), Custom String("press [interact] to make the enemy you are looking at float"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 10), 8);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 10), Add(Count Of(Global.abilities), 1));
-        Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 10));
         Set Global Variable At Index(_extendedGlobalCollection, 11, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 11, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 11), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 11)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 11), 13);
@@ -782,13 +770,6 @@ rule ("register abilities3") {
         Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 55), 10);
         Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 55), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 55));
-        Set Global Variable At Index(_extendedGlobalCollection, 56, Index Of Array Value(Global._classIndexes, 0));
-        Set Global Variable At Index(_extendedGlobalCollection, 56, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 56), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 56)));
-        Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 56), 58);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 56), Global.DancingGhost);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 56), Custom String("You are invisible while emoting"));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 56), Add(Count Of(Global.abilities), 1));
-        Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 56));
         Set Global Variable At Index(_extendedGlobalCollection, 58, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 58, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 58), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 58)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 58), 60);
@@ -2863,24 +2844,6 @@ rule ("[repay] on damage taken") {
     }
 }
 
-rule ("[float] float") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).is_floating == True;
-    }
-    actions {
-        Set Gravity(Event Player, 10);
-        Apply Impulse(Event Player, Up, 5, To Player, Cancel Contrary Motion);
-        Wait(5, Ignore Condition);
-        Set Gravity(Event Player, 100);
-        Set Player Variable(Event Player, is_floating, False);
-    }
-}
-
 rule ("[i am speed] increase speed") {
     event {
         Ongoing - Each Player;
@@ -3824,37 +3787,6 @@ rule ("[mind control] in air") {
     }
     actions {
         Set Status((Event Player).target, Event Player, Stunned, 0.01);
-    }
-}
-
-rule ("[dancing ghost] on start") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.DancingGhost;
-        Is Communicating Any Emote(Event Player) == True;
-    }
-    actions {
-        Set Invisible(Event Player, All);
-    }
-}
-
-rule ("[dancing ghost] on end") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.DancingGhost;
-        Is Communicating Any(Event Player) == False;
-    }
-    actions {
-        Wait(0.25, Abort When False);
-        Set Invisible(Event Player, None);
     }
 }
 

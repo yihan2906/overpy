@@ -23,7 +23,6 @@ globalvar CantMove 15
 globalvar NoClip 16
 globalvar UniqueExisance 17
 globalvar Repay 18
-globalvar Float 19
 globalvar IAmSpeed 20
 globalvar Stop 21
 globalvar WaterGhost 22
@@ -70,7 +69,6 @@ globalvar StrongGravity 64
 globalvar EyeContact 65
 globalvar MindControl 66
 globalvar Lag 67
-globalvar DancingGhost 68
 globalvar StolenSoul 69
 globalvar MisClick 70
 globalvar targetHeros 71
@@ -254,7 +252,6 @@ rule "Initial Global":
     NoClip = "no-clip"
     UniqueExisance = "A unique existence"
     Repay = "Repay"
-    Float = "Fluttering"
     IAmSpeed = "i am speed!"
     Stop = "Stop! yap!"
     WaterGhost = "Water ghost"
@@ -299,7 +296,6 @@ rule "Initial Global":
     EyeContact = "Eye Contact"
     MindControl = "Mind Control"
     Lag = "lag"
-    DancingGhost = "Dancing Ghost"
     MisClick = "MisClick"
     Helicopter = "Helicopter"
     targetHeros = getTankHeroes()
@@ -436,14 +432,6 @@ def register_abilities1():
     _objectVariable_1[_extendedGlobalCollection[9]] = "Reflects 70% of the damage taken to enemies."
     _objectVariable_3[_extendedGlobalCollection[9]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[9])
-    _extendedGlobalCollection[10] = _classIndexes.index(0)
-    _extendedGlobalCollection[10] = len(_classIndexes) if _extendedGlobalCollection[10] == -1 else _extendedGlobalCollection[10]
-    _classIndexes[_extendedGlobalCollection[10]] = 12
-    _objectVariable_0[_extendedGlobalCollection[10]] = Float
-    _objectVariable_1[_extendedGlobalCollection[10]] = "press [interact] to make the enemy you are looking at float"
-    _objectVariable_2[_extendedGlobalCollection[10]] = 8
-    _objectVariable_3[_extendedGlobalCollection[10]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[10])
     _extendedGlobalCollection[11] = _classIndexes.index(0)
     _extendedGlobalCollection[11] = len(_classIndexes) if _extendedGlobalCollection[11] == -1 else _extendedGlobalCollection[11]
     _classIndexes[_extendedGlobalCollection[11]] = 13
@@ -773,13 +761,6 @@ def register_abilities3():
     _objectVariable_2[_extendedGlobalCollection[55]] = 10
     _objectVariable_3[_extendedGlobalCollection[55]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[55])
-    _extendedGlobalCollection[56] = _classIndexes.index(0)
-    _extendedGlobalCollection[56] = len(_classIndexes) if _extendedGlobalCollection[56] == -1 else _extendedGlobalCollection[56]
-    _classIndexes[_extendedGlobalCollection[56]] = 58
-    _objectVariable_0[_extendedGlobalCollection[56]] = DancingGhost
-    _objectVariable_1[_extendedGlobalCollection[56]] = "You are invisible while emoting"
-    _objectVariable_3[_extendedGlobalCollection[56]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[56])
     _extendedGlobalCollection[58] = _classIndexes.index(0)
     _extendedGlobalCollection[58] = len(_classIndexes) if _extendedGlobalCollection[58] == -1 else _extendedGlobalCollection[58]
     _classIndexes[_extendedGlobalCollection[58]] = 60
@@ -2324,17 +2305,6 @@ rule "[repay] on damage taken":
     damage(attacker, eventPlayer, eventDamage * 0.7)
 
 
-rule "[float] float":
-    @Event eachPlayer
-    @Condition eventPlayer.is_floating == true
-    
-    eventPlayer.setGravity(10)
-    eventPlayer.applyImpulse(Vector.UP, 5, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION)
-    wait(5)
-    eventPlayer.setGravity(100)
-    eventPlayer.is_floating = false
-
-
 rule "[i am speed] increase speed":
     @Event eachPlayer
     @Condition _objectVariable_0[eventPlayer.ability] == IAmSpeed
@@ -2929,23 +2899,6 @@ rule "[mind control] in air":
     @Condition eventPlayer.target.isInAir() == true
     
     eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.01)
-
-
-rule "[dancing ghost] on start":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == DancingGhost
-    @Condition eventPlayer.isCommunicatingEmote() == true
-    
-    eventPlayer.setInvisibility(Invis.ALL)
-
-
-rule "[dancing ghost] on end":
-    @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == DancingGhost
-    @Condition eventPlayer.isCommunicatingAnything() == false
-    
-    wait(0.25, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.setInvisibility(Invis.NONE)
 
 
 rule "[taxi] attach system":
@@ -3553,4 +3506,3 @@ rule "[katrina]":
     eventPlayer.setUltCharge(100)
     wait(0.1)
     eventPlayer.forceButtonPress(Button.ULTIMATE)
-
