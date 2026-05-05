@@ -955,67 +955,86 @@ rule ("clear ability") {
             Stop Modifying Hero Voice Lines(Event Player);
             Skip(Value In Array(Array(230, 0, 3, 6, 9, 12, 15, 19, 22, 25, 29, 32, 35, 38, 43, 46, 49, 52, 55, 60, 64, 67, 70, 74, 77, 80, 83, 86, 89, 94, 97, 100, 104, 107, 111, 114, 117, 120, 123, 128, 131, 134, 144, 154, 160, 166, 169, 172, 175, 179, 182, 188, 194, 198, 204, 208, 211, 219, 222, 226, 229), Add(Index Of Array Value(Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
             Set Global Variable(returnValue_onEnd, False);
+            Skip(240);
+            Skip(239);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(237);
+            Skip(236);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(234);
+            Skip(233);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(231);
+            Skip(230);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(228);
+            Skip(227);
+            Set Player Variable(Event Player, should_reroll, False);
+            Set Global Variable(returnValue_onEnd, True);
+            Skip(224);
+            Skip(223);
+            Set Global Variable(returnValue_onEnd, False);
             Skip(221);
             Skip(220);
             Set Global Variable(returnValue_onEnd, False);
             Skip(218);
             Skip(217);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(215);
-            Skip(214);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(212);
-            Skip(211);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(209);
-            Skip(208);
-            Set Player Variable(Event Player, should_reroll, False);
-            Set Global Variable(returnValue_onEnd, True);
-            Skip(205);
-            Skip(204);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(202);
-            Skip(201);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(199);
-            Skip(198);
             Enable Movement Collision With Environment(Event Player);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(195);
-            Skip(194);
+            Skip(214);
+            Skip(213);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(192);
-            Skip(191);
+            Skip(211);
+            Skip(210);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(189);
-            Skip(188);
+            Skip(208);
+            Skip(207);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(186);
-            Skip(185);
+            Skip(205);
+            Skip(204);
             Set Damage Dealt(Event Player, 100);
             Set Move Speed(Event Player, 100);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(181);
-            Skip(180);
+            Skip(200);
+            Skip(199);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(178);
-            Skip(177);
+            Skip(197);
+            Skip(196);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(175);
-            Skip(174);
+            Skip(194);
+            Skip(193);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(172);
-            Skip(171);
+            Skip(191);
+            Skip(190);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(169);
-            Skip(168);
+            Skip(188);
+            Skip(187);
             Set Player Variable(Event Player, is_showing_barieer, False);
             Set Player Variable(Event Player, barieer_position, Null);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(164);
-            Skip(163);
+            Skip(183);
+            Skip(182);
             Set Ability 2 Enabled(Event Player, True);
             Set Global Variable(returnValue_onEnd, True);
+            Skip(179);
+            Skip(178);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(176);
+            Skip(175);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(173);
+            Skip(172);
+            Clear Status(Event Player, Unkillable);
+            Set Global Variable(returnValue_onEnd, True);
+            Skip(169);
+            Skip(168);
+            Set Global Variable(returnValue_onEnd, False);
+            Skip(166);
+            Skip(165);
+            Set Global Variable(returnValue_onEnd, True);
+            Skip(163);
+            Skip(162);
+            Set Global Variable(returnValue_onEnd, False);
             Skip(160);
             Skip(159);
             Set Global Variable(returnValue_onEnd, False);
@@ -1024,73 +1043,54 @@ rule ("clear ability") {
             Set Global Variable(returnValue_onEnd, False);
             Skip(154);
             Skip(153);
-            Clear Status(Event Player, Unkillable);
-            Set Global Variable(returnValue_onEnd, True);
-            Skip(150);
-            Skip(149);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(147);
-            Skip(146);
-            Set Global Variable(returnValue_onEnd, True);
-            Skip(144);
-            Skip(143);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(141);
-            Skip(140);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(138);
-            Skip(137);
-            Set Global Variable(returnValue_onEnd, False);
-            Skip(135);
-            Skip(134);
             Set Player Variable(Event Player, trap_size, 0);
             Set Player Variable(Event Player, trap_pos, Null);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(130);
-            Skip(129);
+            Skip(149);
+            Skip(148);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(127);
-            Skip(126);
+            Skip(146);
+            Skip(145);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(124);
-            Skip(123);
+            Skip(143);
+            Skip(142);
             Set Damage Dealt(Event Player, 100);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(120);
-            Skip(119);
+            Skip(139);
+            Skip(138);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(117);
-            Skip(116);
+            Skip(136);
+            Skip(135);
             Set Invisible(Event Player, None);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(113);
-            Skip(112);
+            Skip(132);
+            Skip(131);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(110);
-            Skip(109);
+            Skip(129);
+            Skip(128);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(107);
-            Skip(106);
+            Skip(126);
+            Skip(125);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(104);
-            Skip(103);
+            Skip(123);
+            Skip(122);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(101);
-            Skip(100);
+            Skip(120);
+            Skip(119);
             Set Secondary Fire Enabled(Event Player, True);
             Set Ability 2 Enabled(Event Player, True);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(96);
-            Skip(95);
+            Skip(115);
+            Skip(114);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(93);
-            Skip(92);
+            Skip(112);
+            Skip(111);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(90);
-            Skip(89);
+            Skip(109);
+            Skip(108);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(87);
-            Skip(86);
+            Skip(106);
+            Skip(105);
             Set Player Variable(Event Player, max_health, 100);
             Set Player Variable(Event Player, damage_dealt, 100);
             Set Player Variable(Event Player, movement_speed, 100);
@@ -1099,67 +1099,86 @@ rule ("clear ability") {
             Set Healing Dealt(Event Player, 100);
             Set Move Speed(Event Player, 100);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(77);
-            Skip(76);
+            Skip(96);
+            Skip(95);
             Set Player Variable(Event Player, power, 0);
             Set Player Variable(Event Player, is_floating, False);
             Clear Status(Event Player, Hacked);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(71);
-            Skip(70);
+            Skip(90);
+            Skip(89);
             Set Player Variable(Event Player, show_icons, Empty Array);
             Set Healing Dealt(Event Player, 100);
             Stop Forcing Player Outlines(Event Player, All Players(Opposite Team Of(Team Of(Event Player))));
             Set Global Variable(returnValue_onEnd, True);
-            Skip(65);
-            Skip(64);
+            Skip(84);
+            Skip(83);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(62);
-            Skip(61);
+            Skip(81);
+            Skip(80);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(59);
-            Skip(58);
+            Skip(78);
+            Skip(77);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(56);
-            Skip(55);
+            Skip(75);
+            Skip(74);
             Set Player Variable((Event Player).targets, high_sens_remains, 0);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(52);
-            Skip(51);
+            Skip(71);
+            Skip(70);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(49);
-            Skip(48);
+            Skip(68);
+            Skip(67);
             Set Primary Fire Enabled(Event Player, True);
             Set Secondary Fire Enabled(Event Player, True);
             Set Knockback Dealt(Event Player, 100);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(43);
-            Skip(42);
+            Skip(62);
+            Skip(61);
             Destroy Dummy Bot(Team Of((Event Player).decoy), Slot Of((Event Player).decoy));
             Set Player Variable(Event Player, decoy, Null);
             Set Player Variable(Event Player, control_decoy, False);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(37);
-            Skip(36);
+            Skip(56);
+            Skip(55);
             Set Player Variable((Event Player).targets, high_speed_remains, 0);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(33);
-            Skip(32);
+            Skip(52);
+            Skip(51);
             Set Player Variable(Event Player, target, False);
             Set Player Variable((Event Player).target, rider, Null);
             Detach Players(Event Player);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(27);
-            Skip(26);
+            Skip(46);
+            Skip(45);
             Set Player Variable((Event Player).targets, strong_gravity_remains, 0);
             Set Global Variable(returnValue_onEnd, True);
-            Skip(23);
-            Skip(22);
+            Skip(42);
+            Skip(41);
             Set Global Variable(returnValue_onEnd, False);
-            Skip(20);
-            Skip(19);
+            Skip(39);
+            Skip(38);
             Destroy Progress Bar HUD Text((Event Player).progressbar_id);
-            Stop Throttle In Direction((Event Player).target);
+            If(Compare((Event Player).target, !=, Null));
+                Stop Facing((Event Player).target);
+                Stop Throttle In Direction((Event Player).target);
+                Stop Holding Button((Event Player).target, Button(Primary Fire));
+                Stop Holding Button((Event Player).target, Button(Secondary Fire));
+                Stop Holding Button((Event Player).target, Button(Ability 1));
+                Stop Holding Button((Event Player).target, Button(Ability 2));
+                Stop Holding Button((Event Player).target, Button(Ultimate));
+                Stop Holding Button((Event Player).target, Button(Crouch));
+                Stop Holding Button((Event Player).target, Button(Jump));
+                Stop Holding Button((Event Player).target, Button(Melee));
+                Allow Button((Event Player).target, Button(Primary Fire));
+                Allow Button((Event Player).target, Button(Secondary Fire));
+                Allow Button((Event Player).target, Button(Ability 1));
+                Allow Button((Event Player).target, Button(Ability 2));
+                Allow Button((Event Player).target, Button(Ultimate));
+                Allow Button((Event Player).target, Button(Jump));
+                Allow Button((Event Player).target, Button(Crouch));
+                Allow Button((Event Player).target, Button(Melee));
+            End;
             Set Move Speed(Event Player, (Event Player).movement_speed);
             Set Player Variable(Event Player, controlling, Null);
             Set Player Variable(Event Player, progressbar_id, Null);
@@ -1428,7 +1447,7 @@ rule ("roll ability") {
         Set Player Variable(Event Player, egg_position, Null);
         Set Player Variable(Event Player, show_text, Null);
         Set Player Variable(Event Player, allies, Null);
-        Create HUD Text((Event Player).show_text, Custom String("{0} {1}", String("None"), String("Die")), Null, Null, Left, 100, Color(Green), Null, Null, Visible To and String, Default Visibility);
+        Create HUD Text((Event Player).show_text, Custom String("Egg active - protect it"), Null, Null, Left, 100, Color(Green), Null, Null, Visible To and String, Default Visibility);
         Modify Player Variable(Event Player, text_ids, Append To Array, Last Text ID);
         Create Effect((Event Player).allies, Sphere, Color(Blue), (Event Player).egg_position, 0.5, Visible To Position and Radius);
         Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
@@ -1792,19 +1811,19 @@ rule ("on use") {
     actions {
         Skip(Value In Array(Array(299, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 14, 22, 37, 47, 58, 64, 70, 76, 82, 91, 100, 105, 114, 119, 125, 129, 136, 144, 150, 160, 168, 174, 185, 192, 198, 209, 215, 220, 235, 240, 260, 265, 276, 284, 288, 291), Add(Index Of Array Value(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
         Abort;
-        Skip(306);
+        Skip(314);
         Abort If(Compare((Event Player).rock_scissors_paper_players, !=, Null));
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Abort If(Compare(((Event Player).target).rock_scissors_paper_players, !=, Null));
         Set Player Variable(Event Player, rock_siccors_paper_status, 0);
         Set Player Variable(Event Player, rock_scissors_paper_players, Array(Event Player, (Event Player).target));
-        Skip(299);
+        Skip(307);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : are you tickling?", Event Player));
-        Skip(294);
+        Skip(302);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Team Of(Event Player), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Abort If(Is Using Ultimate((Event Player).target));
@@ -1812,7 +1831,7 @@ rule ("on use") {
         Play Effect(All Players(All Teams), Buff Explosion Sound, Color(Blue), Event Player, 100);
         Set Ultimate Charge((Event Player).target, 100);
         Press Button((Event Player).target, Button(Ultimate));
-        Skip(286);
+        Skip(294);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, original_position, Position Of(Event Player));
@@ -1827,7 +1846,7 @@ rule ("on use") {
         Wait(0.2, Ignore Condition);
         Teleport(Event Player, (Event Player).original_position);
         Set Facing(Event Player, (Event Player).original_direction, To World);
-        Skip(271);
+        Skip(279);
         If(Not((Event Player).is_no_clip));
             Disable Movement Collision With Environment(Event Player, False);
             Set Player Variable(Event Player, is_no_clip, True);
@@ -1837,7 +1856,7 @@ rule ("on use") {
             Set Player Variable(Event Player, is_no_clip, False);
             Small Message(Event Player, Custom String("Disabled no-clip"));
         End;
-        Skip(261);
+        Skip(269);
         If(Array Contains(Global.targetHeros, Hero Of(Event Player)));
             Set Player Variable(Event Player, targets_3, Filtered Array(All Players(All Teams), Array Contains(Global.targetHeros, Hero Of(Current Array Element))));
         Else If(Array Contains(Global.targetHeros_0, Hero Of(Event Player)));
@@ -1848,31 +1867,31 @@ rule ("on use") {
         Abort If(Compare(Count Of((Event Player).targets_3), ==, 0));
         Kill((Event Player).targets_3, Event Player);
         Big Message((Event Player).targets_3, Custom String("{0}: Only me is enough!", Event Player));
-        Skip(250);
+        Skip(258);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}: Fluffy fluff", Event Player));
         Set Player Variable((Event Player).target, is_floating, True);
-        Skip(244);
+        Skip(252);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Status((Event Player).target, Event Player, Rooted, 5);
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}: Stop Yay!", Event Player));
-        Skip(238);
+        Skip(246);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}has presented you with a new god.", Event Player));
         Set Player Variable((Event Player).target, is_spin_floating, Event Player);
-        Skip(232);
+        Skip(240);
         Abort If((Event Player).is_showing_barieer);
         Set Player Variable(Event Player, barieer_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 1000)), All Players(All Teams), Event Player, True));
         Play Effect(All Players(All Teams), Bad Pickup Effect, Color(Sky Blue), (Event Player).barieer_position, 15);
         Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Sky Blue), (Event Player).barieer_position, 50);
         Set Player Variable(Event Player, targets, All Players(All Teams));
-        Skip(226);
+        Skip(234);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_7, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(Global.targetHeros, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_7), ==, 0));
@@ -1881,7 +1900,7 @@ rule ("on use") {
         Set Status((Event Player).target_0, Event Player, Asleep, 5);
         Set Status((Event Player).target_0, Event Player, Knocked Down, 5);
         Big Message((Event Player).target_0, Custom String("{0}: Oh, good night", Event Player));
-        Skip(217);
+        Skip(225);
         Abort If(Or(Not(Is On Ground(Event Player)), Is In Spawn Room(Event Player)));
         Set Player Variable(Event Player, egg_position, Position Of(Event Player));
         Set Player Variable(Event Player, targets, All Players(Opposite Team Of(Team Of(Event Player))));
@@ -1890,12 +1909,12 @@ rule ("on use") {
         Play Effect(All Players(All Teams), Bad Pickup Effect, Color(Green), Event Player, 0.5);
         Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Green), Event Player, 100);
         Set Status(Event Player, Null, Unkillable, 9999);
-        Skip(208);
+        Skip(216);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Facing((Event Player).target, Backward, To Player);
         Big Message((Event Player).target, Custom String("{0} : Huh? behind you! haha", Event Player));
-        Skip(203);
+        Skip(211);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, tmp, Eye Position(Event Player));
@@ -1904,29 +1923,29 @@ rule ("on use") {
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Play Effect(All Living Players(All Teams), Good Pickup Effect, Color(Yellow), Event Player, 3);
         Small Message((Event Player).target, Custom String("Change location!"));
-        Skip(194);
+        Skip(202);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Teleport((Event Player).target, World Vector Of(Forward, Event Player, Rotation And Translation));
         Big Message((Event Player).target, Custom String("{0} : come here", Event Player));
-        Skip(189);
+        Skip(197);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Status((Event Player).target, Event Player, Asleep, 4);
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : Good night hehe", Event Player));
-        Skip(183);
+        Skip(191);
         Abort If(Not(Is On Ground(Event Player)));
         Set Player Variable(Event Player, trap_pos, World Vector Of(Vector(Empty Array, -0.2, 1.5), Event Player, Rotation And Translation));
         Set Player Variable(Event Player, trap_size, 1);
-        Skip(179);
+        Skip(187);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Teleport(Event Player, World Vector Of(Backward, (Event Player).target, Rotation And Translation));
         Set Facing(Event Player, Local Vector Of(Position Of((Event Player).target), Event Player, Rotation And Translation), To Player);
         Set Status((Event Player).target, Event Player, Stunned, 1.5);
         Big Message((Event Player).target, Custom String("{0} : really behind you", Event Player));
-        Skip(172);
+        Skip(180);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_13, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(Global.targetHeros_0, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_13), ==, 0));
@@ -1934,13 +1953,13 @@ rule ("on use") {
         Teleport((Event Player).target_1, World Vector Of(Forward, Event Player, Rotation And Translation));
         Set Status((Event Player).target_1, Event Player, Stunned, 4);
         Big Message((Event Player).target_1, Custom String("{0} : Talon is bad", Event Player));
-        Skip(164);
+        Skip(172);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : Rotating tornado!", Event Player));
         Set Player Variable((Event Player).target, is_rotating, True);
-        Skip(158);
+        Skip(166);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Abort If(Is In Air((Event Player).target));
@@ -1950,7 +1969,7 @@ rule ("on use") {
         Communicate((Event Player).target, Emote Up);
         Big Message((Event Player).target, Custom String("$45 sponsorship by {0}!", Event Player));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
-        Skip(148);
+        Skip(156);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_16, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(All Support Heroes, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_16), ==, 0));
@@ -1958,13 +1977,13 @@ rule ("on use") {
         Teleport((Event Player).target_2, World Vector Of(Forward, Event Player, Rotation And Translation));
         Set Status((Event Player).target_2, Event Player, Stunned, 4);
         Big Message((Event Player).target_2, Custom String("Have fun!"));
-        Skip(140);
+        Skip(148);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Status((Event Player).target, Event Player, Asleep, 5);
         Set Status((Event Player).target, Null, Phased Out, 5);
         Big Message((Event Player).target, Custom String("{0} : Telekinesis", Event Player));
-        Skip(134);
+        Skip(142);
         Set Player Variable(Event Player, max_health, Random Integer(20, 225));
         Set Player Variable(Event Player, damage_dealt, Random Integer(20, 225));
         Set Player Variable(Event Player, movement_speed, Random Integer(20, 225));
@@ -1975,20 +1994,20 @@ rule ("on use") {
         Set Move Speed(Event Player, (Event Player).movement_speed);
         Wait(0.1, Ignore Condition);
         Heal(Event Player, Null, 10000);
-        Skip(123);
+        Skip(131);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, All Teams, Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, random_size, Divide(Random Integer(10, 260), 100));
         Start Scaling Player((Event Player).target, (Event Player).random_size, False);
         Start Modifying Hero Voice Lines((Event Player).target, Divide(1, (Event Player).random_size), False);
         Small Message(Event Player, (Event Player).random_size);
-        Skip(116);
+        Skip(124);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Press Button((Event Player).target, Button(Primary Fire));
         Wait(0.1, Ignore Condition);
         Press Button((Event Player).target, Button(Reload));
-        Skip(110);
+        Skip(118);
         Set Player Variable(Event Player, targets, Filtered Array(All Living Players(Team Of(Event Player)), And(And(And(Compare(Current Array Element, !=, Event Player), Has Spawned(Current Array Element)), Compare(Distance Between(Event Player, Current Array Element), <=, 100)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))));
         Abort If(Compare(Count Of((Event Player).targets), ==, 0));
         Set Player Variable(Event Player, target_3, First Of(Sorted Array((Event Player).targets, Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))))));
@@ -1999,18 +2018,18 @@ rule ("on use") {
         Set Ability Cooldown(Event Player, Button(Ability 2), 0);
         Press Button(Event Player, Button(Ability 2));
         Set Ability Cooldown(Event Player, Button(Ability 2), 9);
-        Skip(99);
+        Skip(107);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable((Event Player).target, high_sens_remains, 6);
         Set Player Variable((Event Player).target, high_sens_speed, Random Value In Array(Array(10, 2000)));
         Set Aim Speed((Event Player).target, ((Event Player).target).high_sens_speed);
-        Skip(93);
+        Skip(101);
         Abort If(Or(Not(Is On Ground(Event Player)), Is In Spawn Room(Event Player)));
         Set Player Variable(Event Player, target_pos, Position Of(Event Player));
         Set Player Variable(Event Player, targets, All Players(Opposite Team Of(Team Of(Event Player))));
         Set Player Variable(Event Player, allies, All Players(Team Of(Event Player)));
-        Skip(88);
+        Skip(96);
         Abort If(Compare((Event Player).decoy, !=, Null));
         If(Compare(Number Of Players(Team Of(Event Player)), ==, 6));
             Small Message(Event Player, Custom String("player slot full"));
@@ -2025,12 +2044,12 @@ rule ("on use") {
         Start Forcing Dummy Bot Name((Event Player).decoy, Custom String("{0}", Event Player));
         Start Forcing Player Outlines((Event Player).decoy, Event Player, True, Color(Lime Green), Always);
         Start Throttle In Direction((Event Player).decoy, Facing Direction Of((Event Player).decoy), 1, To World, Replace existing throttle, None);
-        Skip(73);
+        Skip(81);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable((Event Player).target, high_speed_remains, 4);
         Set Move Speed((Event Player).target, 1000);
-        Skip(68);
+        Skip(76);
         "pass\nreturn"
         disabled Abort;
         "pass\nreturn"
@@ -2069,12 +2088,12 @@ rule ("on use") {
         disabled Abort;
         "pass\nreturn"
         disabled Abort;
-        Skip(48);
+        Skip(56);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable((Event Player).target, strong_gravity_remains, 6);
         Set Gravity((Event Player).target, 500);
-        Skip(43);
+        Skip(51);
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(All Players(Opposite Team Of(Team Of(Event Player))), And(And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Is In Line of Sight(Eye Position(Event Player), Eye Position(Current Array Element), Barriers Do Not Block LOS)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         If(Compare((Event Player).target, ==, Null));
             Small Message(Event Player, Custom String("No enemy targeted"));
@@ -2096,10 +2115,18 @@ rule ("on use") {
         Play Effect((Event Player).targets_22, Debuff Impact Sound, Color(Purple), (Event Player).targets_22, 80);
         Wait(3, Ignore Condition);
         Stop Facing((Event Player).targets_22);
-        Skip(21);
+        Skip(29);
         Abort If(Compare((Event Player).target, !=, Null));
         Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
+        Disallow Button((Event Player).target, Button(Primary Fire));
+        Disallow Button((Event Player).target, Button(Secondary Fire));
+        Disallow Button((Event Player).target, Button(Ability 1));
+        Disallow Button((Event Player).target, Button(Ability 2));
+        Disallow Button((Event Player).target, Button(Ultimate));
+        Disallow Button((Event Player).target, Button(Jump));
+        Disallow Button((Event Player).target, Button(Crouch));
+        Disallow Button((Event Player).target, Button(Melee));
         Set Player Variable(Event Player, controlling, Event Player);
         Set Player Variable(Event Player, mindcontrol_time, 7);
         "pass\nreturn"
@@ -3029,7 +3056,16 @@ rule ("[mind control] on death") {
         Stop Holding Button((Event Player).target, Button(Ability 2));
         Stop Holding Button((Event Player).target, Button(Ultimate));
         Stop Holding Button((Event Player).target, Button(Crouch));
+        Stop Holding Button((Event Player).target, Button(Jump));
         Stop Holding Button((Event Player).target, Button(Melee));
+        Allow Button((Event Player).target, Button(Primary Fire));
+        Allow Button((Event Player).target, Button(Secondary Fire));
+        Allow Button((Event Player).target, Button(Ability 1));
+        Allow Button((Event Player).target, Button(Ability 2));
+        Allow Button((Event Player).target, Button(Ultimate));
+        Allow Button((Event Player).target, Button(Jump));
+        Allow Button((Event Player).target, Button(Crouch));
+        Allow Button((Event Player).target, Button(Melee));
         Set Player Variable(Event Player, target, Null);
         Set Player Variable(Event Player, controlling, False);
         Set Move Speed(Event Player, (Event Player).movement_speed);
@@ -3061,7 +3097,9 @@ rule ("[mind control] start jump") {
         Is Button Held(Event Player, Button(Jump)) == True;
     }
     actions {
+        Allow Button((Event Player).target, Button(Jump));
         Start Holding Button((Event Player).target, Button(Jump));
+        Disallow Button((Event Player).target, Button(Jump));
     }
 }
 
@@ -3078,6 +3116,8 @@ rule ("[mind control] stop jump") {
     }
     actions {
         Stop Holding Button((Event Player).target, Button(Jump));
+        If(And(Compare((Event Player).target, !=, Null), Compare((Event Player).mindcontrol_time, >, 0)));
+            Disallow Button((Event Player).target, Button(Jump));
     }
 }
 
@@ -3095,7 +3135,9 @@ rule ("[mind control] start crouch") {
         Is Button Held(Event Player, Button(Crouch)) == True;
     }
     actions {
+        Allow Button((Event Player).target, Button(Crouch));
         Start Holding Button((Event Player).target, Button(Crouch));
+        Disallow Button((Event Player).target, Button(Crouch));
     }
 }
 
@@ -3112,6 +3154,8 @@ rule ("[mind control] stop crouch") {
     }
     actions {
         Stop Holding Button((Event Player).target, Button(Crouch));
+        If(And(Compare((Event Player).target, !=, Null), Compare((Event Player).mindcontrol_time, >, 0)));
+            Disallow Button((Event Player).target, Button(Crouch));
     }
 }
 
@@ -3160,7 +3204,9 @@ rule ("[mind control] start firing primary") {
         Is Button Held(Event Player, Button(Primary Fire)) == True;
     }
     actions {
+        Allow Button((Event Player).target, Button(Primary Fire));
         Start Holding Button((Event Player).target, Button(Primary Fire));
+        Disallow Button((Event Player).target, Button(Primary Fire));
     }
 }
 
@@ -3179,6 +3225,8 @@ rule ("[mind control] stop firing primary") {
     }
     actions {
         Stop Holding Button((Event Player).target, Button(Primary Fire));
+        If(And(Compare((Event Player).target, !=, Null), Compare((Event Player).mindcontrol_time, >, 0)));
+            Disallow Button((Event Player).target, Button(Primary Fire));
     }
 }
 
@@ -3196,7 +3244,9 @@ rule ("[mind control] start firing sec") {
         Is Button Held(Event Player, Button(Secondary Fire)) == True;
     }
     actions {
+        Allow Button((Event Player).target, Button(Secondary Fire));
         Start Holding Button((Event Player).target, Button(Secondary Fire));
+        Disallow Button((Event Player).target, Button(Secondary Fire));
     }
 }
 
@@ -3215,6 +3265,8 @@ rule ("[mind control] stop firing sec") {
     }
     actions {
         Stop Holding Button((Event Player).target, Button(Secondary Fire));
+        If(And(Compare((Event Player).target, !=, Null), Compare((Event Player).mindcontrol_time, >, 0)));
+            Disallow Button((Event Player).target, Button(Secondary Fire));
     }
 }
 
@@ -3232,7 +3284,9 @@ rule ("[mind control] start ability1") {
         Is Button Held(Event Player, Button(Ability 1)) == True;
     }
     actions {
+        Allow Button((Event Player).target, Button(Ability 1));
         Start Holding Button((Event Player).target, Button(Ability 1));
+        Disallow Button((Event Player).target, Button(Ability 1));
     }
 }
 
@@ -3251,6 +3305,8 @@ rule ("[mind control] stop ability 1") {
     }
     actions {
         Stop Holding Button((Event Player).target, Button(Ability 1));
+        If(And(Compare((Event Player).target, !=, Null), Compare((Event Player).mindcontrol_time, >, 0)));
+            Disallow Button((Event Player).target, Button(Ability 1));
     }
 }
 
@@ -3268,7 +3324,9 @@ rule ("[mind control] start ability2") {
         Is Button Held(Event Player, Button(Ability 2)) == True;
     }
     actions {
+        Allow Button((Event Player).target, Button(Ability 2));
         Start Holding Button((Event Player).target, Button(Ability 2));
+        Disallow Button((Event Player).target, Button(Ability 2));
     }
 }
 
@@ -3287,6 +3345,8 @@ rule ("[mind control] stop ability 2") {
     }
     actions {
         Stop Holding Button((Event Player).target, Button(Ability 2));
+        If(And(Compare((Event Player).target, !=, Null), Compare((Event Player).mindcontrol_time, >, 0)));
+            Disallow Button((Event Player).target, Button(Ability 2));
     }
 }
 
@@ -3304,7 +3364,9 @@ rule ("[mind control] ultimate") {
         Is Button Held(Event Player, Button(Ultimate)) == True;
     }
     actions {
+        Allow Button((Event Player).target, Button(Ultimate));
         Start Holding Button((Event Player).target, Button(Ultimate));
+        Disallow Button((Event Player).target, Button(Ultimate));
     }
 }
 
@@ -3323,6 +3385,8 @@ rule ("[mind control] stop ultimate") {
     }
     actions {
         Stop Holding Button((Event Player).target, Button(Ultimate));
+        If(And(Compare((Event Player).target, !=, Null), Compare((Event Player).mindcontrol_time, >, 0)));
+            Disallow Button((Event Player).target, Button(Ultimate));
     }
 }
 
@@ -3340,7 +3404,9 @@ rule ("[mind control] start melee") {
         Is Button Held(Event Player, Button(Melee)) == True;
     }
     actions {
+        Allow Button((Event Player).target, Button(Melee));
         Start Holding Button((Event Player).target, Button(Melee));
+        Disallow Button((Event Player).target, Button(Melee));
     }
 }
 
@@ -3359,6 +3425,8 @@ rule ("[mind control] stop melee") {
     }
     actions {
         Stop Holding Button((Event Player).target, Button(Melee));
+        If(And(Compare((Event Player).target, !=, Null), Compare((Event Player).mindcontrol_time, >, 0)));
+            Disallow Button((Event Player).target, Button(Melee));
     }
 }
 
@@ -3973,7 +4041,7 @@ rule ("[nuke]") {
     }
     actions {
         Set Global Variable(probabilityNuke, Random Integer(1, 100));
-        If(Compare(Global.probabilityNuke, <=, 40));
+        If(Compare(Global.probabilityNuke, <=, 20));
             Set Player Variable(Event Player, previous_pos, Position Of(Event Player));
             Set Ability 1 Enabled(Event Player, False);
             Set Ability 2 Enabled(Event Player, False);

@@ -1095,7 +1095,25 @@ def clear_ability():
         goto lbl_108
         goto lbl_109
         destroyProgressBarHud(eventPlayer.progressbar_id)
-        eventPlayer.target.stopThrottleInDirection()
+        if eventPlayer.target != null:
+            eventPlayer.target.stopFacing()
+            eventPlayer.target.stopThrottleInDirection()
+            eventPlayer.target.stopForcingButton(Button.PRIMARY_FIRE)
+            eventPlayer.target.stopForcingButton(Button.SECONDARY_FIRE)
+            eventPlayer.target.stopForcingButton(Button.ABILITY_1)
+            eventPlayer.target.stopForcingButton(Button.ABILITY_2)
+            eventPlayer.target.stopForcingButton(Button.ULTIMATE)
+            eventPlayer.target.stopForcingButton(Button.CROUCH)
+            eventPlayer.target.stopForcingButton(Button.JUMP)
+            eventPlayer.target.stopForcingButton(Button.MELEE)
+            eventPlayer.target.allowButton(Button.PRIMARY_FIRE)
+            eventPlayer.target.allowButton(Button.SECONDARY_FIRE)
+            eventPlayer.target.allowButton(Button.ABILITY_1)
+            eventPlayer.target.allowButton(Button.ABILITY_2)
+            eventPlayer.target.allowButton(Button.ULTIMATE)
+            eventPlayer.target.allowButton(Button.JUMP)
+            eventPlayer.target.allowButton(Button.CROUCH)
+            eventPlayer.target.allowButton(Button.MELEE)
         eventPlayer.setMoveSpeed(eventPlayer.movement_speed)
         eventPlayer.controlling = null
         eventPlayer.progressbar_id = null
@@ -1353,7 +1371,7 @@ def roll_ability():
     eventPlayer.egg_position = null
     eventPlayer.show_text = null
     eventPlayer.allies = null
-    hudHeader(eventPlayer.show_text, "{0} {1}".format(l"None", l"Die"), HudPosition.LEFT, 100, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
+    hudHeader(eventPlayer.show_text, "Egg active - protect it", HudPosition.LEFT, 100, Color.GREEN, HudReeval.VISIBILITY_AND_STRING)
     eventPlayer.text_ids.append(getLastCreatedText())
     createEffect(eventPlayer.allies, Effect.SPHERE, Color.BLUE, eventPlayer.egg_position, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.effect_ids.append(getLastCreatedEntity())
@@ -1963,6 +1981,14 @@ rule "on use":
     goto lbl_34
     __abortIf__(eventPlayer.target != null)
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target.disallowButton(Button.PRIMARY_FIRE)
+    eventPlayer.target.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.target.disallowButton(Button.ABILITY_1)
+    eventPlayer.target.disallowButton(Button.ABILITY_2)
+    eventPlayer.target.disallowButton(Button.ULTIMATE)
+    eventPlayer.target.disallowButton(Button.JUMP)
+    eventPlayer.target.disallowButton(Button.CROUCH)
+    eventPlayer.target.disallowButton(Button.MELEE)
     eventPlayer.controlling = eventPlayer
     eventPlayer.mindcontrol_time = 7
     #pass
@@ -2585,7 +2611,16 @@ rule "[mind control] on death":
     eventPlayer.target.stopForcingButton(Button.ABILITY_2)
     eventPlayer.target.stopForcingButton(Button.ULTIMATE)
     eventPlayer.target.stopForcingButton(Button.CROUCH)
+    eventPlayer.target.stopForcingButton(Button.JUMP)
     eventPlayer.target.stopForcingButton(Button.MELEE)
+    eventPlayer.target.allowButton(Button.PRIMARY_FIRE)
+    eventPlayer.target.allowButton(Button.SECONDARY_FIRE)
+    eventPlayer.target.allowButton(Button.ABILITY_1)
+    eventPlayer.target.allowButton(Button.ABILITY_2)
+    eventPlayer.target.allowButton(Button.ULTIMATE)
+    eventPlayer.target.allowButton(Button.JUMP)
+    eventPlayer.target.allowButton(Button.CROUCH)
+    eventPlayer.target.allowButton(Button.MELEE)
     eventPlayer.target = null
     eventPlayer.controlling = false
     eventPlayer.setMoveSpeed(eventPlayer.movement_speed)
@@ -2610,7 +2645,9 @@ rule "[mind control] start jump":
     @Condition eventPlayer.target.isAlive() == true
     @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
     
+    eventPlayer.target.allowButton(Button.JUMP)
     eventPlayer.target.startForcingButton(Button.JUMP)
+    eventPlayer.target.disallowButton(Button.JUMP)
 
 
 rule "[mind control] stop jump":
@@ -2620,6 +2657,8 @@ rule "[mind control] stop jump":
     @Condition (eventPlayer.isDead() or eventPlayer.target.isDead() or not eventPlayer.isHoldingButton(Button.JUMP)) == true
     
     eventPlayer.target.stopForcingButton(Button.JUMP)
+    if eventPlayer.target != null and eventPlayer.mindcontrol_time > 0:
+        eventPlayer.target.disallowButton(Button.JUMP)
 
 
 rule "[mind control] start crouch":
@@ -2630,7 +2669,9 @@ rule "[mind control] start crouch":
     @Condition eventPlayer.target.isAlive() == true
     @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
     
+    eventPlayer.target.allowButton(Button.CROUCH)
     eventPlayer.target.startForcingButton(Button.CROUCH)
+    eventPlayer.target.disallowButton(Button.CROUCH)
 
 
 rule "[mind control] stop crouch":
@@ -2640,6 +2681,8 @@ rule "[mind control] stop crouch":
     @Condition (eventPlayer.isDead() or eventPlayer.target.isDead() or not eventPlayer.isHoldingButton(Button.CROUCH)) == true
     
     eventPlayer.target.stopForcingButton(Button.CROUCH)
+    if eventPlayer.target != null and eventPlayer.mindcontrol_time > 0:
+        eventPlayer.target.disallowButton(Button.CROUCH)
 
 
 rule "[mind control] throttle":
@@ -2674,7 +2717,9 @@ rule "[mind control] start firing primary":
     @Condition eventPlayer.target.isAlive() == true
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
     
+    eventPlayer.target.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.target.startForcingButton(Button.PRIMARY_FIRE)
+    eventPlayer.target.disallowButton(Button.PRIMARY_FIRE)
 
 
 rule "[mind control] stop firing primary":
@@ -2686,6 +2731,8 @@ rule "[mind control] stop firing primary":
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false
     
     eventPlayer.target.stopForcingButton(Button.PRIMARY_FIRE)
+    if eventPlayer.target != null and eventPlayer.mindcontrol_time > 0:
+        eventPlayer.target.disallowButton(Button.PRIMARY_FIRE)
 
 
 rule "[mind control] start firing sec":
@@ -2696,7 +2743,9 @@ rule "[mind control] start firing sec":
     @Condition eventPlayer.target.isAlive() == true
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
     
+    eventPlayer.target.allowButton(Button.SECONDARY_FIRE)
     eventPlayer.target.startForcingButton(Button.SECONDARY_FIRE)
+    eventPlayer.target.disallowButton(Button.SECONDARY_FIRE)
 
 
 rule "[mind control] stop firing sec":
@@ -2708,6 +2757,8 @@ rule "[mind control] stop firing sec":
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false
     
     eventPlayer.target.stopForcingButton(Button.SECONDARY_FIRE)
+    if eventPlayer.target != null and eventPlayer.mindcontrol_time > 0:
+        eventPlayer.target.disallowButton(Button.SECONDARY_FIRE)
 
 
 rule "[mind control] start ability1":
@@ -2718,7 +2769,9 @@ rule "[mind control] start ability1":
     @Condition eventPlayer.target.isAlive() == true
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
     
+    eventPlayer.target.allowButton(Button.ABILITY_1)
     eventPlayer.target.startForcingButton(Button.ABILITY_1)
+    eventPlayer.target.disallowButton(Button.ABILITY_1)
 
 
 rule "[mind control] stop ability 1":
@@ -2730,6 +2783,8 @@ rule "[mind control] stop ability 1":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == false
     
     eventPlayer.target.stopForcingButton(Button.ABILITY_1)
+    if eventPlayer.target != null and eventPlayer.mindcontrol_time > 0:
+        eventPlayer.target.disallowButton(Button.ABILITY_1)
 
 
 rule "[mind control] start ability2":
@@ -2740,7 +2795,9 @@ rule "[mind control] start ability2":
     @Condition eventPlayer.target.isAlive() == true
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
     
+    eventPlayer.target.allowButton(Button.ABILITY_2)
     eventPlayer.target.startForcingButton(Button.ABILITY_2)
+    eventPlayer.target.disallowButton(Button.ABILITY_2)
 
 
 rule "[mind control] stop ability 2":
@@ -2752,6 +2809,8 @@ rule "[mind control] stop ability 2":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == false
     
     eventPlayer.target.stopForcingButton(Button.ABILITY_2)
+    if eventPlayer.target != null and eventPlayer.mindcontrol_time > 0:
+        eventPlayer.target.disallowButton(Button.ABILITY_2)
 
 
 rule "[mind control] ultimate":
@@ -2762,7 +2821,9 @@ rule "[mind control] ultimate":
     @Condition eventPlayer.target.isAlive() == true
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
     
+    eventPlayer.target.allowButton(Button.ULTIMATE)
     eventPlayer.target.startForcingButton(Button.ULTIMATE)
+    eventPlayer.target.disallowButton(Button.ULTIMATE)
 
 
 rule "[mind control] stop ultimate":
@@ -2774,6 +2835,8 @@ rule "[mind control] stop ultimate":
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == false
     
     eventPlayer.target.stopForcingButton(Button.ULTIMATE)
+    if eventPlayer.target != null and eventPlayer.mindcontrol_time > 0:
+        eventPlayer.target.disallowButton(Button.ULTIMATE)
 
 
 rule "[mind control] start melee":
@@ -2784,7 +2847,9 @@ rule "[mind control] start melee":
     @Condition eventPlayer.target.isAlive() == true
     @Condition eventPlayer.isHoldingButton(Button.MELEE) == true
     
+    eventPlayer.target.allowButton(Button.MELEE)
     eventPlayer.target.startForcingButton(Button.MELEE)
+    eventPlayer.target.disallowButton(Button.MELEE)
 
 
 rule "[mind control] stop melee":
@@ -2796,6 +2861,8 @@ rule "[mind control] stop melee":
     @Condition eventPlayer.isHoldingButton(Button.MELEE) == false
     
     eventPlayer.target.stopForcingButton(Button.MELEE)
+    if eventPlayer.target != null and eventPlayer.mindcontrol_time > 0:
+        eventPlayer.target.disallowButton(Button.MELEE)
 
 
 rule "[mind control] in air":
@@ -3211,7 +3278,7 @@ rule "[nuke]":
     @Condition abilityNames[eventPlayer.ability] == NUKE
     
     probabilityNuke = random.randint(1, 100)
-    if probabilityNuke <= 40:
+    if probabilityNuke <= 20:
         eventPlayer.previous_pos = eventPlayer.getPosition()
         eventPlayer.setAbility1Enabled(false)
         eventPlayer.setAbility2Enabled(false)
