@@ -204,12 +204,9 @@ playervar interact_is_held 123
 
 macro Player.acquireViewedTarget(team, radius=80, losCheck=LosCheck.SURFACES):
     self.target = self.getPlayerClosestToReticle(team)
-    if self.target == self or not self.target.isAlive() or not self.target.hasSpawned():
-        return
-    if self.target not in self.getPlayersInViewAngle(team, 45):
-        return
-    if self.target not in getPlayersInRadius(self.getEyePosition(), radius, team, losCheck):
-        return
+    __abortIf__(self.target == self or not self.target.isAlive() or not self.target.hasSpawned())
+    __abortIf__(self.target not in self.getPlayersInViewAngle(team, 45))
+    __abortIf__(self.target not in getPlayersInRadius(self.getEyePosition(), radius, team, losCheck))
 
 macro formatKeyPrompts(text):
     text.replace("[INTERACT]", inputBindingString(Button.INTERACT)).replace("[Interact]", inputBindingString(Button.INTERACT)).replace("[interact]", inputBindingString(Button.INTERACT)).replace("[RELOAD]", inputBindingString(Button.RELOAD)).replace("[Reload]", inputBindingString(Button.RELOAD)).replace("[reload]", inputBindingString(Button.RELOAD))
@@ -1692,8 +1689,9 @@ rule "on use":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true
+    @Condition _classIndexes[eventPlayer.ability] in [1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60]
     
-    goto loc+[305, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 10, 16, 24, 39, 49, 54, 61, 67, 74, 80, 89, 98, 103, 112, 117, 123, 127, 134, 142, 149, 162, 170, 177, 188, 195, 200, 222, 227, 232, 247, 252, 272, 277, 282, 291, 295, 299][[1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60].index(_classIndexes[eventPlayer.ability]) + 1]
+    goto loc+[351, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 13, 20, 30, 47, 57, 68, 76, 84, 92, 98, 107, 116, 123, 134, 141, 149, 153, 162, 170, 178, 190, 198, 206, 217, 226, 233, 247, 255, 260, 275, 282, 302, 309, 322, 332, 338, 343][[1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60].index(_classIndexes[eventPlayer.ability]) + 1]
     return
     goto lbl_0
     __abortIf__(eventPlayer.rock_scissors_paper_players != null)
@@ -1708,8 +1706,7 @@ rule "on use":
     bigMessage(eventPlayer.target, "{0} : are you tickling?".format(eventPlayer))
     goto lbl_2
     eventPlayer.acquireViewedTarget(eventPlayer.getTeam())
-    if eventPlayer.target.getUltCharge() <= 1 or eventPlayer.target.isUsingUltimate():
-        return
+    __abortIf__(eventPlayer.target.isUsingUltimate())
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.BLUE, eventPlayer, 1)
     playEffect(getAllPlayers(), DynamicEffect.BUFF_EXPLOSION_SOUND, Color.BLUE, eventPlayer, 100)
     eventPlayer.target.setUltCharge(100)
@@ -1834,11 +1831,9 @@ rule "on use":
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     __abortIf__(eventPlayer.target.isInAir())
     eventPlayer.target.setUltCharge(eventPlayer.target.getUltCharge() + 10)
-    eventPlayer.disallowButton(Button.PRIMARY_FIRE)
     eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.001)
     wait(0.05)
     eventPlayer.target.communicate(Comms.EMOTE_UP)
-    eventPlayer.allowButton(Button.PRIMARY_FIRE)
     bigMessage(eventPlayer.target, "$45 sponsorship by {0}!".format(eventPlayer))
     playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
     goto lbl_21
