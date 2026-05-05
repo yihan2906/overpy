@@ -46,7 +46,6 @@ variables {
         46: LackOfConcentration
         48: Telekinesis
         50: nukeBlastRadius
-        52: ImAnAttentionSeeker
         53: RandomScale
         54: Reloading
         55: LifeSaver
@@ -193,6 +192,7 @@ variables {
         121: isMegaMauga
         122: interact_press_count
         123: interact_is_held
+        124: lifesaver_press_count
 }
 subroutines {
     0: register_abilities1
@@ -244,7 +244,6 @@ rule ("Initial Global") {
         Set Global Variable(HealerEthernalFriend, Custom String("Healers' eternal friend"));
         Set Global Variable(LackOfConcentration, Custom String("Lack of concentration"));
         Set Global Variable(Telekinesis, Custom String("Telekinesis"));
-        Set Global Variable(ImAnAttentionSeeker, Custom String("I'm an attention seeker"));
         Set Global Variable(RandomScale, Custom String("scale randomizer"));
         Set Global Variable(Reloading, Custom String("Reloading?"));
         Set Global Variable(LifeSaver, Custom String("LifeSaver"));
@@ -297,6 +296,7 @@ rule ("Initial Player") {
         Set Player Variable(Event Player, strong_gravity_remains, 0);
         Set Player Variable(Event Player, interact_press_count, 0);
         Set Player Variable(Event Player, interact_is_held, False);
+        Set Player Variable(Event Player, lifesaver_press_count, 0);
     }
 }
 
@@ -596,7 +596,7 @@ rule ("register abilities1") {
         Set Global Variable At Index(_extendedGlobalCollection, 34, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 34), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 34)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 34), 36);
         Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 34), Global.SponsoredReaction);
-        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 34), Custom String("press [Interact] to the enemy you are looking at will have a chance to make them emote"));
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 34), Custom String("press [Interact] to force the enemy you are looking at to use an equipped emote"));
         Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 34), 9);
         Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 34), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 34));
@@ -635,15 +635,6 @@ rule ("register abilities2") {
         Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 38), 14);
         Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 38), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 38));
-        Set Global Variable At Index(_extendedGlobalCollection, 42, Index Of Array Value(Global._classIndexes, 0));
-        Set Global Variable At Index(_extendedGlobalCollection, 42, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 42), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 42)));
-        Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 42), 44);
-        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 42), Global.ImAnAttentionSeeker);
-        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 42), Custom String("Damage, heal, and health are doubled, but your location is exposed"));
-        Set Global Variable At Index(abilityMaxHealth, Value In Array(Global._extendedGlobalCollection, 42), 200);
-        Set Global Variable At Index(abilityDamageDealt, Value In Array(Global._extendedGlobalCollection, 42), 200);
-        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 42), Add(Count Of(Global.abilities), 1));
-        Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 42));
     }
 }
 
@@ -665,7 +656,7 @@ rule ("register abilities3") {
         Set Global Variable At Index(_extendedGlobalCollection, 44, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 44), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 44)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 44), 46);
         Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 44), Global.Reloading);
-        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 44), Custom String("press [interact] to let the enemy you are looking at reload"));
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 44), Custom String("press [interact] to make the enemy you are looking at fire then reload"));
         Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 44), 8);
         Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 44), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 44));
@@ -946,8 +937,8 @@ rule ("clear ability") {
             If(Compare(Count Of(Value In Array(Global.abilityForcedHeroes, (Event Player).ability)), >, 0));
                 Stop Forcing Player To Be Hero(Event Player);
             End;
-            If(Compare(Value In Array(Global.abilityDamageDealt, (Event Player).ability), !=, Null));
-                Set Damage Dealt(Event Player, 100);
+            If(Compare(Value In Array(Global.abilityDamageReceived, (Event Player).ability), !=, Null));
+                Set Damage Received(Event Player, 100);
             End;
             If(Compare(Value In Array(Global.abilityDamageDealt, (Event Player).ability), !=, Null));
                 Set Damage Dealt(Event Player, 100);
@@ -1342,7 +1333,7 @@ rule ("roll ability") {
         End;
         If(Compare(Value In Array(Global.abilityDamageReceived, (Event Player).ability), !=, Null));
             Set Player Variable(Event Player, damage_received, Value In Array(Global.abilityDamageReceived, (Event Player).ability));
-            Set Damage Dealt(Event Player, Value In Array(Global.abilityDamageReceived, (Event Player).ability));
+            Set Damage Received(Event Player, Value In Array(Global.abilityDamageReceived, (Event Player).ability));
         End;
         If(Compare(Value In Array(Global.abilityMoveSpeed, (Event Player).ability), !=, Null));
             Set Player Variable(Event Player, movement_speed, Value In Array(Global.abilityMoveSpeed, (Event Player).ability));
@@ -1791,48 +1782,39 @@ rule ("on use") {
     }
     conditions {
         (Event Player).ability != Null;
+        Value In Array(Global.abilityNames, (Event Player).ability) != Global.LifeSaver;
+        Value In Array(Global.abilityNames, (Event Player).ability) != Global.SponsoredReaction;
         Is Button Held(Event Player, Button(Interact)) == True;
         (Event Player).cooldown_count <= 0;
         Is Alive(Event Player) == True;
         Array Contains(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)) == True;
     }
     actions {
-        Skip(Value In Array(Array(351, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 13, 20, 30, 47, 57, 68, 76, 84, 92, 98, 107, 116, 123, 134, 141, 149, 153, 162, 170, 178, 190, 198, 206, 217, 226, 233, 247, 255, 260, 275, 282, 302, 309, 322, 332, 338, 343), Add(Index Of Array Value(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
+        Skip(Value In Array(Array(299, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 14, 22, 37, 47, 58, 64, 70, 76, 82, 91, 100, 105, 114, 119, 125, 129, 136, 144, 150, 160, 168, 174, 185, 192, 198, 209, 215, 220, 235, 240, 260, 265, 276, 284, 288, 291), Add(Index Of Array Value(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
         Abort;
-        Skip(349);
+        Skip(295);
         Abort If(Compare((Event Player).rock_scissors_paper_players, !=, Null));
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Abort If(Compare(((Event Player).target).rock_scissors_paper_players, !=, Null));
-        Abort;
-        "pass"
-        disabled Abort;
         Set Player Variable(Event Player, rock_siccors_paper_status, 0);
         Set Player Variable(Event Player, rock_scissors_paper_players, Array(Event Player, (Event Player).target));
-        Skip(338);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(288);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : are you tickling?", Event Player));
-        Skip(331);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Team Of(Event Player)));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Team Of(Event Player), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Team Of(Event Player), Surfaces), (Event Player).target)));
+        Skip(283);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Team Of(Event Player), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Abort If(Is Using Ultimate((Event Player).target));
         Play Effect(All Players(All Teams), Good Pickup Effect, Color(Blue), Event Player, 1);
         Play Effect(All Players(All Teams), Buff Explosion Sound, Color(Blue), Event Player, 100);
         Set Ultimate Charge((Event Player).target, 100);
         Press Button((Event Player).target, Button(Ultimate));
-        Skip(321);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(275);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, original_position, Position Of(Event Player));
         Set Player Variable(Event Player, original_direction, Facing Direction Of(Event Player));
         Teleport(Event Player, World Vector Of(Vector(Empty Array, Empty Array, -1.5), (Event Player).target, Rotation And Translation));
@@ -1845,7 +1827,7 @@ rule ("on use") {
         Wait(0.2, Ignore Condition);
         Teleport(Event Player, (Event Player).original_position);
         Set Facing(Event Player, (Event Player).original_direction, To World);
-        Skip(304);
+        Skip(260);
         If(Not((Event Player).is_no_clip));
             Disable Movement Collision With Environment(Event Player, False);
             Set Player Variable(Event Player, is_no_clip, True);
@@ -1855,7 +1837,7 @@ rule ("on use") {
             Set Player Variable(Event Player, is_no_clip, False);
             Small Message(Event Player, Custom String("Disabled no-clip"));
         End;
-        Skip(294);
+        Skip(250);
         If(Array Contains(Global.targetHeros, Hero Of(Event Player)));
             Set Player Variable(Event Player, targets_3, Filtered Array(All Players(All Teams), Array Contains(Global.targetHeros, Hero Of(Current Array Element))));
         Else If(Array Contains(Global.targetHeros_0, Hero Of(Event Player)));
@@ -1866,37 +1848,31 @@ rule ("on use") {
         Abort If(Compare(Count Of((Event Player).targets_3), ==, 0));
         Kill((Event Player).targets_3, Event Player);
         Big Message((Event Player).targets_3, Custom String("{0}: Only me is enough!", Event Player));
-        Skip(283);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(239);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}: Fluffy fluff", Event Player));
         Set Player Variable((Event Player).target, is_floating, True);
-        Skip(275);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(233);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Status((Event Player).target, Event Player, Rooted, 5);
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}: Stop Yay!", Event Player));
-        Skip(267);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(227);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}has presented you with a new god.", Event Player));
         Set Player Variable((Event Player).target, is_spin_floating, Event Player);
-        Skip(259);
+        Skip(221);
         Abort If((Event Player).is_showing_barieer);
         Set Player Variable(Event Player, barieer_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 1000)), All Players(All Teams), Event Player, True));
         Play Effect(All Players(All Teams), Bad Pickup Effect, Color(Sky Blue), (Event Player).barieer_position, 15);
         Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Sky Blue), (Event Player).barieer_position, 50);
         Set Player Variable(Event Player, targets, All Players(All Teams));
-        Skip(253);
+        Skip(215);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_7, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(Global.targetHeros, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_7), ==, 0));
@@ -1905,7 +1881,7 @@ rule ("on use") {
         Set Status((Event Player).target_0, Event Player, Asleep, 5);
         Set Status((Event Player).target_0, Event Player, Knocked Down, 5);
         Big Message((Event Player).target_0, Custom String("{0}: Oh, good night", Event Player));
-        Skip(244);
+        Skip(206);
         Abort If(Or(Not(Is On Ground(Event Player)), Is In Spawn Room(Event Player)));
         Set Player Variable(Event Player, egg_position, Position Of(Event Player));
         Set Player Variable(Event Player, targets, All Players(Opposite Team Of(Team Of(Event Player))));
@@ -1914,53 +1890,43 @@ rule ("on use") {
         Play Effect(All Players(All Teams), Bad Pickup Effect, Color(Green), Event Player, 0.5);
         Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Green), Event Player, 100);
         Set Status(Event Player, Null, Unkillable, 9999);
-        Skip(235);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(197);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Facing((Event Player).target, Backward, To Player);
         Big Message((Event Player).target, Custom String("{0} : Huh? behind you! haha", Event Player));
-        Skip(228);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(192);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, tmp, Eye Position(Event Player));
         Teleport((Event Player).target, (Event Player).tmp);
         Teleport(Event Player, (Event Player).target);
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Play Effect(All Living Players(All Teams), Good Pickup Effect, Color(Yellow), Event Player, 3);
         Small Message((Event Player).target, Custom String("Change location!"));
-        Skip(217);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(183);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Teleport((Event Player).target, World Vector Of(Forward, Event Player, Rotation And Translation));
         Big Message((Event Player).target, Custom String("{0} : come here", Event Player));
-        Skip(210);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(178);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Status((Event Player).target, Event Player, Asleep, 4);
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : Good night hehe", Event Player));
-        Skip(202);
+        Skip(172);
         Abort If(Not(Is On Ground(Event Player)));
         Set Player Variable(Event Player, trap_pos, World Vector Of(Vector(Empty Array, -0.2, 1.5), Event Player, Rotation And Translation));
         Set Player Variable(Event Player, trap_size, 1);
-        Skip(198);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(168);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Teleport(Event Player, World Vector Of(Backward, (Event Player).target, Rotation And Translation));
         Set Facing(Event Player, Local Vector Of(Position Of((Event Player).target), Event Player, Rotation And Translation), To Player);
         Set Status((Event Player).target, Event Player, Stunned, 1.5);
         Big Message((Event Player).target, Custom String("{0} : really behind you", Event Player));
-        Skip(189);
+        Skip(161);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_13, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(Global.targetHeros_0, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_13), ==, 0));
@@ -1968,19 +1934,15 @@ rule ("on use") {
         Teleport((Event Player).target_1, World Vector Of(Forward, Event Player, Rotation And Translation));
         Set Status((Event Player).target_1, Event Player, Stunned, 4);
         Big Message((Event Player).target_1, Custom String("{0} : Talon is bad", Event Player));
-        Skip(181);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(153);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : Rotating tornado!", Event Player));
         Set Player Variable((Event Player).target, is_rotating, True);
-        Skip(173);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(147);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Abort If(Is In Air((Event Player).target));
         Set Ultimate Charge((Event Player).target, Add(Ultimate Charge Percent((Event Player).target), 10));
         Set Status((Event Player).target, Event Player, Stunned, 0.001);
@@ -1988,7 +1950,7 @@ rule ("on use") {
         Communicate((Event Player).target, Emote Up);
         Big Message((Event Player).target, Custom String("$45 sponsorship by {0}!", Event Player));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
-        Skip(161);
+        Skip(137);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_16, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(All Support Heroes, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_16), ==, 0));
@@ -1996,15 +1958,13 @@ rule ("on use") {
         Teleport((Event Player).target_2, World Vector Of(Forward, Event Player, Rotation And Translation));
         Set Status((Event Player).target_2, Event Player, Stunned, 4);
         Big Message((Event Player).target_2, Custom String("Have fun!"));
-        Skip(153);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(129);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Status((Event Player).target, Event Player, Asleep, 5);
         Set Status((Event Player).target, Null, Phased Out, 5);
         Big Message((Event Player).target, Custom String("{0} : Telekinesis", Event Player));
-        Skip(145);
+        Skip(123);
         Set Player Variable(Event Player, max_health, Random Integer(20, 225));
         Set Player Variable(Event Player, damage_dealt, Random Integer(20, 225));
         Set Player Variable(Event Player, movement_speed, Random Integer(20, 225));
@@ -2015,50 +1975,42 @@ rule ("on use") {
         Set Move Speed(Event Player, (Event Player).movement_speed);
         Wait(0.1, Ignore Condition);
         Heal(Event Player, Null, 10000);
-        Skip(134);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, All Teams));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, All Teams, 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, All Teams, Surfaces), (Event Player).target)));
+        Skip(112);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, All Teams, Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, random_size, Divide(Random Integer(10, 260), 100));
         Start Scaling Player((Event Player).target, (Event Player).random_size, False);
         Start Modifying Hero Voice Lines((Event Player).target, Divide(1, (Event Player).random_size), False);
         Small Message(Event Player, (Event Player).random_size);
-        Skip(125);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
-        Set Ammo((Event Player).target, 0, 0);
+        Skip(105);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
+        Press Button((Event Player).target, Button(Primary Fire));
+        Wait(0.1, Ignore Condition);
         Press Button((Event Player).target, Button(Reload));
-        Skip(118);
+        Skip(99);
         Set Player Variable(Event Player, targets, Filtered Array(All Living Players(Team Of(Event Player)), And(And(And(Compare(Current Array Element, !=, Event Player), Has Spawned(Current Array Element)), Compare(Distance Between(Event Player, Current Array Element), <=, 100)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))));
         Abort If(Compare(Count Of((Event Player).targets), ==, 0));
         Set Player Variable(Event Player, target_3, First Of(Sorted Array((Event Player).targets, Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))))));
-        Set Player Variable(Event Player, target_pos, Nearest Walkable Position(World Vector Of(Vector(0, 0, -1.5), Event Player, Rotation And Translation)));
-        Disable Movement Collision With Environment((Event Player).target_3, False);
-        Set Status((Event Player).target_3, Event Player, Rooted, 0);
+        Set Player Variable(Event Player, target_pos, Nearest Walkable Position(World Vector Of(Vector(0, 0, 4), Event Player, Rotation And Translation)));
         Teleport((Event Player).target_3, Add((Event Player).target_pos, Vector(0, 0.25, 0)));
         Wait(0.1, Ignore Condition);
-        Clear Status((Event Player).target_3, Rooted);
-        Enable Movement Collision With Environment((Event Player).target_3);
+        Set Ability 2 Enabled(Event Player, True);
         Set Ability Cooldown(Event Player, Button(Ability 2), 0);
         Press Button(Event Player, Button(Ability 2));
         Set Ability Cooldown(Event Player, Button(Ability 2), 9);
-        Skip(104);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(88);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable((Event Player).target, high_sens_remains, 6);
         Set Player Variable((Event Player).target, high_sens_speed, Random Value In Array(Array(10, 2000)));
         Set Aim Speed((Event Player).target, ((Event Player).target).high_sens_speed);
-        Skip(96);
+        Skip(82);
         Abort If(Or(Not(Is On Ground(Event Player)), Is In Spawn Room(Event Player)));
         Set Player Variable(Event Player, target_pos, Position Of(Event Player));
         Set Player Variable(Event Player, targets, All Players(Opposite Team Of(Team Of(Event Player))));
         Set Player Variable(Event Player, allies, All Players(Team Of(Event Player)));
-        Skip(91);
+        Skip(77);
         Abort If(Compare((Event Player).decoy, !=, Null));
         If(Compare(Number Of Players(Team Of(Event Player)), ==, 6));
             Small Message(Event Player, Custom String("player slot full"));
@@ -2073,14 +2025,12 @@ rule ("on use") {
         Start Forcing Dummy Bot Name((Event Player).decoy, Custom String("{0}", Event Player));
         Start Forcing Player Outlines((Event Player).decoy, Event Player, True, Color(Lime Green), Always);
         Start Throttle In Direction((Event Player).decoy, Facing Direction Of((Event Player).decoy), 1, To World, Replace existing throttle, None);
-        Skip(76);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(62);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable((Event Player).target, high_speed_remains, 4);
         Set Move Speed((Event Player).target, 1000);
-        Skip(69);
+        Skip(57);
         "pass\nreturn"
         disabled Abort;
         "pass\nreturn"
@@ -2119,18 +2069,14 @@ rule ("on use") {
         disabled Abort;
         "pass\nreturn"
         disabled Abort;
-        Skip(49);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(37);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable((Event Player).target, strong_gravity_remains, 6);
         Set Gravity((Event Player).target, 500);
-        Skip(42);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Skip(32);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, targets_22, (Event Player).target);
         Set Player Variable(Event Player, allies, Filtered Array(All Players(Team Of((Event Player).targets_22)), And(Compare(Current Array Element, !=, (Event Player).targets_22), Is Alive(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).allies), ==, 0));
@@ -2139,33 +2085,25 @@ rule ("on use") {
         Wait(1, Ignore Condition);
         Stop Facing((Event Player).targets_22);
         Big Message((Event Player).targets_22, Custom String("{0} : look at {1}", Event Player, (Event Player).target));
-        Skip(29);
+        Skip(21);
         Abort If(Compare((Event Player).target, !=, Null));
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, controlling, Event Player);
         Set Player Variable(Event Player, mindcontrol_time, 7);
         "pass\nreturn"
         disabled Abort;
         Set Move Speed(Event Player, 0);
-        Skip(19);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
-        Teleport((Event Player).target, Nearest Walkable Position(Add(Position Of((Event Player).target), Vector(Random Integer(-10, 10), Random Integer(-10, 10), Random Integer(-10, 10)))));
         Skip(13);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
-        Skip(8);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), (Event Player).target)));
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
+        Teleport((Event Player).target, Nearest Walkable Position(Add(Position Of((Event Player).target), Vector(Random Integer(-10, 10), Random Integer(-10, 10), Random Integer(-10, 10)))));
+        Skip(9);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
+        Skip(6);
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, buttons, Array(Button(Ability 1), Button(Ability 2), Button(Crouch), Button(Interact), Button(Jump), Button(Melee), Button(Primary Fire), Button(Reload), Button(Secondary Fire), Button(Ultimate)));
         Set Player Variable(Event Player, button, Random Value In Array((Event Player).buttons));
         Press Button((Event Player).target, (Event Player).button);
@@ -2209,6 +2147,84 @@ rule ("on use") {
         //lbl_36:
         //lbl_37:
         Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
+    }
+}
+
+rule ("[sponsored reaction] force emote") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.SponsoredReaction;
+        Is Button Held(Event Player, Button(Interact)) == True;
+        (Event Player).cooldown_count <= 0;
+        Is Alive(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, Opposite Team Of(Team Of(Event Player)), Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
+        Abort If(Is In Air((Event Player).target));
+        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
+        Set Ultimate Charge((Event Player).target, Add(Ultimate Charge Percent((Event Player).target), 10));
+        Communicate((Event Player).target, Emote Up);
+        Wait(0.3, Ignore Condition);
+        If(Not(Is Communicating Any Emote((Event Player).target)));
+            Communicate((Event Player).target, Emote Right);
+            Wait(0.3, Ignore Condition);
+        End;
+        If(Not(Is Communicating Any Emote((Event Player).target)));
+            Communicate((Event Player).target, Emote Down);
+            Wait(0.3, Ignore Condition);
+        End;
+        If(Not(Is Communicating Any Emote((Event Player).target)));
+            Communicate((Event Player).target, Emote Left);
+            Wait(0.3, Ignore Condition);
+        End;
+        If(Is Communicating Any Emote((Event Player).target));
+            Big Message((Event Player).target, Custom String("$45 sponsorship by {0}!", Event Player));
+            Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
+        Else;
+            Small Message(Event Player, Custom String("Target has no usable emote"));
+        End;
+        Set Player Variable(Event Player, target, Null);
+    }
+}
+
+rule ("[lifesaver] pull ally") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LifeSaver;
+        Is Button Held(Event Player, Button(Interact)) == True;
+        (Event Player).interact_press_count != (Event Player).lifesaver_press_count;
+        (Event Player).cooldown_count <= 0;
+        Is Alive(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, lifesaver_press_count, (Event Player).interact_press_count);
+        Set Player Variable(Event Player, targets, Filtered Array(All Living Players(Team Of(Event Player)), And(And(And(Compare(Current Array Element, !=, Event Player), Has Spawned(Current Array Element)), Compare(Distance Between(Event Player, Current Array Element), <=, 100)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))));
+        If(Compare(Count Of((Event Player).targets), ==, 0));
+            Small Message(Event Player, Custom String("No ally targeted"));
+            Abort;
+        End;
+        Set Player Variable(Event Player, target_3, First Of(Sorted Array((Event Player).targets, Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))))));
+        Set Player Variable(Event Player, target_pos, Nearest Walkable Position(World Vector Of(Vector(0, 0, 4), Event Player, Rotation And Translation)));
+        Abort If(Compare((Event Player).target_pos, ==, Null));
+        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
+        Play Effect(All Players(All Teams), Good Pickup Effect, Color(Green), (Event Player).target_3, 2);
+        Play Effect(All Players(All Teams), Buff Impact Sound, Color(Green), Event Player, 80);
+        Teleport((Event Player).target_3, Add((Event Player).target_pos, Vector(0, 0.25, 0)));
+        Wait(0.1, Ignore Condition);
+        Set Ability 2 Enabled(Event Player, True);
+        Set Ability Cooldown(Event Player, Button(Ability 2), 0);
+        Press Button(Event Player, Button(Ability 2));
+        Set Ability Cooldown(Event Player, Button(Ability 2), 9);
+        Set Player Variable(Event Player, target_3, Null);
     }
 }
 
@@ -3364,10 +3380,8 @@ rule ("[taxi] attach system") {
         Is Button Held(Event Player, Button(Interact)) == True;
     }
     actions {
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, All Teams));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, All Teams, 45), (Event Player).target)));
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 80, All Teams, Surfaces), (Event Player).target)));
+        Set Player Variable(Event Player, target, First Of(Sorted Array(Filtered Array(Players Within Radius(Eye Position(Event Player), 80, All Teams, Surfaces), And(And(And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))), Add(Multiply(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), 1000), Distance Between(Event Player, Current Array Element)))));
+        Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, horse_target, (Event Player).target);
         If(Compare((Event Player).ishobbihorsing, ==, False));
             Set Player Variable(Event Player, ishobbihorsing, True);

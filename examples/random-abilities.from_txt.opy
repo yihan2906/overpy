@@ -1,8 +1,6 @@
 ## IMPORTANT: keep this header. Never delete or strip it.
 # Game code: 5G53R
 
-#!suppressWarnings w_player_closest_to_reticle
-
 #Global variables
 
 globalvar abilityNames 0
@@ -51,7 +49,6 @@ globalvar HealerEthernalFriend 45
 globalvar LackOfConcentration 46
 globalvar Telekinesis 48
 globalvar nukeBlastRadius 50
-globalvar ImAnAttentionSeeker 52
 globalvar RandomScale 53
 globalvar Reloading 54
 globalvar LifeSaver 55
@@ -201,12 +198,11 @@ playervar tp1_target 112
 playervar isMegaMauga 121
 playervar interact_press_count 122
 playervar interact_is_held 123
+playervar lifesaver_press_count 124
 
 macro Player.acquireViewedTarget(team, radius=80, losCheck=LosCheck.SURFACES):
-    self.target = self.getPlayerClosestToReticle(team)
-    __abortIf__(self.target == self or not self.target.isAlive() or not self.target.hasSpawned())
-    __abortIf__(self.target not in self.getPlayersInViewAngle(team, 45))
-    __abortIf__(self.target not in getPlayersInRadius(self.getEyePosition(), radius, team, losCheck))
+    self.target = sorted([player for player in getPlayersInRadius(self.getEyePosition(), radius, team, losCheck) if player != self and player.isAlive() and player.hasSpawned() and angleBetweenVectors(self.getFacingDirection(), directionTowards(self.getEyePosition(), player.getEyePosition())) <= 45], key=lambda player: angleBetweenVectors(self.getFacingDirection(), directionTowards(self.getEyePosition(), player.getEyePosition())) * 1000 + distance(self, player))[0]
+    __abortIf__(self.target == null)
 
 macro formatKeyPrompts(text):
     text.replace("[INTERACT]", inputBindingString(Button.INTERACT)).replace("[Interact]", inputBindingString(Button.INTERACT)).replace("[interact]", inputBindingString(Button.INTERACT)).replace("[RELOAD]", inputBindingString(Button.RELOAD)).replace("[Reload]", inputBindingString(Button.RELOAD)).replace("[reload]", inputBindingString(Button.RELOAD))
@@ -269,7 +265,6 @@ rule "Initial Global":
     HealerEthernalFriend = "Healers' eternal friend"
     LackOfConcentration = "Lack of concentration"
     Telekinesis = "Telekinesis"
-    ImAnAttentionSeeker = "I'm an attention seeker"
     RandomScale = "scale randomizer"
     Reloading = "Reloading?"
     LifeSaver = "LifeSaver"
@@ -317,6 +312,7 @@ rule "Initial Player":
     eventPlayer.strong_gravity_remains = 0
     eventPlayer.interact_press_count = 0
     eventPlayer.interact_is_held = false
+    eventPlayer.lifesaver_press_count = 0
 
 
 rule "track interact press count":
@@ -592,7 +588,7 @@ def register_abilities1():
     _extendedGlobalCollection[34] = len(_classIndexes) if _extendedGlobalCollection[34] == -1 else _extendedGlobalCollection[34]
     _classIndexes[_extendedGlobalCollection[34]] = 36
     abilityNames[_extendedGlobalCollection[34]] = SponsoredReaction
-    abilityDescriptions[_extendedGlobalCollection[34]] = "press [Interact] to the enemy you are looking at will have a chance to make them emote"
+    abilityDescriptions[_extendedGlobalCollection[34]] = "press [Interact] to force the enemy you are looking at to use an equipped emote"
     abilityCooldowns[_extendedGlobalCollection[34]] = 9
     abilityOrder[_extendedGlobalCollection[34]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[34])
@@ -627,16 +623,6 @@ def register_abilities2():
     abilityCooldowns[_extendedGlobalCollection[38]] = 14
     abilityOrder[_extendedGlobalCollection[38]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[38])
-    _extendedGlobalCollection[42] = _classIndexes.index(0)
-    _extendedGlobalCollection[42] = len(_classIndexes) if _extendedGlobalCollection[42] == -1 else _extendedGlobalCollection[42]
-    _classIndexes[_extendedGlobalCollection[42]] = 44
-    abilityNames[_extendedGlobalCollection[42]] = ImAnAttentionSeeker
-    abilityDescriptions[_extendedGlobalCollection[42]] = "Damage, heal, and health are doubled, but your location is exposed"
-    abilityMaxHealth[_extendedGlobalCollection[42]] = 200
-    abilityDamageDealt[_extendedGlobalCollection[42]] = 200
-    abilityOrder[_extendedGlobalCollection[42]] = len(abilities) + 1
-    abilities.append(_extendedGlobalCollection[42])
-
 
 def register_abilities3():
     @Name "register abilities3"
@@ -653,7 +639,7 @@ def register_abilities3():
     _extendedGlobalCollection[44] = len(_classIndexes) if _extendedGlobalCollection[44] == -1 else _extendedGlobalCollection[44]
     _classIndexes[_extendedGlobalCollection[44]] = 46
     abilityNames[_extendedGlobalCollection[44]] = Reloading
-    abilityDescriptions[_extendedGlobalCollection[44]] = "press [interact] to let the enemy you are looking at reload"
+    abilityDescriptions[_extendedGlobalCollection[44]] = "press [interact] to make the enemy you are looking at fire then reload"
     abilityCooldowns[_extendedGlobalCollection[44]] = 8
     abilityOrder[_extendedGlobalCollection[44]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[44])
@@ -891,8 +877,8 @@ def clear_ability():
     if eventPlayer.ability != null:
         if len(abilityForcedHeroes[eventPlayer.ability]) > 0:
             eventPlayer.stopForcingCurrentHero()
-        if abilityDamageDealt[eventPlayer.ability] != null:
-            eventPlayer.setDamageDealt(100)
+        if abilityDamageReceived[eventPlayer.ability] != null:
+            eventPlayer.setDamageReceived(100)
         if abilityDamageDealt[eventPlayer.ability] != null:
             eventPlayer.setDamageDealt(100)
         if abilityMoveSpeed[eventPlayer.ability] != null:
@@ -1275,7 +1261,7 @@ def roll_ability():
         eventPlayer.setDamageDealt(abilityDamageDealt[eventPlayer.ability])
     if abilityDamageReceived[eventPlayer.ability] != null:
         eventPlayer.damage_received = abilityDamageReceived[eventPlayer.ability]
-        eventPlayer.setDamageDealt(abilityDamageReceived[eventPlayer.ability])
+        eventPlayer.setDamageReceived(abilityDamageReceived[eventPlayer.ability])
     if abilityMoveSpeed[eventPlayer.ability] != null:
         eventPlayer.movement_speed = abilityMoveSpeed[eventPlayer.ability]
         eventPlayer.setMoveSpeed(abilityMoveSpeed[eventPlayer.ability])
@@ -1686,18 +1672,19 @@ rule "roll ability when player died":
 rule "on use":
     @Event eachPlayer
     @Condition eventPlayer.ability != null
+    @Condition abilityNames[eventPlayer.ability] != LifeSaver
+    @Condition abilityNames[eventPlayer.ability] != SponsoredReaction
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true
     @Condition _classIndexes[eventPlayer.ability] in [1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60]
     
-    goto loc+[351, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 13, 20, 30, 47, 57, 68, 76, 84, 92, 98, 107, 116, 123, 134, 141, 149, 153, 162, 170, 178, 190, 198, 206, 217, 226, 233, 247, 255, 260, 275, 282, 302, 309, 322, 332, 338, 343][[1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60].index(_classIndexes[eventPlayer.ability]) + 1]
+    goto loc+[299, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 14, 22, 37, 47, 58, 64, 70, 76, 82, 91, 100, 105, 114, 119, 125, 129, 136, 144, 150, 160, 168, 174, 185, 192, 198, 209, 215, 220, 235, 240, 260, 265, 276, 284, 288, 291][[1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60].index(_classIndexes[eventPlayer.ability]) + 1]
     return
     goto lbl_0
     __abortIf__(eventPlayer.rock_scissors_paper_players != null)
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
-    if eventPlayer.target.rock_scissors_paper_players != null:
-        return
+    __abortIf__(eventPlayer.target.rock_scissors_paper_players != null)
     eventPlayer.rock_siccors_paper_status = 0
     eventPlayer.rock_scissors_paper_players = [eventPlayer, eventPlayer.target]
     goto lbl_1
@@ -1868,19 +1855,17 @@ rule "on use":
     smallMessage(eventPlayer, eventPlayer.random_size)
     goto lbl_25
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
-    eventPlayer.target.setAmmo(0, 0)
+    eventPlayer.target.forceButtonPress(Button.PRIMARY_FIRE)
+    wait(0.1)
     eventPlayer.target.forceButtonPress(Button.RELOAD)
     goto lbl_26
     eventPlayer.targets = [player for player in getLivingPlayers(eventPlayer.getTeam()) if player != eventPlayer and player.hasSpawned() and distance(eventPlayer, player) <= 100 and angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) <= 45]
     __abortIf__(len(eventPlayer.targets) == 0)
     eventPlayer.target_3 = sorted(eventPlayer.targets, key=lambda player: angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())))[0]
-    eventPlayer.target_pos = nearestWalkablePosition(worldVector(Vector.BACKWARD * 1.5, eventPlayer, Transform.ROTATION_AND_TRANSLATION))
-    eventPlayer.target_3.disableEnvironmentCollision(false)
-    eventPlayer.target_3.setStatusEffect(eventPlayer, Status.ROOTED, 0)
+    eventPlayer.target_pos = nearestWalkablePosition(worldVector(Vector.FORWARD * 4, eventPlayer, Transform.ROTATION_AND_TRANSLATION))
     eventPlayer.target_3.teleport(eventPlayer.target_pos + vect(0, 0.25, 0))
     wait(0.1)
-    eventPlayer.target_3.clearStatusEffect(Status.ROOTED)
-    eventPlayer.target_3.enableEnvironmentCollision()
+    eventPlayer.setAbility2Enabled(true)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
     eventPlayer.forceButtonPress(Button.ABILITY_2)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 9)
@@ -2023,6 +2008,65 @@ rule "on use":
     lbl_36:
     lbl_37:
     eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
+
+
+rule "[sponsored reaction] force emote":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == SponsoredReaction
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.cooldown_count <= 0
+    @Condition eventPlayer.isAlive() == true
+    
+    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    __abortIf__(eventPlayer.target.isInAir())
+    eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
+    eventPlayer.target.setUltCharge(eventPlayer.target.getUltCharge() + 10)
+    eventPlayer.target.communicate(Comms.EMOTE_UP)
+    wait(0.3)
+    if not eventPlayer.target.isCommunicatingEmote():
+        eventPlayer.target.communicate(Comms.EMOTE_RIGHT)
+        wait(0.3)
+    if not eventPlayer.target.isCommunicatingEmote():
+        eventPlayer.target.communicate(Comms.EMOTE_DOWN)
+        wait(0.3)
+    if not eventPlayer.target.isCommunicatingEmote():
+        eventPlayer.target.communicate(Comms.EMOTE_LEFT)
+        wait(0.3)
+    if eventPlayer.target.isCommunicatingEmote():
+        bigMessage(eventPlayer.target, "$45 sponsorship by {0}!".format(eventPlayer))
+        playEffect(getLivingPlayers(Team.ALL), DynamicEffect.BAD_PICKUP_EFFECT, Color.RED, eventPlayer.target, 3)
+    else:
+        smallMessage(eventPlayer, "Target has no usable emote")
+    eventPlayer.target = null
+
+
+rule "[lifesaver] pull ally":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == LifeSaver
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.interact_press_count != eventPlayer.lifesaver_press_count
+    @Condition eventPlayer.cooldown_count <= 0
+    @Condition eventPlayer.isAlive() == true
+    
+    eventPlayer.lifesaver_press_count = eventPlayer.interact_press_count
+    eventPlayer.targets = [player for player in getLivingPlayers(eventPlayer.getTeam()) if player != eventPlayer and player.hasSpawned() and distance(eventPlayer, player) <= 100 and angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) <= 45]
+    if len(eventPlayer.targets) == 0:
+        smallMessage(eventPlayer, "No ally targeted")
+        return
+    eventPlayer.target_3 = sorted(eventPlayer.targets, key=lambda player: angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())))[0]
+    eventPlayer.target_pos = nearestWalkablePosition(worldVector(Vector.FORWARD * 4, eventPlayer, Transform.ROTATION_AND_TRANSLATION))
+    if eventPlayer.target_pos == null:
+        return
+    eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
+    playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.GREEN, eventPlayer.target_3, 2)
+    playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.GREEN, eventPlayer, 80)
+    eventPlayer.target_3.teleport(eventPlayer.target_pos + vect(0, 0.25, 0))
+    wait(0.1)
+    eventPlayer.setAbility2Enabled(true)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
+    eventPlayer.forceButtonPress(Button.ABILITY_2)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, 9)
+    eventPlayer.target_3 = null
 
 
 rule "[rock paper scissors] hack":
