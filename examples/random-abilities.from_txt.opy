@@ -723,7 +723,7 @@ def register_abilities3():
     _classIndexes[_extendedGlobalCollection[55]] = 57
     _objectVariable_0[_extendedGlobalCollection[55]] = Lag
     _objectVariable_1[_extendedGlobalCollection[55]] = "press [interact] to teleport the enemy you are looking at to random position"
-    _objectVariable_2[_extendedGlobalCollection[55]] = 10
+    _objectVariable_2[_extendedGlobalCollection[55]] = 1
     _objectVariable_3[_extendedGlobalCollection[55]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[55])
     _extendedGlobalCollection[58] = _classIndexes.index(0)
@@ -763,7 +763,7 @@ def register_abilities3():
     _extendedGlobalCollection[100] = len(_classIndexes) if _extendedGlobalCollection[100] == -1 else _extendedGlobalCollection[100]
     _classIndexes[_extendedGlobalCollection[100]] = 102
     _objectVariable_0[_extendedGlobalCollection[100]] = NUKE
-    _objectVariable_1[_extendedGlobalCollection[100]] = "Press Q: Nuke the worldâ€¦ or yourself. Itâ€™s a gamble!"
+    _objectVariable_1[_extendedGlobalCollection[100]] = "Press Q: Nuke the world... or yourself. It's a gamble!"
     _objectVariable_8[_extendedGlobalCollection[100]] = [Hero.DVA]
     _objectVariable_3[_extendedGlobalCollection[100]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[100])
@@ -787,7 +787,7 @@ def register_abilities3():
     _extendedGlobalCollection[102] = len(_classIndexes) if _extendedGlobalCollection[102] == -1 else _extendedGlobalCollection[102]
     _classIndexes[_extendedGlobalCollection[102]] = 104
     _objectVariable_0[_extendedGlobalCollection[102]] = katrina
-    _objectVariable_1[_extendedGlobalCollection[102]] = "Press [INTERACT] to defy fateâ€”steal a soul, or lose your own"
+    _objectVariable_1[_extendedGlobalCollection[102]] = "Press [INTERACT] to defy fate - steal a soul, or lose your own"
     _objectVariable_2[_extendedGlobalCollection[102]] = 10
     _objectVariable_8[_extendedGlobalCollection[102]] = [Hero.MERCY]
     _objectVariable_3[_extendedGlobalCollection[102]] = len(abilities) + 1
@@ -1961,10 +1961,12 @@ rule "on use":
     goto lbl_33
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.targets_22 = eventPlayer.target
-    eventPlayer.allies = getPlayers(eventPlayer.getTeam()).filter(lambda player: player != eventPlayer and player.isAlive())
+    eventPlayer.allies = getPlayers(eventPlayer.targets_22.getTeam()).filter(lambda player: player != eventPlayer.targets_22 and player.isAlive())
     __abortIf__(len(eventPlayer.allies) == 0)
     eventPlayer.target = random.choice(eventPlayer.allies)
-    eventPlayer.targets_22.setFacing(directionTowards(eventPlayer.targets_22, eventPlayer.target), Relativity.TO_WORLD)
+    eventPlayer.targets_22.startFacing(directionTowards(eventPlayer.targets_22, eventPlayer.target), 500, Relativity.TO_WORLD, FacingReeval.DIRECTION_AND_TURN_RATE)
+    wait(1)
+    eventPlayer.targets_22.stopFacing()
     bigMessage(eventPlayer.targets_22, "{0} : look at {1}".format(eventPlayer, eventPlayer.target))
     goto lbl_34
     __abortIf__(eventPlayer.target != null)
@@ -3201,7 +3203,7 @@ rule "[nuke]":
         restartMatch()
     else:
         kill(eventPlayer)
-        hudHeader(eventPlayer, "â™¥ UNLUCKY {0} â™¥".format(eventPlayer), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+        hudHeader(eventPlayer, "<3 UNLUCKY {0} <3".format(eventPlayer), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
         wait(2)
         destroyHudText(getLastCreatedText())
 
