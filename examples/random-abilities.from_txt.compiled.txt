@@ -1798,7 +1798,7 @@ rule ("on use") {
     actions {
         Skip(Value In Array(Array(305, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 10, 16, 24, 39, 49, 54, 61, 67, 74, 80, 89, 98, 103, 112, 117, 123, 127, 134, 142, 149, 162, 170, 177, 188, 195, 200, 222, 227, 232, 247, 252, 272, 277, 282, 291, 295, 299), Add(Index Of Array Value(Array(1, 2, 6, 8, 11, 13, 15, 16, 19, 21, 24, 29, 31, 33, 34, 38, 39, 41, 43, 44, 50, 58, 3, 4, 5, 7, 9, 10, 12, 14, 17, 18, 20, 22, 23, 25, 26, 27, 28, 30, 32, 35, 36, 37, 40, 42, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 59, 60), Value In Array(Global._classIndexes, (Event Player).ability)), 1)));
         Abort;
-        Skip(510);
+        Skip(503);
         Abort If(Compare((Event Player).rock_scissors_paper_players, !=, Null));
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
@@ -1819,7 +1819,7 @@ rule ("on use") {
         disabled Abort;
         Set Player Variable(Event Player, rock_siccors_paper_status, 0);
         Set Player Variable(Event Player, rock_scissors_paper_players, Array(Event Player, (Event Player).target));
-        Skip(493);
+        Skip(486);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -1835,7 +1835,7 @@ rule ("on use") {
         disabled Abort;
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : are you tickling?", Event Player));
-        Skip(480);
+        Skip(473);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Team Of(Event Player)));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -1857,7 +1857,7 @@ rule ("on use") {
         Play Effect(All Players(All Teams), Buff Explosion Sound, Color(Blue), Event Player, 100);
         Set Ultimate Charge((Event Player).target, 100);
         Press Button((Event Player).target, Button(Ultimate));
-        Skip(462);
+        Skip(455);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -1883,7 +1883,7 @@ rule ("on use") {
         Wait(0.2, Ignore Condition);
         Teleport(Event Player, (Event Player).original_position);
         Set Facing(Event Player, (Event Player).original_direction, To World);
-        Skip(439);
+        Skip(432);
         If(Not((Event Player).is_no_clip));
             Disable Movement Collision With Environment(Event Player, False);
             Set Player Variable(Event Player, is_no_clip, True);
@@ -1893,7 +1893,7 @@ rule ("on use") {
             Set Player Variable(Event Player, is_no_clip, False);
             Small Message(Event Player, Custom String("Disabled no-clip"));
         End;
-        Skip(429);
+        Skip(422);
         If(Array Contains(Global.targetHeros, Hero Of(Event Player)));
             Set Player Variable(Event Player, targets_3, Filtered Array(All Players(All Teams), Array Contains(Global.targetHeros, Hero Of(Current Array Element))));
         Else If(Array Contains(Global.targetHeros_0, Hero Of(Event Player)));
@@ -1904,7 +1904,7 @@ rule ("on use") {
         Abort If(Compare(Count Of((Event Player).targets_3), ==, 0));
         Kill((Event Player).targets_3, Event Player);
         Big Message((Event Player).targets_3, Custom String("{0}: Only me is enough!", Event Player));
-        Skip(418);
+        Skip(411);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -1921,7 +1921,7 @@ rule ("on use") {
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}: Fluffy fluff", Event Player));
         Set Player Variable((Event Player).target, is_floating, True);
-        Skip(404);
+        Skip(397);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -1938,7 +1938,7 @@ rule ("on use") {
         Set Status((Event Player).target, Event Player, Rooted, 5);
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}: Stop Yay!", Event Player));
-        Skip(390);
+        Skip(383);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -1955,13 +1955,13 @@ rule ("on use") {
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0}has presented you with a new god.", Event Player));
         Set Player Variable((Event Player).target, is_spin_floating, Event Player);
-        Skip(376);
+        Skip(369);
         Abort If((Event Player).is_showing_barieer);
         Set Player Variable(Event Player, barieer_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 1000)), All Players(All Teams), Event Player, True));
         Play Effect(All Players(All Teams), Bad Pickup Effect, Color(Sky Blue), (Event Player).barieer_position, 15);
         Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Sky Blue), (Event Player).barieer_position, 50);
         Set Player Variable(Event Player, targets, All Players(All Teams));
-        Skip(370);
+        Skip(363);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_7, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(Global.targetHeros, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_7), ==, 0));
@@ -1970,7 +1970,7 @@ rule ("on use") {
         Set Status((Event Player).target_0, Event Player, Asleep, 5);
         Set Status((Event Player).target_0, Event Player, Knocked Down, 5);
         Big Message((Event Player).target_0, Custom String("{0}: Oh, good night", Event Player));
-        Skip(361);
+        Skip(354);
         Abort If(Or(Not(Is On Ground(Event Player)), Is In Spawn Room(Event Player)));
         Set Player Variable(Event Player, egg_position, Position Of(Event Player));
         Set Player Variable(Event Player, targets, All Players(Opposite Team Of(Team Of(Event Player))));
@@ -1979,7 +1979,7 @@ rule ("on use") {
         Play Effect(All Players(All Teams), Bad Pickup Effect, Color(Green), Event Player, 0.5);
         Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Green), Event Player, 100);
         Set Status(Event Player, Null, Unkillable, 9999);
-        Skip(352);
+        Skip(345);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -1995,7 +1995,7 @@ rule ("on use") {
         disabled Abort;
         Set Facing((Event Player).target, Backward, To Player);
         Big Message((Event Player).target, Custom String("{0} : Huh? behind you! haha", Event Player));
-        Skip(339);
+        Skip(332);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2015,7 +2015,7 @@ rule ("on use") {
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Play Effect(All Living Players(All Teams), Good Pickup Effect, Color(Yellow), Event Player, 3);
         Small Message((Event Player).target, Custom String("Change location!"));
-        Skip(322);
+        Skip(315);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2031,7 +2031,7 @@ rule ("on use") {
         disabled Abort;
         Teleport((Event Player).target, World Vector Of(Forward, Event Player, Rotation And Translation));
         Big Message((Event Player).target, Custom String("{0} : come here", Event Player));
-        Skip(309);
+        Skip(302);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2048,11 +2048,11 @@ rule ("on use") {
         Set Status((Event Player).target, Event Player, Asleep, 4);
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : Good night hehe", Event Player));
-        Skip(295);
+        Skip(288);
         Abort If(Not(Is On Ground(Event Player)));
         Set Player Variable(Event Player, trap_pos, World Vector Of(Vector(Empty Array, -0.2, 1.5), Event Player, Rotation And Translation));
         Set Player Variable(Event Player, trap_size, 1);
-        Skip(291);
+        Skip(284);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2070,7 +2070,7 @@ rule ("on use") {
         Set Facing(Event Player, Local Vector Of(Position Of((Event Player).target), Event Player, Rotation And Translation), To Player);
         Set Status((Event Player).target, Event Player, Stunned, 1.5);
         Big Message((Event Player).target, Custom String("{0} : really behind you", Event Player));
-        Skip(276);
+        Skip(269);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_13, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(Global.targetHeros_0, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_13), ==, 0));
@@ -2078,7 +2078,7 @@ rule ("on use") {
         Teleport((Event Player).target_1, World Vector Of(Forward, Event Player, Rotation And Translation));
         Set Status((Event Player).target_1, Event Player, Stunned, 4);
         Big Message((Event Player).target_1, Custom String("{0} : Talon is bad", Event Player));
-        Skip(268);
+        Skip(261);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2095,7 +2095,7 @@ rule ("on use") {
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
         Big Message((Event Player).target, Custom String("{0} : Rotating tornado!", Event Player));
         Set Player Variable((Event Player).target, is_rotating, True);
-        Skip(254);
+        Skip(247);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2118,7 +2118,7 @@ rule ("on use") {
         Allow Button(Event Player, Button(Primary Fire));
         Big Message((Event Player).target, Custom String("$45 sponsorship by {0}!", Event Player));
         Play Effect(All Living Players(All Teams), Bad Pickup Effect, Color(Red), (Event Player).target, 3);
-        Skip(234);
+        Skip(227);
         Abort If(Is In Spawn Room(Event Player));
         Set Player Variable(Event Player, targets_16, Filtered Array(All Living Players(Opposite Team Of(Team Of(Event Player))), Array Contains(All Support Heroes, Hero Of(Current Array Element))));
         Abort If(Compare(Count Of((Event Player).targets_16), ==, 0));
@@ -2126,7 +2126,7 @@ rule ("on use") {
         Teleport((Event Player).target_2, World Vector Of(Forward, Event Player, Rotation And Translation));
         Set Status((Event Player).target_2, Event Player, Stunned, 4);
         Big Message((Event Player).target_2, Custom String("Have fun!"));
-        Skip(226);
+        Skip(219);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2143,7 +2143,7 @@ rule ("on use") {
         Set Status((Event Player).target, Event Player, Asleep, 5);
         Set Status((Event Player).target, Null, Phased Out, 5);
         Big Message((Event Player).target, Custom String("{0} : Telekinesis", Event Player));
-        Skip(212);
+        Skip(205);
         Set Player Variable(Event Player, max_health, Random Integer(20, 225));
         Set Player Variable(Event Player, damage_dealt, Random Integer(20, 225));
         Set Player Variable(Event Player, movement_speed, Random Integer(20, 225));
@@ -2154,7 +2154,7 @@ rule ("on use") {
         Set Move Speed(Event Player, (Event Player).movement_speed);
         Wait(0.1, Ignore Condition);
         Heal(Event Player, Null, 10000);
-        Skip(201);
+        Skip(194);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, All Teams));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2172,7 +2172,7 @@ rule ("on use") {
         Start Scaling Player((Event Player).target, (Event Player).random_size, False);
         Start Modifying Hero Voice Lines((Event Player).target, Divide(1, (Event Player).random_size), False);
         Small Message(Event Player, (Event Player).random_size);
-        Skip(186);
+        Skip(179);
         Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Opposite Team Of(Team Of(Event Player))));
         Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
         Abort;
@@ -2188,24 +2188,14 @@ rule ("on use") {
         disabled Abort;
         Set Ammo((Event Player).target, 0, 0);
         Press Button((Event Player).target, Button(Reload));
-        Skip(173);
-        Set Player Variable(Event Player, target, Player Closest To Reticle(Event Player, Team Of(Event Player)));
-        Abort If(Or(Or(Compare((Event Player).target, ==, Event Player), Is Dead((Event Player).target)), Not(Has Spawned((Event Player).target))));
-        Abort;
-        "pass"
-        disabled Abort;
-        Abort If(Not(Array Contains(Players in View Angle(Event Player, Team Of(Event Player), 45), (Event Player).target)));
-        Abort;
-        "pass"
-        disabled Abort;
-        Abort If(Not(Array Contains(Players Within Radius(Eye Position(Event Player), 100, Team Of(Event Player), Off), (Event Player).target)));
-        Abort;
-        "pass"
-        disabled Abort;
-        Set Player Variable(Event Player, target_3, (Event Player).target);
+        Skip(166);
+        Set Player Variable(Event Player, targets, Filtered Array(All Living Players(Team Of(Event Player)), And(And(And(Compare(Current Array Element, !=, Event Player), Has Spawned(Current Array Element)), Compare(Distance Between(Event Player, Current Array Element), <=, 100)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))));
+        Abort If(Compare(Count Of((Event Player).targets), ==, 0));
+        Set Player Variable(Event Player, target_3, First Of(Sorted Array((Event Player).targets, Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))))));
+        Set Player Variable(Event Player, target_pos, Nearest Walkable Position(World Vector Of(Vector(0, 0, -1.5), Event Player, Rotation And Translation)));
         Disable Movement Collision With Environment((Event Player).target_3, False);
         Set Status((Event Player).target_3, Event Player, Rooted, 0);
-        Teleport((Event Player).target_3, World Vector Of(Vector(Empty Array, Empty Array, 2), Event Player, Rotation And Translation));
+        Teleport((Event Player).target_3, Add((Event Player).target_pos, Vector(0, 0.25, 0)));
         Wait(0.1, Ignore Condition);
         Clear Status((Event Player).target_3, Rooted);
         Enable Movement Collision With Environment((Event Player).target_3);

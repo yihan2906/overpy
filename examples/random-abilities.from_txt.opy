@@ -1876,11 +1876,13 @@ rule "on use":
     eventPlayer.target.setAmmo(0, 0)
     eventPlayer.target.forceButtonPress(Button.RELOAD)
     goto lbl_26
-    eventPlayer.acquireViewedTarget(eventPlayer.getTeam(), 100, LosCheck.OFF)
-    eventPlayer.target_3 = eventPlayer.target
+    eventPlayer.targets = [player for player in getLivingPlayers(eventPlayer.getTeam()) if player != eventPlayer and player.hasSpawned() and distance(eventPlayer, player) <= 100 and angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) <= 45]
+    __abortIf__(len(eventPlayer.targets) == 0)
+    eventPlayer.target_3 = sorted(eventPlayer.targets, key=lambda player: angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())))[0]
+    eventPlayer.target_pos = nearestWalkablePosition(worldVector(Vector.BACKWARD * 1.5, eventPlayer, Transform.ROTATION_AND_TRANSLATION))
     eventPlayer.target_3.disableEnvironmentCollision(false)
     eventPlayer.target_3.setStatusEffect(eventPlayer, Status.ROOTED, 0)
-    eventPlayer.target_3.teleport(worldVector(vect([], [], 2), eventPlayer, Transform.ROTATION_AND_TRANSLATION))
+    eventPlayer.target_3.teleport(eventPlayer.target_pos + vect(0, 0.25, 0))
     wait(0.1)
     eventPlayer.target_3.clearStatusEffect(Status.ROOTED)
     eventPlayer.target_3.enableEnvironmentCollision()
