@@ -204,7 +204,7 @@ macro Player.acquireViewedTarget(team, radius=80, losCheck=LosCheck.SURFACES):
     __abortIf__(self.target == null)
 
 macro formatKeyPrompts(text):
-    text.replace("[INTERACT]", inputBindingString(Button.INTERACT)).replace("[Interact]", inputBindingString(Button.INTERACT)).replace("[interact]", inputBindingString(Button.INTERACT)).replace("[RELOAD]", inputBindingString(Button.RELOAD)).replace("[Reload]", inputBindingString(Button.RELOAD)).replace("[reload]", inputBindingString(Button.RELOAD))
+    text.replace("[INTERACT]", inputBindingString(Button.INTERACT)).replace("[Interact]", inputBindingString(Button.INTERACT)).replace("[interact]", inputBindingString(Button.INTERACT)).replace("[RELOAD]", inputBindingString(Button.RELOAD)).replace("[Reload]", inputBindingString(Button.RELOAD)).replace("[reload]", inputBindingString(Button.RELOAD)).replace("[ULTIMATE]", inputBindingString(Button.ULTIMATE)).replace("[Ultimate]", inputBindingString(Button.ULTIMATE)).replace("[ultimate]", inputBindingString(Button.ULTIMATE))
 
 macro getSpawnedTeammatesExcludingSelf(player):
     [p for p in getLivingPlayers(player.getTeam()) if p.hasSpawned() and p != player]
@@ -726,7 +726,7 @@ def register_abilities3():
     _extendedGlobalCollection[100] = len(_classIndexes) if _extendedGlobalCollection[100] == -1 else _extendedGlobalCollection[100]
     _classIndexes[_extendedGlobalCollection[100]] = 102
     abilityNames[_extendedGlobalCollection[100]] = NUKE
-    abilityDescriptions[_extendedGlobalCollection[100]] = "Press Q: Nuke the world... or yourself. It's a gamble!"
+    abilityDescriptions[_extendedGlobalCollection[100]] = "Press [ULTIMATE]: shared nuke chance starts at 0%, +0.5% per cast."
     abilityForcedHeroes[_extendedGlobalCollection[100]] = [Hero.DVA]
     abilityOrder[_extendedGlobalCollection[100]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[100])
@@ -763,6 +763,7 @@ rule "init global variables":
     reroll_when_internal_death = createWorkshopSettingBool("Ability setting", "Ability change in case of intentional death", false)
     show_ability_on_the_name = createWorkshopSettingBool("Ability setting", "Show ability name on the player name", false)
     unlimited_game_time = createWorkshopSettingBool("Game settings", "Unlimited game time", false)
+    probabilityNuke = 0
     if unlimited_game_time:
         disableGamemodeCompletion()
     abilities = []
@@ -1354,10 +1355,10 @@ def roll_ability():
     eventPlayer.allies = null
     hudHeader(eventPlayer.show_text, eventPlayer.target_pos, HudPosition.LEFT, 100, Color.GREEN if eventPlayer.targetIndex == 0 else Color.RED if eventPlayer.targetIndex == 2 else Color.YELLOW, HudReeval.VISIBILITY_STRING_AND_COLOR)
     eventPlayer.text_ids.append(getLastCreatedText())
-    createEffect(eventPlayer.allies, Effect.SPHERE, Color.BLUE, eventPlayer.egg_position, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.SPHERE, Color.TEAM_1 if eventPlayer.getTeam() == Team.1 else Color.TEAM_2, eventPlayer.egg_position, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.effect_ids.append(getLastCreatedEntity())
-    createEffect(eventPlayer.targets, Effect.SPHERE, Color.RED, eventPlayer.egg_position, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.effect_ids.append(getLastCreatedEntity())
+    eventPlayer.targets = null
+    eventPlayer.allies = null
     returnValue_onStart = true
     goto lbl_42
     goto lbl_43
@@ -1500,8 +1501,8 @@ def roll_ability():
     returnValue_onStart = false
     goto lbl_108
     goto lbl_109
-    progressBarHud(eventPlayer.controlling, eventPlayer.mindcontrol_time / 7 * 100, "Mind Control", HudPosition.LEFT, 30, Color.PURPLE, Color.PURPLE, ProgressHudReeval.VISIBILITY_AND_VALUES, SpecVisibility.ALWAYS)
-    eventPlayer.progressbar_id = getLastCreatedText()
+    returnValue_onStart = returnValue_onStart
+    returnValue_onStart = returnValue_onStart
     returnValue_onStart = true
     goto lbl_110
     goto lbl_111
@@ -1668,7 +1669,7 @@ rule "roll ability when player died":
     roll_ability()
 
 
-rule "DEBUG ONLY host force Role Call":
+rule "DEBUG ONLY host force Mind Control":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.isDummy() == false
@@ -1676,9 +1677,9 @@ rule "DEBUG ONLY host force Role Call":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    eventPlayer.next_ability = abilityNames.index(SleepWell)
+    eventPlayer.next_ability = abilityNames.index(MindControl)
     roll_ability()
-    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Role Call")
+    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Mind Control")
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or not eventPlayer.isHoldingButton(Button.RELOAD), 99999)
 
 
@@ -1709,6 +1710,7 @@ rule "[mind control] use":
     @Event eachPlayer
     @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == false
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target == null
@@ -1722,10 +1724,20 @@ rule "[mind control] use":
     eventPlayer.target.disallowButton(Button.JUMP)
     eventPlayer.target.disallowButton(Button.CROUCH)
     eventPlayer.target.disallowButton(Button.MELEE)
-    eventPlayer.controlling = eventPlayer
+    eventPlayer.controlling = [eventPlayer, eventPlayer.target]
     eventPlayer.mindcontrol_time = 7
     smallMessage(eventPlayer, "Mind Control: {0}".format(eventPlayer.target))
     eventPlayer.setMoveSpeed(0)
+
+
+rule "[mind control] create progress bar":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == MindControl
+    @Condition eventPlayer.progressbar_id == null
+    
+    eventPlayer.controlling = []
+    progressBarHud(eventPlayer.controlling, eventPlayer.mindcontrol_time / 7 * 100, "Mind Control", HudPosition.LEFT, 30, Color.PURPLE, Color.PURPLE, ProgressHudReeval.VISIBILITY_AND_VALUES, SpecVisibility.ALWAYS)
+    eventPlayer.progressbar_id = getLastCreatedText()
 
 
 rule "on use":
@@ -1735,6 +1747,7 @@ rule "on use":
     @Condition abilityNames[eventPlayer.ability] != SponsoredReaction
     @Condition abilityNames[eventPlayer.ability] != LayingEgg
     @Condition abilityNames[eventPlayer.ability] != SleepWell
+    @Condition abilityNames[eventPlayer.ability] != MindControl
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isAlive() == true
@@ -2517,7 +2530,7 @@ rule "[laying egg] create enemy marker text":
     @Condition eventPlayer.egg_position != null
     @Condition len(eventPlayer.text_ids) == 1
     
-    createInWorldText(eventPlayer.targets, "Stand on egg to break it", eventPlayer.egg_position + vect(0, 1.1, 0), 0.8, Clip.NONE, WorldTextReeval.VISIBILITY_AND_POSITION, Color.RED, SpecVisibility.DEFAULT)
+    createInWorldText([player for player in getAllPlayers() if player.getTeam() != eventPlayer.getTeam()], "Stand on egg to break it", eventPlayer.egg_position + vect(0, 1.1, 0), 0.8, Clip.NONE, WorldTextReeval.VISIBILITY_AND_POSITION, Color.RED, SpecVisibility.ALWAYS)
     eventPlayer.text_ids.append(getLastCreatedText())
 
 
@@ -2527,7 +2540,7 @@ rule "[laying egg] egg broken":
     @Condition eventPlayer.egg_position != null
     
     wait(1)
-    if getPlayersInRadius(eventPlayer.egg_position, 1, getOppositeTeam(eventPlayer.getTeam())).exclude(eventPlayer) != []:
+    if [player for player in getPlayersInRadius(eventPlayer.egg_position, 1, Team.ALL) if player != eventPlayer and player.getTeam() != eventPlayer.getTeam()] != []:
         playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.WHITE, eventPlayer.egg_position, 120)
         eventPlayer.egg_position = null
         eventPlayer.targets = null
@@ -2725,7 +2738,7 @@ rule "[mind control] on death":
     eventPlayer.target.allowButton(Button.CROUCH)
     eventPlayer.target.allowButton(Button.MELEE)
     eventPlayer.target = null
-    eventPlayer.controlling = false
+    eventPlayer.controlling = []
     eventPlayer.mindcontrol_time = 0
     eventPlayer.setMoveSpeed(eventPlayer.movement_speed)
     eventPlayer.stopCamera()
@@ -3381,8 +3394,9 @@ rule "[nuke]":
     @Condition eventPlayer.isUsingUltimate() == true
     @Condition abilityNames[eventPlayer.ability] == NUKE
     
-    probabilityNuke = random.randint(1, 100)
-    if probabilityNuke <= 20:
+    eventPlayer.tmp = random.uniform(0, 100)
+    smallMessage(getAllPlayers(), "{0} rolled {1} against {2}% NUKE chance.".format(eventPlayer, round(eventPlayer.tmp * 10) / 10, probabilityNuke))
+    if probabilityNuke > 0 and eventPlayer.tmp <= probabilityNuke:
         eventPlayer.previous_pos = eventPlayer.getPosition()
         eventPlayer.setAbility1Enabled(false)
         eventPlayer.setAbility2Enabled(false)
@@ -3424,10 +3438,23 @@ rule "[nuke]":
         wait(2)
         restartMatch()
     else:
+        probabilityNuke += 0.5
+        if probabilityNuke > 100:
+            probabilityNuke = 100
         kill(eventPlayer)
-        hudHeader(eventPlayer, "<3 UNLUCKY {0} <3".format(eventPlayer), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+        hudHeader(eventPlayer, "<3 UNLUCKY {0} <3 Chance was {1}%; now {2}%.".format(eventPlayer, probabilityNuke - 0.5, probabilityNuke), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
         wait(2)
         destroyHudText(getLastCreatedText())
+
+
+rule "[nuke] update chance text":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == NUKE
+    
+    eventPlayer.desc = "Press [ULTIMATE]: shared nuke chance {0}%. +0.5% after every cast.".format(probabilityNuke)
+    wait(0.25)
+    if ruleCondition:
+        loop()
 
 
 rule "[mega mauga]":
