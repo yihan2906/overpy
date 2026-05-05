@@ -869,6 +869,7 @@ rule ("clear huds") {
         "HUD"
         For Global Variable(hudIndex, 0, Count Of((Event Player).text_ids), 1);
             Destroy HUD Text(Value In Array((Event Player).text_ids, Global.hudIndex));
+            Destroy In-World Text(Value In Array((Event Player).text_ids, Global.hudIndex));
         End;
         Set Player Variable(Event Player, text_ids, Empty Array);
         "Effect"
@@ -2980,6 +2981,7 @@ rule ("[laying egg] egg broken") {
         Wait(1, Ignore Condition);
         If(Compare(Filtered Array(Players Within Radius((Event Player).egg_position, 1, All Teams, Off), And(Compare(Current Array Element, !=, Event Player), Compare(Team Of(Current Array Element), !=, Team Of(Event Player)))), !=, Empty Array));
             Play Effect(All Players(All Teams), Debuff Impact Sound, Color(White), (Event Player).egg_position, 120);
+            Set Player Variable(Event Player, egg_position, Null);
             For Global Variable(hudIndex, 0, Count Of((Event Player).effect_ids), 1);
                 Destroy Effect(Value In Array((Event Player).effect_ids, Global.hudIndex));
             End;
@@ -2990,7 +2992,6 @@ rule ("[laying egg] egg broken") {
                 End;
                 Set Player Variable(Event Player, text_ids, Array(First Of((Event Player).text_ids)));
             End;
-            Set Player Variable(Event Player, egg_position, Null);
             Set Player Variable(Event Player, targets, Null);
             Set Player Variable(Event Player, allies, Null);
             Set Player Variable(Event Player, targetIndex, 0);

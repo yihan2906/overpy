@@ -817,6 +817,7 @@ def clear_huds():
     #HUD
     for hudIndex in range(len(eventPlayer.text_ids)):
         destroyHudText(eventPlayer.text_ids[hudIndex])
+        destroyInWorldText(eventPlayer.text_ids[hudIndex])
     eventPlayer.text_ids = []
     #Effect
     for hudIndex in range(len(eventPlayer.effect_ids)):
@@ -2570,6 +2571,7 @@ rule "[laying egg] egg broken":
     wait(1)
     if [player for player in getPlayersInRadius(eventPlayer.egg_position, 1, Team.ALL) if player != eventPlayer and player.getTeam() != eventPlayer.getTeam()] != []:
         playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.WHITE, eventPlayer.egg_position, 120)
+        eventPlayer.egg_position = null
         for hudIndex in range(len(eventPlayer.effect_ids)):
             destroyEffect(eventPlayer.effect_ids[hudIndex])
         eventPlayer.effect_ids = []
@@ -2577,7 +2579,6 @@ rule "[laying egg] egg broken":
             for hudIndex in range(1, len(eventPlayer.text_ids)):
                 destroyInWorldText(eventPlayer.text_ids[hudIndex])
             eventPlayer.text_ids = [eventPlayer.text_ids[0]]
-        eventPlayer.egg_position = null
         eventPlayer.targets = null
         eventPlayer.allies = null
         eventPlayer.targetIndex = 0
