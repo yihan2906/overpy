@@ -1779,7 +1779,7 @@ rule ("roll ability when player died") {
     }
 }
 
-rule ("DEBUG ONLY host force LifeSaver") {
+rule ("DEBUG ONLY host force Laying Egg") {
     event {
         Ongoing - Each Player;
         All;
@@ -1793,10 +1793,9 @@ rule ("DEBUG ONLY host force LifeSaver") {
         Is Button Held(Event Player, Button(Reload)) == True;
     }
     actions {
-        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.LifeSaver));
+        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.LayingEgg));
         Call Subroutine(roll_ability);
-        Set Player Variable(Event Player, lifesaver_press_count, (Event Player).interact_press_count);
-        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to LifeSaver"));
+        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Laying Egg"));
         Wait Until(Not(And(Is Button Held(Event Player, Button(Interact)), Is Button Held(Event Player, Button(Reload)))), 99999);
     }
 }

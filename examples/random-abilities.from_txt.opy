@@ -1669,7 +1669,7 @@ rule "roll ability when player died":
     roll_ability()
 
 
-rule "DEBUG ONLY host force LifeSaver":
+rule "DEBUG ONLY host force Laying Egg":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.isDummy() == false
@@ -1677,10 +1677,9 @@ rule "DEBUG ONLY host force LifeSaver":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    eventPlayer.next_ability = abilityNames.index(LifeSaver)
+    eventPlayer.next_ability = abilityNames.index(LayingEgg)
     roll_ability()
-    eventPlayer.lifesaver_press_count = eventPlayer.interact_press_count
-    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to LifeSaver")
+    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Laying Egg")
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or not eventPlayer.isHoldingButton(Button.RELOAD), 99999)
 
 
