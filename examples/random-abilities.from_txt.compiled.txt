@@ -1431,8 +1431,10 @@ rule ("roll ability") {
         Set Player Variable(Event Player, allies, Null);
         Create HUD Text((Event Player).show_text, (Event Player).target_pos, Null, Null, Left, 100, If-Then-Else(Compare((Event Player).targetIndex, ==, 0), Color(Green), If-Then-Else(Compare((Event Player).targetIndex, ==, 2), Color(Red), Color(Yellow))), Null, Null, Visible To String and Color, Default Visibility);
         Modify Player Variable(Event Player, text_ids, Append To Array, Last Text ID);
-        Create Effect(All Players(All Teams), Sphere, If-Then-Else(Compare(Team Of(Event Player), ==, Team 1), Color(Team 1), Color(Team 2)), (Event Player).egg_position, 1, Visible To Position and Radius);
-        Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
+        "pass"
+        disabled Abort;
+        "pass"
+        disabled Abort;
         Set Player Variable(Event Player, targets, Null);
         Set Player Variable(Event Player, allies, Null);
         Set Global Variable(returnValue_onStart, True);
@@ -1777,7 +1779,7 @@ rule ("roll ability when player died") {
     }
 }
 
-rule ("DEBUG ONLY host force Laying Egg") {
+rule ("DEBUG ONLY host force LifeSaver") {
     event {
         Ongoing - Each Player;
         All;
@@ -1791,9 +1793,10 @@ rule ("DEBUG ONLY host force Laying Egg") {
         Is Button Held(Event Player, Button(Reload)) == True;
     }
     actions {
-        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.LayingEgg));
+        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.LifeSaver));
         Call Subroutine(roll_ability);
-        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Laying Egg"));
+        Set Player Variable(Event Player, lifesaver_press_count, (Event Player).interact_press_count);
+        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to LifeSaver"));
         Wait Until(Not(And(Is Button Held(Event Player, Button(Interact)), Is Button Held(Event Player, Button(Reload)))), 99999);
     }
 }
@@ -2335,13 +2338,13 @@ rule ("[lifesaver] pull ally") {
     }
     actions {
         Set Player Variable(Event Player, lifesaver_press_count, (Event Player).interact_press_count);
-        Set Player Variable(Event Player, targets, Filtered Array(All Living Players(Team Of(Event Player)), And(And(And(Compare(Current Array Element, !=, Event Player), Has Spawned(Current Array Element)), Compare(Distance Between(Event Player, Current Array Element), <=, 100)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))));
+        Set Player Variable(Event Player, targets, Filtered Array(All Living Players(Team Of(Event Player)), And(And(Compare(Current Array Element, !=, Event Player), Has Spawned(Current Array Element)), Compare(Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))), <=, 45))));
         If(Compare(Count Of((Event Player).targets), ==, 0));
             Small Message(Event Player, Custom String("No ally targeted"));
             Abort;
         End;
         Set Player Variable(Event Player, target_3, First Of(Sorted Array((Event Player).targets, Angle Between Vectors(Facing Direction Of(Event Player), Direction Towards(Eye Position(Event Player), Eye Position(Current Array Element))))));
-        Set Player Variable(Event Player, target_pos, Nearest Walkable Position(World Vector Of(Vector(0, 0, 4), Event Player, Rotation And Translation)));
+        Set Player Variable(Event Player, target_pos, Nearest Walkable Position(Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 1.5))));
         Abort If(Compare((Event Player).target_pos, ==, Null));
         Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
         Play Effect(All Players(All Teams), Good Pickup Effect, Color(Green), (Event Player).target_3, 2);
@@ -2859,6 +2862,16 @@ rule ("[laying egg] use") {
     }
     actions {
         Abort If(Or(Not(Is On Ground(Event Player)), Is In Spawn Room(Event Player)));
+        If(Compare(Count Of((Event Player).text_ids), >, 1));
+            For Global Variable(hudIndex, 1, Count Of((Event Player).text_ids), 1);
+                Destroy In-World Text(Value In Array((Event Player).text_ids, Global.hudIndex));
+            End;
+            Set Player Variable(Event Player, text_ids, Array(First Of((Event Player).text_ids)));
+        End;
+        For Global Variable(hudIndex, 0, Count Of((Event Player).effect_ids), 1);
+            Destroy Effect(Value In Array((Event Player).effect_ids, Global.hudIndex));
+        End;
+        Set Player Variable(Event Player, effect_ids, Empty Array);
         Set Player Variable(Event Player, egg_position, Position Of(Event Player));
         Set Player Variable(Event Player, targets, All Players(Opposite Team Of(Team Of(Event Player))));
         Set Player Variable(Event Player, allies, All Players(Team Of(Event Player)));
@@ -2869,6 +2882,41 @@ rule ("[laying egg] use") {
         Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Green), Event Player, 100);
         Set Status(Event Player, Null, Unkillable, 9999);
         Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
+    }
+}
+
+rule ("[laying egg] create egg marker effect") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LayingEgg;
+        (Event Player).egg_position != Null;
+        Count Of((Event Player).effect_ids) == 0;
+    }
+    actions {
+        Create Effect(All Players(All Teams), Sphere, If-Then-Else(Compare(Team Of(Event Player), ==, Team 1), Color(Team 1), Color(Team 2)), Add((Event Player).egg_position, Vector(0, 0.35, 0)), 1.2, Visible To Position and Radius);
+        Modify Player Variable(Event Player, effect_ids, Append To Array, Last Created Entity);
+    }
+}
+
+rule ("[laying egg] retry failed egg marker effect") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LayingEgg;
+        (Event Player).egg_position != Null;
+        Count Of((Event Player).effect_ids) > 0;
+        First Of((Event Player).effect_ids) == Null;
+    }
+    actions {
+        Wait(1, Abort When False);
+        Set Player Variable(Event Player, effect_ids, Empty Array);
     }
 }
 
@@ -2933,6 +2981,16 @@ rule ("[laying egg] egg broken") {
         Wait(1, Ignore Condition);
         If(Compare(Filtered Array(Players Within Radius((Event Player).egg_position, 1, All Teams, Off), And(Compare(Current Array Element, !=, Event Player), Compare(Team Of(Current Array Element), !=, Team Of(Event Player)))), !=, Empty Array));
             Play Effect(All Players(All Teams), Debuff Impact Sound, Color(White), (Event Player).egg_position, 120);
+            For Global Variable(hudIndex, 0, Count Of((Event Player).effect_ids), 1);
+                Destroy Effect(Value In Array((Event Player).effect_ids, Global.hudIndex));
+            End;
+            Set Player Variable(Event Player, effect_ids, Empty Array);
+            If(Compare(Count Of((Event Player).text_ids), >, 1));
+                For Global Variable(hudIndex, 1, Count Of((Event Player).text_ids), 1);
+                    Destroy In-World Text(Value In Array((Event Player).text_ids, Global.hudIndex));
+                End;
+                Set Player Variable(Event Player, text_ids, Array(First Of((Event Player).text_ids)));
+            End;
             Set Player Variable(Event Player, egg_position, Null);
             Set Player Variable(Event Player, targets, Null);
             Set Player Variable(Event Player, allies, Null);
@@ -4168,21 +4226,26 @@ rule ("hold [reload] to self-reset") {
     actions {
         Wait(1, Abort When False);
         Big Message(Event Player, Custom String("Continue holding {0} to self-reset", Input Binding String(Button(Reload))));
+        For Global Variable(hudIndex, 0, Count Of((Event Player).effect_ids), 1);
+            Destroy Effect(Value In Array((Event Player).effect_ids, Global.hudIndex));
+        End;
+        Set Player Variable(Event Player, effect_ids, Empty Array);
+        If(And(Compare(Value In Array(Global.abilityNames, (Event Player).ability), ==, Global.LayingEgg), Compare(Count Of((Event Player).text_ids), >, 1)));
+            For Global Variable(hudIndex, 1, Count Of((Event Player).text_ids), 1);
+                Destroy In-World Text(Value In Array((Event Player).text_ids, Global.hudIndex));
+            End;
+            Set Player Variable(Event Player, text_ids, Array(First Of((Event Player).text_ids)));
+        End;
+        Set Player Variable(Event Player, egg_position, Null);
+        Set Player Variable(Event Player, targets, Null);
+        Set Player Variable(Event Player, allies, Null);
+        Set Player Variable(Event Player, show_text, Null);
+        Clear Status(Event Player, Unkillable);
         If(Compare(Hero Of(Event Player), ==, Hero(D.Va)));
-            Set Player Variable(Event Player, egg_position, Null);
-            Set Player Variable(Event Player, targets, Null);
-            Set Player Variable(Event Player, allies, Null);
-            Set Player Variable(Event Player, show_text, Null);
-            Clear Status(Event Player, Unkillable);
             Kill(Event Player, Null);
             Wait(1, Ignore Condition);
             Kill(Event Player, Null);
         Else;
-            Set Player Variable(Event Player, egg_position, Null);
-            Set Player Variable(Event Player, targets, Null);
-            Set Player Variable(Event Player, allies, Null);
-            Set Player Variable(Event Player, show_text, Null);
-            Clear Status(Event Player, Unkillable);
             Kill(Event Player, Null);
     }
 }

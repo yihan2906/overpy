@@ -1355,8 +1355,8 @@ def roll_ability():
     eventPlayer.allies = null
     hudHeader(eventPlayer.show_text, eventPlayer.target_pos, HudPosition.LEFT, 100, Color.GREEN if eventPlayer.targetIndex == 0 else Color.RED if eventPlayer.targetIndex == 2 else Color.YELLOW, HudReeval.VISIBILITY_STRING_AND_COLOR)
     eventPlayer.text_ids.append(getLastCreatedText())
-    createEffect(getAllPlayers(), Effect.SPHERE, Color.TEAM_1 if eventPlayer.getTeam() == Team.1 else Color.TEAM_2, eventPlayer.egg_position, 1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.effect_ids.append(getLastCreatedEntity())
+    returnValue_onStart = returnValue_onStart
+    returnValue_onStart = returnValue_onStart
     eventPlayer.targets = null
     eventPlayer.allies = null
     returnValue_onStart = true
@@ -1669,7 +1669,7 @@ rule "roll ability when player died":
     roll_ability()
 
 
-rule "DEBUG ONLY host force Laying Egg":
+rule "DEBUG ONLY host force LifeSaver":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.isDummy() == false
@@ -1677,9 +1677,10 @@ rule "DEBUG ONLY host force Laying Egg":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    eventPlayer.next_ability = abilityNames.index(LayingEgg)
+    eventPlayer.next_ability = abilityNames.index(LifeSaver)
     roll_ability()
-    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Laying Egg")
+    eventPlayer.lifesaver_press_count = eventPlayer.interact_press_count
+    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to LifeSaver")
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or not eventPlayer.isHoldingButton(Button.RELOAD), 99999)
 
 
@@ -2144,12 +2145,12 @@ rule "[lifesaver] pull ally":
     @Condition eventPlayer.isAlive() == true
     
     eventPlayer.lifesaver_press_count = eventPlayer.interact_press_count
-    eventPlayer.targets = [player for player in getLivingPlayers(eventPlayer.getTeam()) if player != eventPlayer and player.hasSpawned() and distance(eventPlayer, player) <= 100 and angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) <= 45]
+    eventPlayer.targets = [player for player in getLivingPlayers(eventPlayer.getTeam()) if player != eventPlayer and player.hasSpawned() and angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) <= 45]
     if len(eventPlayer.targets) == 0:
         smallMessage(eventPlayer, "No ally targeted")
         return
     eventPlayer.target_3 = sorted(eventPlayer.targets, key=lambda player: angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())))[0]
-    eventPlayer.target_pos = nearestWalkablePosition(worldVector(Vector.FORWARD * 4, eventPlayer, Transform.ROTATION_AND_TRANSLATION))
+    eventPlayer.target_pos = nearestWalkablePosition(eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 1.5)
     if eventPlayer.target_pos == null:
         return
     eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
@@ -2490,6 +2491,13 @@ rule "[laying egg] use":
     @Condition eventPlayer.isAlive() == true
     
     __abortIf__(not eventPlayer.isOnGround() or eventPlayer.isInSpawnRoom())
+    if len(eventPlayer.text_ids) > 1:
+        for hudIndex in range(1, len(eventPlayer.text_ids)):
+            destroyInWorldText(eventPlayer.text_ids[hudIndex])
+        eventPlayer.text_ids = [eventPlayer.text_ids[0]]
+    for hudIndex in range(len(eventPlayer.effect_ids)):
+        destroyEffect(eventPlayer.effect_ids[hudIndex])
+    eventPlayer.effect_ids = []
     eventPlayer.egg_position = eventPlayer.getPosition()
     eventPlayer.targets = getPlayers(getOppositeTeam(eventPlayer.getTeam()))
     eventPlayer.allies = getPlayers(eventPlayer.getTeam())
@@ -2500,6 +2508,27 @@ rule "[laying egg] use":
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.GREEN, eventPlayer, 100)
     eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 9999)
     eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
+
+
+rule "[laying egg] create egg marker effect":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == LayingEgg
+    @Condition eventPlayer.egg_position != null
+    @Condition len(eventPlayer.effect_ids) == 0
+
+    createEffect(getAllPlayers(), Effect.SPHERE, Color.TEAM_1 if eventPlayer.getTeam() == Team.1 else Color.TEAM_2, eventPlayer.egg_position + vect(0, 0.35, 0), 1.2, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    eventPlayer.effect_ids.append(getLastCreatedEntity())
+
+
+rule "[laying egg] retry failed egg marker effect":
+    @Event eachPlayer
+    @Condition abilityNames[eventPlayer.ability] == LayingEgg
+    @Condition eventPlayer.egg_position != null
+    @Condition len(eventPlayer.effect_ids) > 0
+    @Condition eventPlayer.effect_ids[0] == null
+
+    wait(1, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.effect_ids = []
 
 
 rule "[laying egg] update owner hud":
@@ -2542,6 +2571,13 @@ rule "[laying egg] egg broken":
     wait(1)
     if [player for player in getPlayersInRadius(eventPlayer.egg_position, 1, Team.ALL) if player != eventPlayer and player.getTeam() != eventPlayer.getTeam()] != []:
         playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.WHITE, eventPlayer.egg_position, 120)
+        for hudIndex in range(len(eventPlayer.effect_ids)):
+            destroyEffect(eventPlayer.effect_ids[hudIndex])
+        eventPlayer.effect_ids = []
+        if len(eventPlayer.text_ids) > 1:
+            for hudIndex in range(1, len(eventPlayer.text_ids)):
+                destroyInWorldText(eventPlayer.text_ids[hudIndex])
+            eventPlayer.text_ids = [eventPlayer.text_ids[0]]
         eventPlayer.egg_position = null
         eventPlayer.targets = null
         eventPlayer.allies = null
@@ -3364,21 +3400,23 @@ rule "hold [reload] to self-reset":
     
     wait(1, Wait.ABORT_WHEN_FALSE)
     bigMessage(eventPlayer, "Continue holding {0} to self-reset".format(inputBindingString(Button.RELOAD)))
+    for hudIndex in range(len(eventPlayer.effect_ids)):
+        destroyEffect(eventPlayer.effect_ids[hudIndex])
+    eventPlayer.effect_ids = []
+    if abilityNames[eventPlayer.ability] == LayingEgg and len(eventPlayer.text_ids) > 1:
+        for hudIndex in range(1, len(eventPlayer.text_ids)):
+            destroyInWorldText(eventPlayer.text_ids[hudIndex])
+        eventPlayer.text_ids = [eventPlayer.text_ids[0]]
+    eventPlayer.egg_position = null
+    eventPlayer.targets = null
+    eventPlayer.allies = null
+    eventPlayer.show_text = null
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
     if eventPlayer.getHero() == Hero.DVA:
-        eventPlayer.egg_position = null
-        eventPlayer.targets = null
-        eventPlayer.allies = null
-        eventPlayer.show_text = null
-        eventPlayer.clearStatusEffect(Status.UNKILLABLE)
         kill(eventPlayer)
         wait(1)
         kill(eventPlayer)
     else:
-        eventPlayer.egg_position = null
-        eventPlayer.targets = null
-        eventPlayer.allies = null
-        eventPlayer.show_text = null
-        eventPlayer.clearStatusEffect(Status.UNKILLABLE)
         kill(eventPlayer)
 
 
