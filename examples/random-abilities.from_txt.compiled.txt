@@ -1,14 +1,14 @@
 variables {
     global:
-        0: _objectVariable_0
-        1: _objectVariable_1
-        2: _objectVariable_2
-        3: _objectVariable_3
-        4: _objectVariable_4
-        5: _objectVariable_5
-        6: _objectVariable_6
-        7: _objectVariable_7
-        8: _objectVariable_8
+        0: abilityNames
+        1: abilityDescriptions
+        2: abilityCooldowns
+        3: abilityOrder
+        4: abilityDamageDealt
+        5: abilityDamageReceived
+        6: abilityMaxHealth
+        7: abilityMoveSpeed
+        8: abilityForcedHeroes
         10: RockPaperScissors
         11: ElectricShock
         12: UltOperator
@@ -353,261 +353,261 @@ rule ("register abilities1") {
         Set Global Variable At Index(_extendedGlobalCollection, 1, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 1, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 1), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 1)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 1), 3);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 1), Global.RockPaperScissors);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 1), Custom String("press [INTERACT] to play rock, paper, scissors with the enemy who you are looking at, the loser will die."));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 1), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 1), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 1), Global.RockPaperScissors);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 1), Custom String("press [INTERACT] to play rock, paper, scissors with the enemy who you are looking at, the loser will die."));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 1), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 1), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 1));
         Set Global Variable At Index(_extendedGlobalCollection, 2, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 2, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 2), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 2)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 2), 4);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 2), Global.ElectricShock);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 2), Custom String("press [interact] to stun the enemy you are looking at"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 2), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 2), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 2), Global.ElectricShock);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 2), Custom String("press [interact] to stun the enemy you are looking at"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 2), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 2), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 2));
         Set Global Variable At Index(_extendedGlobalCollection, 3, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 3, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 3), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 3)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 3), 5);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 3), Global.UltOperator);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 3), Custom String("press [interact] to make the ally you are looking at instantly use their ultimate"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 3), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 3), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 3), Global.UltOperator);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 3), Custom String("press [interact] to make the ally you are looking at instantly use their ultimate"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 3), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 3), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 3));
         Set Global Variable At Index(_extendedGlobalCollection, 4, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 4, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 4), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 4)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 4), 6);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 4), Global.IJustWantToDie);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 4), Custom String("Summons a random enemy to you upon death."));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 4), All Players(All Teams));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 4), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 4), Global.IJustWantToDie);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 4), Custom String("Summons a random enemy to you upon death."));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 4), All Players(All Teams));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 4), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 4));
         Set Global Variable At Index(_extendedGlobalCollection, 5, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 5, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 5), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 5)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 5), 7);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 5), Global.SurpriseAttack);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 5), Custom String("press [interact] to teleport behind, stun and attack the enemy that you are looking at and return to where you were"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 5), 5);
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 5), Array(Hero(Reaper)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 5), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 5), Global.SurpriseAttack);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 5), Custom String("press [interact] to teleport behind, stun and attack the enemy that you are looking at and return to where you were"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 5), 5);
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 5), Array(Hero(Reaper)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 5), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 5));
         Set Global Variable At Index(_extendedGlobalCollection, 6, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 6, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 6), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 6)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 6), 8);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 6), Global.CantMove);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 6), Custom String("The enemy stumbles for a moment when hitting."));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 6), Array(Hero(Reinhardt)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 6), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 6), Global.CantMove);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 6), Custom String("The enemy stumbles for a moment when hitting."));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 6), Array(Hero(Reinhardt)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 6), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 6));
         Set Global Variable At Index(_extendedGlobalCollection, 7, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 7, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 7), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 7)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 7), 9);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 7), Global.NoClip);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 7), Custom String("press [interact] to enable/disable walk through walls mode"));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 7), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 7), Global.NoClip);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 7), Custom String("press [interact] to enable/disable walk through walls mode"));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 7), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 7));
         Set Global Variable At Index(_extendedGlobalCollection, 8, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 8, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 8), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 8)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 8), 10);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 8), Global.UniqueExisance);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 8), Custom String("press [interact] to kill everyone, including you, that is the same role as you"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 8), 30);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 8), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 8), Global.UniqueExisance);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 8), Custom String("press [interact] to kill everyone, including you, that is the same role as you"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 8), 30);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 8), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 8));
         Set Global Variable At Index(_extendedGlobalCollection, 9, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 9, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 9), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 9)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 9), 11);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 9), Global.Repay);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 9), Custom String("Reflects 70% of the damage taken to enemies."));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 9), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 9), Global.Repay);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 9), Custom String("Reflects 70% of the damage taken to enemies."));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 9), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 9));
         Set Global Variable At Index(_extendedGlobalCollection, 11, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 11, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 11), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 11)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 11), 13);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 11), Global.IAmSpeed);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 11), Custom String("increase charge speed by a lot"));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 11), Array(Hero(Reinhardt)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 11), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 11), Global.IAmSpeed);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 11), Custom String("increase charge speed by a lot"));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 11), Array(Hero(Reinhardt)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 11), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 11));
         Set Global Variable At Index(_extendedGlobalCollection, 12, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 12, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 12), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 12)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 12), 14);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 12), Global.Stop);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 12), Custom String("press [interact] to stop the enemy that you are looking at from moving"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 12), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 12), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 12), Global.Stop);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 12), Custom String("press [interact] to stop the enemy that you are looking at from moving"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 12), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 12), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 12));
         Set Global Variable At Index(_extendedGlobalCollection, 13, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 13, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 13), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 13)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 13), 15);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 13), Global.WaterGhost);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 13), Custom String("the enemy who killed you will die as well"));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 13), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 13), Global.WaterGhost);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 13), Custom String("the enemy who killed you will die as well"));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 13), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 13));
         Set Global Variable At Index(_extendedGlobalCollection, 14, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 14, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 14), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 14)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 14), 16);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 14), Global.UnclePopHummer);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 14), Custom String("hitting enemies with hammer will stun them"));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 14), Array(Hero(Torbjörn)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 14), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 14), Global.UnclePopHummer);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 14), Custom String("hitting enemies with hammer will stun them"));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 14), Array(Hero(Torbjörn)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 14), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 14));
         Set Global Variable At Index(_extendedGlobalCollection, 15, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 15, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 15), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 15)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 15), 17);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 15), Global.SpinFloatUp);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 15), Custom String("press [interact] to make the enemy you are looking at spin and float up"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 15), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 15), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 15), Global.SpinFloatUp);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 15), Custom String("press [interact] to make the enemy you are looking at spin and float up"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 15), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 15), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 15));
         Set Global Variable At Index(_extendedGlobalCollection, 17, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 17, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 17), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 17)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 17), 19);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 17), Global.OneShotName);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 17), Custom String("increase damage dealt by a lot but reduce HP by a lot as well"));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 17), All Support Heroes);
-        Set Global Variable At Index(_objectVariable_6, Value In Array(Global._extendedGlobalCollection, 17), 1);
-        Set Global Variable At Index(_objectVariable_4, Value In Array(Global._extendedGlobalCollection, 17), 50000);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 17), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 17), Global.OneShotName);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 17), Custom String("increase damage dealt by a lot but reduce HP by a lot as well"));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 17), All Support Heroes);
+        Set Global Variable At Index(abilityMaxHealth, Value In Array(Global._extendedGlobalCollection, 17), 1);
+        Set Global Variable At Index(abilityDamageDealt, Value In Array(Global._extendedGlobalCollection, 17), 50000);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 17), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 17));
         Set Global Variable At Index(_extendedGlobalCollection, 18, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 18, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 18), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 18)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 18), 20);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 18), Global.SleepWell);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 18), Custom String("press [interact] to summon random enemy TANK and sleep them"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 18), 30);
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 18), All Players(All Teams));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 18), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 18), Global.SleepWell);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 18), Custom String("press [interact] to summon random enemy TANK and sleep them"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 18), 30);
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 18), All Players(All Teams));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 18), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 18));
         Set Global Variable At Index(_extendedGlobalCollection, 19, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 19, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 19), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 19)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 19), 21);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 19), Global.ItsTimeToSleep);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 19), Custom String("killing an enemy directly puts everyone to sleep."));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 19), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 19), Global.ItsTimeToSleep);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 19), Custom String("killing an enemy directly puts everyone to sleep."));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 19), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 19));
         Set Global Variable At Index(_extendedGlobalCollection, 20, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 20, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 20), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 20)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 20), 22);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 20), Global.LayingEgg);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 20), Custom String("Press [interact] to lay eggs. return to egg when received fatal damage."));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 20), 5);
-        Set Global Variable At Index(_objectVariable_6, Value In Array(Global._extendedGlobalCollection, 20), 50);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 20), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 20), Global.LayingEgg);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 20), Custom String("Press [interact] to lay eggs. return to egg when received fatal damage."));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 20), 5);
+        Set Global Variable At Index(abilityMaxHealth, Value In Array(Global._extendedGlobalCollection, 20), 50);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 20), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 20));
         Set Global Variable At Index(_extendedGlobalCollection, 21, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 21, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 21), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 21)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 21), 23);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 21), Global.BehindYou);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 21), Custom String("press [interact] to make the enemy that you are looking at look back"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 21), 3);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 21), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 21), Global.BehindYou);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 21), Custom String("press [interact] to make the enemy that you are looking at look back"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 21), 3);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 21), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 21));
         Set Global Variable At Index(_extendedGlobalCollection, 22, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 22, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 22), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 22)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 22), 24);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 22), Global.WhyHitMe);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 22), Custom String("Enemies that attack you will change their camera angle."));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 22), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 22), Global.WhyHitMe);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 22), Custom String("Enemies that attack you will change their camera angle."));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 22), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 22));
         Set Global Variable At Index(_extendedGlobalCollection, 23, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 23, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 23), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 23)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 23), 25);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 23), Global.ChangePosition);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 23), Custom String("press [interact] to switch position with the enemy you are looking at"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 23), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 23), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 23), Global.ChangePosition);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 23), Custom String("press [interact] to switch position with the enemy you are looking at"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 23), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 23), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 23));
         Set Global Variable At Index(_extendedGlobalCollection, 24, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 24, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 24), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 24)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 24), 26);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 24), Global.ComeOn);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 24), Custom String("Press [Interact] to summons the enemy you are looking at in front of you."));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 24), 5);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 24), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 24), Global.ComeOn);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 24), Custom String("Press [Interact] to summons the enemy you are looking at in front of you."));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 24), 5);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 24), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 24));
         Set Global Variable At Index(_extendedGlobalCollection, 25, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 25, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 25), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 25)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 25), 27);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 25), Global.GoodNight);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 25), Custom String("press [interact] to put the enemy that you are looking at to sleep"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 25), 8);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 25), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 25), Global.GoodNight);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 25), Custom String("press [interact] to put the enemy that you are looking at to sleep"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 25), 8);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 25), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 25));
         Set Global Variable At Index(_extendedGlobalCollection, 26, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 26, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 26), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 26)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 26), 28);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 26), Global.JumpingTrap);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 26), Custom String("press [interact] to create a jumping trap"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 26), 2);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 26), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 26), Global.JumpingTrap);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 26), Custom String("press [interact] to create a jumping trap"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 26), 2);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 26), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 26));
         Set Global Variable At Index(_extendedGlobalCollection, 27, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 27, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 27), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 27)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 27), 29);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 27), Global.SleepyNinja);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 27), Custom String("attack will stun enemy but damage dealt is reduced by a lot"));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 27), Array(Hero(Genji)));
-        Set Global Variable At Index(_objectVariable_4, Value In Array(Global._extendedGlobalCollection, 27), 0.05);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 27), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 27), Global.SleepyNinja);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 27), Custom String("attack will stun enemy but damage dealt is reduced by a lot"));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 27), Array(Hero(Genji)));
+        Set Global Variable At Index(abilityDamageDealt, Value In Array(Global._extendedGlobalCollection, 27), 0.05);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 27), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 27));
         Set Global Variable At Index(_extendedGlobalCollection, 28, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 28, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 28), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 28)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 28), 30);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 28), Global.ReallyBehindYou);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 28), Custom String("press [interact] to teleport behind and stun the enemy that you are looking at"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 28), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 28), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 28), Global.ReallyBehindYou);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 28), Custom String("press [interact] to teleport behind and stun the enemy that you are looking at"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 28), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 28), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 28));
         Set Global Variable At Index(_extendedGlobalCollection, 30, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 30, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 30), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 30)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 30), 32);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 30), Global.TalonIsBad);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 30), Custom String("press [Interact] to summom random enemy DPS and stun"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 30), 30);
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 30), All Players(All Teams));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 30), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 30), Global.TalonIsBad);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 30), Custom String("press [Interact] to summom random enemy DPS and stun"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 30), 30);
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 30), All Players(All Teams));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 30), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 30));
         Set Global Variable At Index(_extendedGlobalCollection, 31, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 31, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 31), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 31)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 31), 33);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 31), Global.Invisible);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 31), Custom String("you are invisible but HP is reduced"));
-        Set Global Variable At Index(_objectVariable_6, Value In Array(Global._extendedGlobalCollection, 31), 25);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 31), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 31), Global.Invisible);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 31), Custom String("you are invisible but HP is reduced"));
+        Set Global Variable At Index(abilityMaxHealth, Value In Array(Global._extendedGlobalCollection, 31), 25);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 31), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 31));
         Set Global Variable At Index(_extendedGlobalCollection, 32, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 32, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 32), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 32)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 32), 34);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 32), Global.OneShot);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 32), Custom String("When attacking, there is a 50% chance to instantly kill an enemy, and you are stunned for 6 seconds."));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 32), 12);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 32), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 32), Global.OneShot);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 32), Custom String("When attacking, there is a 50% chance to instantly kill an enemy, and you are stunned for 6 seconds."));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 32), 12);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 32), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 32));
         Set Global Variable At Index(_extendedGlobalCollection, 33, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 33, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 33), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 33)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 33), 35);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 33), Global.RotatingTornado);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 33), Custom String("press [interact] to spin the enemy that you are looking at"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 33), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 33), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 33), Global.RotatingTornado);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 33), Custom String("press [interact] to spin the enemy that you are looking at"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 33), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 33), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 33));
         Set Global Variable At Index(_extendedGlobalCollection, 34, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 34, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 34), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 34)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 34), 36);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 34), Global.SponsoredReaction);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 34), Custom String("press [Interact] to the enemy you are looking at will have a chance to make them emote"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 34), 9);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 34), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 34), Global.SponsoredReaction);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 34), Custom String("press [Interact] to the enemy you are looking at will have a chance to make them emote"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 34), 9);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 34), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 34));
         Set Global Variable At Index(_extendedGlobalCollection, 35, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 35, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 35), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 35)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 35), 37);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 35), Global.HealerEthernalFriend);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 35), Custom String("press [interact] to summon enemy support and stun"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 35), 30);
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 35), All Players(All Teams));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 35), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 35), Global.HealerEthernalFriend);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 35), Custom String("press [interact] to summon enemy support and stun"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 35), 30);
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 35), All Players(All Teams));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 35), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 35));
     }
 }
@@ -621,28 +621,28 @@ rule ("register abilities2") {
         Set Global Variable At Index(_extendedGlobalCollection, 36, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 36, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 36), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 36)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 36), 38);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 36), Global.LackOfConcentration);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 36), Custom String("Deal 500% damage, but your perspective gets blown away"));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 36), Array(Hero(Cassidy)));
-        Set Global Variable At Index(_objectVariable_4, Value In Array(Global._extendedGlobalCollection, 36), 500);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 36), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 36), Global.LackOfConcentration);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 36), Custom String("Deal 500% damage, but your perspective gets blown away"));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 36), Array(Hero(Cassidy)));
+        Set Global Variable At Index(abilityDamageDealt, Value In Array(Global._extendedGlobalCollection, 36), 500);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 36), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 36));
         Set Global Variable At Index(_extendedGlobalCollection, 38, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 38, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 38), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 38)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 38), 40);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 38), Global.Telekinesis);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 38), Custom String("press [interact] to move the enemy that you are looking at in various directions"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 38), 14);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 38), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 38), Global.Telekinesis);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 38), Custom String("press [interact] to move the enemy that you are looking at in various directions"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 38), 14);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 38), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 38));
         Set Global Variable At Index(_extendedGlobalCollection, 42, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 42, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 42), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 42)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 42), 44);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 42), Global.ImAnAttentionSeeker);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 42), Custom String("Damage, heal, and health are doubled, but your location is exposed"));
-        Set Global Variable At Index(_objectVariable_6, Value In Array(Global._extendedGlobalCollection, 42), 200);
-        Set Global Variable At Index(_objectVariable_4, Value In Array(Global._extendedGlobalCollection, 42), 200);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 42), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 42), Global.ImAnAttentionSeeker);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 42), Custom String("Damage, heal, and health are doubled, but your location is exposed"));
+        Set Global Variable At Index(abilityMaxHealth, Value In Array(Global._extendedGlobalCollection, 42), 200);
+        Set Global Variable At Index(abilityDamageDealt, Value In Array(Global._extendedGlobalCollection, 42), 200);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 42), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 42));
     }
 }
@@ -656,150 +656,150 @@ rule ("register abilities3") {
         Set Global Variable At Index(_extendedGlobalCollection, 43, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 43, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 43), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 43)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 43), 45);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 43), Global.RandomScale);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 43), Custom String("press [interact] to change the size of the player you are looking at"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 43), 15);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 43), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 43), Global.RandomScale);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 43), Custom String("press [interact] to change the size of the player you are looking at"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 43), 15);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 43), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 43));
         Set Global Variable At Index(_extendedGlobalCollection, 44, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 44, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 44), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 44)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 44), 46);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 44), Global.Reloading);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 44), Custom String("press [interact] to let the enemy you are looking at reload"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 44), 8);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 44), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 44), Global.Reloading);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 44), Custom String("press [interact] to let the enemy you are looking at reload"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 44), 8);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 44), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 44));
         Set Global Variable At Index(_extendedGlobalCollection, 45, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 45, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 45), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 45)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 45), 47);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 45), Global.LifeSaver);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 45), Custom String("press [interact] to pull the ally you are looking at through the wall"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 45), 30);
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 45), Array(Hero(Lifeweaver)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 45), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 45), Global.LifeSaver);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 45), Custom String("press [interact] to pull the ally you are looking at through the wall"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 45), 30);
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 45), Array(Hero(Lifeweaver)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 45), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 45));
         Set Global Variable At Index(_extendedGlobalCollection, 46, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 46, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 46), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 46)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 46), 48);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 46), Global.HighSensitivity);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 46), Custom String("press [interact] to temporarily alternate the aim speed of the enemy you are looking at between very low and very high"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 46), 15);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 46), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 46), Global.HighSensitivity);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 46), Custom String("press [interact] to temporarily alternate the aim speed of the enemy you are looking at between very low and very high"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 46), 15);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 46), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 46));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 48), Array(Hero(Zenyatta)));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 48), Array(Hero(Zenyatta)));
         Set Global Variable At Index(_extendedGlobalCollection, 50, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 50, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 50), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 50)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 50), 52);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 50), Global.YouGotSpeed);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 50), Custom String("press [interact] to temporarily make the movement speed of the enemy you are looking at very fast"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 50), 15);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 50), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 50), Global.YouGotSpeed);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 50), Custom String("press [interact] to temporarily make the movement speed of the enemy you are looking at very fast"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 50), 15);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 50), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 50));
         Set Global Variable At Index(_extendedGlobalCollection, 51, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 51, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 51), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 51)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 51), 53);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 51), Global.Taxi);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 51), Custom String("press [INTERACT] to start/stop riding the player you are looking at"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 51), 0);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 51), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 51), Global.Taxi);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 51), Custom String("press [INTERACT] to start/stop riding the player you are looking at"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 51), 0);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 51), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 51));
         Set Global Variable At Index(_extendedGlobalCollection, 52, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 52, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 52), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 52)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 52), 54);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 52), Global.StrongGravity);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 52), Custom String("press [interact] to temporarily make the gravity of the enemy you are looking at strong"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 52), 15);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 52), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 52), Global.StrongGravity);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 52), Custom String("press [interact] to temporarily make the gravity of the enemy you are looking at strong"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 52), 15);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 52), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 52));
         Set Global Variable At Index(_extendedGlobalCollection, 53, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 53, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 53), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 53)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 53), 55);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 53), Global.EyeContact);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 53), Custom String("Press [Interact] to force the enemy you are looking at to look at a random ally"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 53), 5);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 53), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 53), Global.EyeContact);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 53), Custom String("Press [Interact] to force the enemy you are looking at to look at a random ally"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 53), 5);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 53), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 53));
         Set Global Variable At Index(_extendedGlobalCollection, 54, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 54, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 54), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 54)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 54), 56);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 54), Global.MindControl);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 54), Custom String("Press [Interact] to control the enemy you are looking at but you can't move"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 54), 0);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 54), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 54), Global.MindControl);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 54), Custom String("Press [Interact] to control the enemy you are looking at but you can't move"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 54), 0);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 54), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 54));
         Set Global Variable At Index(_extendedGlobalCollection, 55, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 55, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 55), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 55)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 55), 57);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 55), Global.Lag);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 55), Custom String("press [interact] to teleport the enemy you are looking at to random position"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 55), 1);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 55), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 55), Global.Lag);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 55), Custom String("press [interact] to teleport the enemy you are looking at to random position"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 55), 1);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 55), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 55));
         Set Global Variable At Index(_extendedGlobalCollection, 58, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 58, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 58), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 58)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 58), 60);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 58), Global.MisClick);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 58), Custom String("press [interact] to let the enemy that you are looking at press a random button"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 58), 10);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 58), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 58), Global.MisClick);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 58), Custom String("press [interact] to let the enemy that you are looking at press a random button"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 58), 10);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 58), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 58));
         Set Global Variable At Index(_extendedGlobalCollection, 60, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 60, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 60), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 60)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 60), 62);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 60), Global.MadWidow);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 60), Custom String("you can snipe your teammates, but they can kill you with melee"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 60), 0);
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 60), Array(Hero(Widowmaker)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 60), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 60), Global.MadWidow);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 60), Custom String("you can snipe your teammates, but they can kill you with melee"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 60), 0);
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 60), Array(Hero(Widowmaker)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 60), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 60));
         Set Global Variable At Index(_extendedGlobalCollection, 61, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 61, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 61), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 61)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 61), 63);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 61), Global.Hole);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 61), Custom String("press [interact] to start/stop placing a HOLE that will force players to fall through the ground"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 61), 0);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 61), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 61), Global.Hole);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 61), Custom String("press [interact] to start/stop placing a HOLE that will force players to fall through the ground"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 61), 0);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 61), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 61));
         Set Global Variable At Index(_extendedGlobalCollection, 62, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 62, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 62), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 62)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 62), 64);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 62), Global.PortalGun);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 62), Custom String("Press [interact] start/stop placing portals. Hold [interact] to reset portals"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 62), 0);
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 62), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 62), Global.PortalGun);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 62), Custom String("Press [interact] start/stop placing portals. Hold [interact] to reset portals"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 62), 0);
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 62), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 62));
         Set Global Variable At Index(_extendedGlobalCollection, 100, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 100, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 100), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 100)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 100), 102);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 100), Global.NUKE);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 100), Custom String("Press Q: Nuke the world... or yourself. It's a gamble!"));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 100), Array(Hero(D.Va)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 100), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 100), Global.NUKE);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 100), Custom String("Press Q: Nuke the world... or yourself. It's a gamble!"));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 100), Array(Hero(D.Va)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 100), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 100));
         Set Global Variable At Index(_extendedGlobalCollection, 101, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 101, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 101), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 101)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 101), 103);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 101), Global.megaMauga);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 101), Custom String("Press [INTERACT] to become 10x bigger!"));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 101), Array(Hero(Mauga)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 101), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 101), Global.megaMauga);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 101), Custom String("Press [INTERACT] to become 10x bigger!"));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 101), Array(Hero(Mauga)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 101), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 101));
         Set Global Variable At Index(_extendedGlobalCollection, 103, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 103, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 103), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 103)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 103), 105);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 103), Global.StolenSoul);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 103), Custom String("Press [INTERACT] to steal the ability of the ally or enemy you're looking at."));
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 103), All Players(All Teams));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 103), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 103), Global.StolenSoul);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 103), Custom String("Press [INTERACT] to steal the ability of a nearby ally or enemy within 400 range."));
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 103), All Players(All Teams));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 103), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 103));
         Set Global Variable At Index(_extendedGlobalCollection, 102, Index Of Array Value(Global._classIndexes, 0));
         Set Global Variable At Index(_extendedGlobalCollection, 102, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 102), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 102)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 102), 104);
-        Set Global Variable At Index(_objectVariable_0, Value In Array(Global._extendedGlobalCollection, 102), Global.katrina);
-        Set Global Variable At Index(_objectVariable_1, Value In Array(Global._extendedGlobalCollection, 102), Custom String("Press [INTERACT] to defy fate - steal a soul, or lose your own"));
-        Set Global Variable At Index(_objectVariable_2, Value In Array(Global._extendedGlobalCollection, 102), 10);
-        Set Global Variable At Index(_objectVariable_8, Value In Array(Global._extendedGlobalCollection, 102), Array(Hero(Mercy)));
-        Set Global Variable At Index(_objectVariable_3, Value In Array(Global._extendedGlobalCollection, 102), Add(Count Of(Global.abilities), 1));
+        Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 102), Global.katrina);
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 102), Custom String("Press [INTERACT] to defy fate - steal a soul, or lose your own"));
+        Set Global Variable At Index(abilityCooldowns, Value In Array(Global._extendedGlobalCollection, 102), 10);
+        Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 102), Array(Hero(Mercy)));
+        Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 102), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 102));
     }
 }
@@ -943,19 +943,19 @@ rule ("clear ability") {
         Set Player Variable(Event Player, horse_target, Null);
         Set Player Variable(Event Player, Is_Flying, False);
         If(Compare((Event Player).ability, !=, Null));
-            If(Compare(Count Of(Value In Array(Global._objectVariable_8, (Event Player).ability)), >, 0));
+            If(Compare(Count Of(Value In Array(Global.abilityForcedHeroes, (Event Player).ability)), >, 0));
                 Stop Forcing Player To Be Hero(Event Player);
             End;
-            If(Compare(Value In Array(Global._objectVariable_4, (Event Player).ability), !=, Null));
+            If(Compare(Value In Array(Global.abilityDamageDealt, (Event Player).ability), !=, Null));
                 Set Damage Dealt(Event Player, 100);
             End;
-            If(Compare(Value In Array(Global._objectVariable_4, (Event Player).ability), !=, Null));
+            If(Compare(Value In Array(Global.abilityDamageDealt, (Event Player).ability), !=, Null));
                 Set Damage Dealt(Event Player, 100);
             End;
-            If(Compare(Value In Array(Global._objectVariable_7, (Event Player).ability), !=, Null));
+            If(Compare(Value In Array(Global.abilityMoveSpeed, (Event Player).ability), !=, Null));
                 Set Move Speed(Event Player, 100);
             End;
-            If(Compare(Value In Array(Global._objectVariable_6, (Event Player).ability), !=, Null));
+            If(Compare(Value In Array(Global.abilityMaxHealth, (Event Player).ability), !=, Null));
                 Set Max Health(Event Player, 100);
             End;
             Remove All Health Pools From Player(Event Player);
@@ -1325,32 +1325,32 @@ rule ("roll ability") {
         If(Compare((Event Player).next_ability, ==, Null));
             Set Player Variable(Event Player, next_ability, Random Value In Array(Global.abilities));
         End;
-        "eventPlayer.next_ability = _objectVariable_0.index(katrina)"
+        "eventPlayer.next_ability = abilityNames.index(katrina)"
         Call Subroutine(clear_huds);
         Call Subroutine(clear_ability);
         Set Player Variable(Event Player, ability, (Event Player).next_ability);
         Set Player Variable(Event Player, next_ability, Null);
-        Set Player Variable(Event Player, title, Value In Array(Global._objectVariable_0, (Event Player).ability));
-        Set Player Variable(Event Player, desc, Value In Array(Global._objectVariable_1, (Event Player).ability));
-        If(Compare(Count Of(Value In Array(Global._objectVariable_8, (Event Player).ability)), >, 0));
-            Set Global Variable(hero, Random Value In Array(Value In Array(Global._objectVariable_8, (Event Player).ability)));
+        Set Player Variable(Event Player, title, Value In Array(Global.abilityNames, (Event Player).ability));
+        Set Player Variable(Event Player, desc, Value In Array(Global.abilityDescriptions, (Event Player).ability));
+        If(Compare(Count Of(Value In Array(Global.abilityForcedHeroes, (Event Player).ability)), >, 0));
+            Set Global Variable(hero, Random Value In Array(Value In Array(Global.abilityForcedHeroes, (Event Player).ability)));
             Start Forcing Player To Be Hero(Event Player, Global.hero);
         End;
-        If(Compare(Value In Array(Global._objectVariable_4, (Event Player).ability), !=, Null));
-            Set Player Variable(Event Player, damage_dealt, Value In Array(Global._objectVariable_4, (Event Player).ability));
-            Set Damage Dealt(Event Player, Value In Array(Global._objectVariable_4, (Event Player).ability));
+        If(Compare(Value In Array(Global.abilityDamageDealt, (Event Player).ability), !=, Null));
+            Set Player Variable(Event Player, damage_dealt, Value In Array(Global.abilityDamageDealt, (Event Player).ability));
+            Set Damage Dealt(Event Player, Value In Array(Global.abilityDamageDealt, (Event Player).ability));
         End;
-        If(Compare(Value In Array(Global._objectVariable_5, (Event Player).ability), !=, Null));
-            Set Player Variable(Event Player, damage_received, Value In Array(Global._objectVariable_5, (Event Player).ability));
-            Set Damage Dealt(Event Player, Value In Array(Global._objectVariable_5, (Event Player).ability));
+        If(Compare(Value In Array(Global.abilityDamageReceived, (Event Player).ability), !=, Null));
+            Set Player Variable(Event Player, damage_received, Value In Array(Global.abilityDamageReceived, (Event Player).ability));
+            Set Damage Dealt(Event Player, Value In Array(Global.abilityDamageReceived, (Event Player).ability));
         End;
-        If(Compare(Value In Array(Global._objectVariable_7, (Event Player).ability), !=, Null));
-            Set Player Variable(Event Player, movement_speed, Value In Array(Global._objectVariable_7, (Event Player).ability));
-            Set Move Speed(Event Player, Value In Array(Global._objectVariable_7, (Event Player).ability));
+        If(Compare(Value In Array(Global.abilityMoveSpeed, (Event Player).ability), !=, Null));
+            Set Player Variable(Event Player, movement_speed, Value In Array(Global.abilityMoveSpeed, (Event Player).ability));
+            Set Move Speed(Event Player, Value In Array(Global.abilityMoveSpeed, (Event Player).ability));
         End;
-        If(Compare(Value In Array(Global._objectVariable_6, (Event Player).ability), !=, Null));
-            Set Player Variable(Event Player, max_health, Value In Array(Global._objectVariable_6, (Event Player).ability));
-            Set Max Health(Event Player, Value In Array(Global._objectVariable_6, (Event Player).ability));
+        If(Compare(Value In Array(Global.abilityMaxHealth, (Event Player).ability), !=, Null));
+            Set Player Variable(Event Player, max_health, Value In Array(Global.abilityMaxHealth, (Event Player).ability));
+            Set Max Health(Event Player, Value In Array(Global.abilityMaxHealth, (Event Player).ability));
         End;
         Set Player Variable(Event Player, target, Null);
         Set Player Variable(Event Player, targets, Null);
@@ -2447,7 +2447,7 @@ rule ("on use") {
         //lbl_35:
         //lbl_36:
         //lbl_37:
-        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global._objectVariable_2, (Event Player).ability), Global.cooldown_multiplier));
+        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
     }
 }
 
@@ -2458,7 +2458,7 @@ rule ("[rock paper scissors] hack") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
     }
     actions {
@@ -2477,7 +2477,7 @@ rule ("[rock paper scissors] hand: scissors") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         Is Button Held(Event Player, Button(Ultimate)) == True;
     }
@@ -2493,7 +2493,7 @@ rule ("[rock paper scissors] hand: rock") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         Is Button Held(Event Player, Button(Ability 2)) == True;
     }
@@ -2509,7 +2509,7 @@ rule ("[rock paper scissors] hand: paper") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         Is Button Held(Event Player, Button(Jump)) == True;
     }
@@ -2525,7 +2525,7 @@ rule ("[rock paper scissors] opponent hand: scissors") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         Is Button Held((Event Player).target, Button(Ultimate)) == True;
     }
@@ -2541,7 +2541,7 @@ rule ("[rock paper scissors] opponent hand: rock") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         Is Button Held((Event Player).target, Button(Ability 2)) == True;
     }
@@ -2557,7 +2557,7 @@ rule ("[rock paper scissors] opponent hand: paper") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         Is Button Held((Event Player).target, Button(Jump)) == True;
     }
@@ -2573,7 +2573,7 @@ rule ("[rock paper scissors] result: opponent did not play") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         (Event Player).rock_siccors_paper_status == 1;
         (Event Player).rock_scissors_paper_opponent_han == 0;
@@ -2592,7 +2592,7 @@ rule ("[rock paper scissors] result: did not play") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         (Event Player).rock_siccors_paper_status == 1;
         (Event Player).rock_scissors_paper_hand == 0;
@@ -2611,7 +2611,7 @@ rule ("[rock paper scissors] result: paper vs ?") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         (Event Player).rock_siccors_paper_status == 1;
         (Event Player).rock_scissors_paper_hand == 3;
@@ -2644,7 +2644,7 @@ rule ("[rock paper scissors] result: scissors vs ?") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         (Event Player).rock_siccors_paper_status == 1;
         (Event Player).rock_scissors_paper_hand == 1;
@@ -2677,7 +2677,7 @@ rule ("[rock paper scissors] result: rock vs ?") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_scissors_paper_players != Null;
         (Event Player).rock_siccors_paper_status == 1;
         (Event Player).rock_scissors_paper_hand == 2;
@@ -2710,7 +2710,7 @@ rule ("[rock paper scissors] end") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.RockPaperScissors;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.RockPaperScissors;
         (Event Player).rock_siccors_paper_status == 2;
     }
     actions {
@@ -2729,7 +2729,7 @@ rule ("[electric shock] stun") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.ElectricShock;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.ElectricShock;
         (Event Player).target != Null;
     }
     actions {
@@ -2746,7 +2746,7 @@ rule ("[electric shock] end") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.ElectricShock;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.ElectricShock;
         (Event Player).target != Null;
     }
     actions {
@@ -2762,7 +2762,7 @@ rule ("[i just wan't do die] on death") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.IJustWantToDie;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.IJustWantToDie;
     }
     actions {
         Set Player Variable(Event Player, target, Random Value In Array(All Living Players(Opposite Team Of(Team Of(Event Player)))));
@@ -2779,7 +2779,7 @@ rule ("[can't move] on damage dealt") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.CantMove;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.CantMove;
     }
     actions {
         Set Status(Victim, Event Player, Knocked Down, 1.5);
@@ -2793,7 +2793,7 @@ rule ("[repay] on damage taken") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Repay;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Repay;
     }
     actions {
         Damage(Attacker, Event Player, Multiply(Event Damage, 0.7));
@@ -2807,7 +2807,7 @@ rule ("[i am speed] increase speed") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.IAmSpeed;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.IAmSpeed;
         Is Using Ability 1(Event Player) == True;
     }
     actions {
@@ -2823,7 +2823,7 @@ rule ("[i am speed] reset speed") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.IAmSpeed;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.IAmSpeed;
         Is Using Ability 1(Event Player) == False;
     }
     actions {
@@ -2839,7 +2839,7 @@ rule ("[water ghost] on death") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.WaterGhost;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.WaterGhost;
     }
     actions {
         Kill(Attacker, Event Player);
@@ -2853,7 +2853,7 @@ rule ("[uncle pop hummer] on damage dealt") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.UnclePopHummer;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.UnclePopHummer;
         Weapon(Event Player) == 2;
         Is Firing Primary(Event Player) == True;
     }
@@ -2907,7 +2907,7 @@ rule ("[its time to sleep] on final b­low") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.ItsTimeToSleep;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.ItsTimeToSleep;
     }
     actions {
         Set Status(All Players(All Teams), Event Player, Asleep, 3);
@@ -2922,7 +2922,7 @@ rule ("[laying egg] return to egg") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.LayingEgg;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LayingEgg;
         Health(Event Player) == 1;
         (Event Player).egg_position != Null;
     }
@@ -2945,7 +2945,7 @@ rule ("[laying egg] egg broken") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.LayingEgg;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LayingEgg;
         (Event Player).egg_position != Null;
     }
     actions {
@@ -2971,7 +2971,7 @@ rule ("[why hit me] change camera angle") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.WhyHitMe;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.WhyHitMe;
     }
     actions {
         Set Facing(Attacker, Vector(Random Real(-1, 1), Random Real(-1, 1), Random Real(-1, 1)), To Player);
@@ -2985,7 +2985,7 @@ rule ("[jumping trap] jump") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.JumpingTrap;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.JumpingTrap;
         (Event Player).trap_pos != Null;
     }
     actions {
@@ -3009,7 +3009,7 @@ rule ("[sleepy ninja] stun") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.SleepyNinja;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.SleepyNinja;
     }
     actions {
         Set Status(Victim, Event Player, Knocked Down, 0.8);
@@ -3023,7 +3023,7 @@ rule ("[one shot] on damage") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.OneShot;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.OneShot;
         Event Player != Victim;
         (Event Player).cooldown_count <= 0;
     }
@@ -3060,7 +3060,7 @@ rule ("[lack of concentration] on attack") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.LackOfConcentration;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.LackOfConcentration;
         Is Firing Primary(Event Player) == True;
     }
     actions {
@@ -3077,7 +3077,7 @@ rule ("[telekinesis] stun") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Telekinesis;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Telekinesis;
         (Event Player).target != Null;
     }
     actions {
@@ -3094,7 +3094,7 @@ rule ("[telekinesis] end") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Telekinesis;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Telekinesis;
         (Event Player).target != Null;
     }
     actions {
@@ -3209,7 +3209,7 @@ rule ("[mind control] on start") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         (Event Player).mindcontrol_time > 0;
     }
@@ -3227,7 +3227,7 @@ rule ("[mind control] on death") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Or(Or(Compare((Event Player).mindcontrol_time, ==, 0), Is Dead(Event Player)), Is Dead((Event Player).target)) == True;
     }
@@ -3266,7 +3266,7 @@ rule ("[mind control] start jump") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3284,7 +3284,7 @@ rule ("[mind control] stop jump") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Or(Or(Is Dead(Event Player), Is Dead((Event Player).target)), Not(Is Button Held(Event Player, Button(Jump)))) == True;
     }
@@ -3300,7 +3300,7 @@ rule ("[mind control] start crouch") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3318,7 +3318,7 @@ rule ("[mind control] stop crouch") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Or(Or(Is Dead(Event Player), Is Dead((Event Player).target)), Not(Is Button Held(Event Player, Button(Crouch)))) == True;
     }
@@ -3334,7 +3334,7 @@ rule ("[mind control] throttle") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).mindcontrol_time > 0;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
@@ -3365,7 +3365,7 @@ rule ("[mind control] start firing primary") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3383,7 +3383,7 @@ rule ("[mind control] stop firing primary") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3401,7 +3401,7 @@ rule ("[mind control] start firing sec") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3419,7 +3419,7 @@ rule ("[mind control] stop firing sec") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3437,7 +3437,7 @@ rule ("[mind control] start ability1") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3455,7 +3455,7 @@ rule ("[mind control] stop ability 1") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3473,7 +3473,7 @@ rule ("[mind control] start ability2") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3491,7 +3491,7 @@ rule ("[mind control] stop ability 2") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3509,7 +3509,7 @@ rule ("[mind control] ultimate") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3527,7 +3527,7 @@ rule ("[mind control] stop ultimate") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3545,7 +3545,7 @@ rule ("[mind control] start melee") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3563,7 +3563,7 @@ rule ("[mind control] stop melee") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3581,7 +3581,7 @@ rule ("[mind control] in air") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MindControl;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MindControl;
         (Event Player).target != Null;
         Is Alive(Event Player) == True;
         Is Alive((Event Player).target) == True;
@@ -3599,7 +3599,7 @@ rule ("[taxi] attach system") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Taxi;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Taxi;
         Is Button Held(Event Player, Button(Interact)) == True;
     }
     actions {
@@ -3692,7 +3692,7 @@ rule ("[widow is ugly] widow charge chase") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MadWidow;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MadWidow;
         Is Button Held(Event Player, Button(Secondary Fire)) == True;
     }
     actions {
@@ -3709,7 +3709,7 @@ rule ("[widow is ugly] widow charge reset") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MadWidow;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MadWidow;
         Is Button Held(Event Player, Button(Secondary Fire)) == False;
     }
     actions {
@@ -3725,7 +3725,7 @@ rule ("[widow is ugly] widow balance") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MadWidow;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MadWidow;
         Filtered Array(All Living Players(Team Of(Event Player)), And(Has Spawned(Current Array Element), Compare(Current Array Element, !=, Event Player))) != Empty Array;
         Distance Between(Event Player, First Of(Sorted Array(Filtered Array(All Living Players(Team Of(Event Player)), And(Has Spawned(Current Array Element), Compare(Current Array Element, !=, Event Player))), Distance Between(Current Array Element, Event Player)))) <= 3;
         Is Button Held(First Of(Sorted Array(Filtered Array(All Living Players(Team Of(Event Player)), And(Has Spawned(Current Array Element), Compare(Current Array Element, !=, Event Player))), Distance Between(Current Array Element, Event Player))), Button(Melee)) == True;
@@ -3743,7 +3743,7 @@ rule ("[widow is ugly] message") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MadWidow;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MadWidow;
         Team Of(Victim) == Team Of(Event Player);
     }
     actions {
@@ -3758,7 +3758,7 @@ rule ("[widow is ugly] widow projectile") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MadWidow;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MadWidow;
         Is Button Held(Event Player, Button(Secondary Fire)) == True;
         Is Button Held(Event Player, Button(Primary Fire)) == True;
     }
@@ -3777,7 +3777,7 @@ rule ("[widow is ugly] disallow") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.MadWidow;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.MadWidow;
     }
     actions {
         Disallow Button(Event Player, Button(Primary Fire));
@@ -3793,7 +3793,7 @@ rule ("[hole] placing start/stop") {
     conditions {
         Is Button Held(Event Player, Button(Interact)) == True;
         Is In Spawn Room(Event Player) == False;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Hole;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Hole;
         (Event Player).cooldown_count <= 0;
     }
     actions {
@@ -3814,7 +3814,7 @@ rule ("[hole] hole placing") {
     }
     conditions {
         (Event Player).hole_placing == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Hole;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Hole;
     }
     actions {
         Set Player Variable(Event Player, hole, Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 12)), Null, Event Player, False), Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(Facing Direction Of(Event Player), 9)), Null, Event Player, False), Vector(0, -1000, 0), Null, Event Player, False), Null, Event Player, False));
@@ -3834,7 +3834,7 @@ rule ("[hole] primary fire to place") {
         Is Button Held(Event Player, Button(Primary Fire)) == True;
         (Event Player).hole_placing == True;
         Is In Spawn Room(Event Player) == False;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Hole;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Hole;
     }
     actions {
         Set Player Variable(Event Player, hole_placing, False);
@@ -3853,7 +3853,7 @@ rule ("[hole] placed effect") {
     }
     conditions {
         (Event Player).hole_placed == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Hole;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Hole;
     }
     actions {
         Play Effect(All Players(All Teams), Ring Explosion, Color(Sky Blue), (Event Player).hole, 5);
@@ -3870,7 +3870,7 @@ rule ("[hole] placing message") {
     }
     conditions {
         (Event Player).hole_placing == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Hole;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Hole;
     }
     actions {
         Small Message(Event Player, Custom String("{0} to place", Input Binding String(Button(Primary Fire))));
@@ -3887,7 +3887,7 @@ rule ("[hole] hole swallow") {
     }
     conditions {
         (Event Player).hole_placed == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.Hole;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.Hole;
     }
     actions {
         Set Player Variable(Event Player, targets, Players Within Radius((Event Player).hole, 2, All Teams, Surfaces));
@@ -3914,7 +3914,7 @@ rule ("[portal gun] portals placing start/stop/delete") {
     }
     conditions {
         Is Button Held(Event Player, Button(Interact)) == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.PortalGun;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.PortalGun;
         Is In Spawn Room(Event Player) == False;
     }
     actions {
@@ -3947,7 +3947,7 @@ rule ("[portal gun] tp1 placing") {
     conditions {
         (Event Player).tp_placing == True;
         Is Button Held(Event Player, Button(Primary Fire)) == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.PortalGun;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.PortalGun;
         (Event Player).cooldown_count <= 0;
     }
     actions {
@@ -3969,7 +3969,7 @@ rule ("[portal gun] tp1 effect") {
     }
     conditions {
         (Event Player).tp1 != Null;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.PortalGun;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.PortalGun;
     }
     actions {
         Play Effect(All Players(All Teams), Good Pickup Effect, Color(Orange), (Event Player).tp1, 1);
@@ -3988,7 +3988,7 @@ rule ("[portal gun] tp1 teleporting") {
     conditions {
         (Event Player).tp1 != Null;
         (Event Player).tp2 != Null;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.PortalGun;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.PortalGun;
     }
     actions {
         Set Player Variable(Event Player, tp1_targets, Players Within Radius((Event Player).tp1, 2, All Teams, Surfaces));
@@ -4026,7 +4026,7 @@ rule ("[portal gun] tp2 placing") {
     conditions {
         (Event Player).tp_placing == True;
         Is Button Held(Event Player, Button(Secondary Fire)) == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.PortalGun;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.PortalGun;
         (Event Player).cooldown_count <= 0;
     }
     actions {
@@ -4049,7 +4049,7 @@ rule ("[portal gun] tp2 teleporting") {
     conditions {
         (Event Player).tp2 != Null;
         (Event Player).tp1 != Null;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.PortalGun;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.PortalGun;
     }
     actions {
         Set Player Variable(Event Player, targets, Players Within Radius((Event Player).tp2, 2, All Teams, Surfaces));
@@ -4086,7 +4086,7 @@ rule ("[portal gun] tp2 effect") {
     }
     conditions {
         (Event Player).tp2 != Null;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.PortalGun;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.PortalGun;
     }
     actions {
         Play Effect(All Players(All Teams), Good Pickup Effect, Color(Purple), (Event Player).tp2, 1);
@@ -4104,7 +4104,7 @@ rule ("[portal gun] tp placing message") {
     }
     conditions {
         (Event Player).tp_placing == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.PortalGun;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.PortalGun;
     }
     actions {
         If(Not(And((Event Player).tp1, (Event Player).tp2)));
@@ -4183,7 +4183,7 @@ rule ("[nuke]") {
     conditions {
         Hero Of(Event Player) == Hero(D.Va);
         Is Using Ultimate(Event Player) == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.NUKE;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.NUKE;
     }
     actions {
         Set Global Variable(probabilityNuke, Random Integer(1, 100));
@@ -4245,7 +4245,7 @@ rule ("[mega mauga]") {
     conditions {
         (Event Player).Is_Flying == True;
         Is Button Held(Event Player, Button(Crouch)) == True;
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.megaMauga;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.megaMauga;
     }
     actions {
         Apply Impulse(Event Player, Up, 10, To World, Cancel Contrary Motion);
@@ -4262,7 +4262,7 @@ rule ("[mega mauga]") {
     }
     conditions {
         Hero Of(Event Player) == Hero(Mauga);
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.megaMauga;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.megaMauga;
         Is Button Held(Event Player, Button(Interact)) == True;
         (Event Player).cooldown_count <= 0;
         (Event Player).isMegaMauga == False;
@@ -4343,7 +4343,7 @@ rule ("[mega mauga]") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.megaMauga;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.megaMauga;
     }
     actions {
         Set Ability 1 Enabled(Event Player, False);
@@ -4357,7 +4357,7 @@ rule ("[mega mauga]") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) != Global.megaMauga;
+        Value In Array(Global.abilityNames, (Event Player).ability) != Global.megaMauga;
     }
     actions {
         Set Ability 1 Enabled(Event Player, True);
@@ -4371,11 +4371,11 @@ rule ("[stolen soul]") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.StolenSoul;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.StolenSoul;
         Is Button Held(Event Player, Button(Interact)) == True;
     }
     actions {
-        Set Player Variable(Event Player, target, First Of(Filtered Array(Players Within Radius(Eye Position(Event Player), 200, All Teams, Surfaces And All Barriers), And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)))));
+        Set Player Variable(Event Player, target, First Of(Filtered Array(Players Within Radius(Eye Position(Event Player), 400, All Teams, Surfaces And All Barriers), And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
         Set Player Variable(Event Player, next_ability, ((Event Player).target).ability);
         Set Player Variable(Event Player, respawn_position, Position Of(Event Player));
@@ -4408,14 +4408,14 @@ rule ("[katrina]") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.katrina;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.katrina;
         Is Button Held(Event Player, Button(Interact)) == True;
         (Event Player).cooldown_count <= 0;
     }
     actions {
         Set Player Variable(Event Player, target, First Of(Filtered Array(Players Within Radius(Eye Position(Event Player), 400, All Teams, Surfaces And All Barriers), And(Compare(Current Array Element, !=, Event Player), Is Alive(Current Array Element)))));
         Abort If(Compare((Event Player).target, ==, Null));
-        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global._objectVariable_2, (Event Player).ability), Global.cooldown_multiplier));
+        Set Player Variable(Event Player, cooldown_count, Multiply(Value In Array(Global.abilityCooldowns, (Event Player).ability), Global.cooldown_multiplier));
         If(Compare(Random Integer(1, 100), <=, 50));
             Big Message(Event Player, Custom String("Soul stolen."));
             Abort If(Compare((Event Player).target, ==, Null));
@@ -4433,7 +4433,7 @@ rule ("[katrina]") {
         All;
     }
     conditions {
-        Value In Array(Global._objectVariable_0, (Event Player).ability) == Global.katrina;
+        Value In Array(Global.abilityNames, (Event Player).ability) == Global.katrina;
         Is Using Ultimate(Event Player) == False;
     }
     actions {

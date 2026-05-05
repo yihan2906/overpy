@@ -5,15 +5,15 @@
 
 #Global variables
 
-globalvar _objectVariable_0 0
-globalvar _objectVariable_1 1
-globalvar _objectVariable_2 2
-globalvar _objectVariable_3 3
-globalvar _objectVariable_4 4
-globalvar _objectVariable_5 5
-globalvar _objectVariable_6 6
-globalvar _objectVariable_7 7
-globalvar _objectVariable_8 8
+globalvar abilityNames 0
+globalvar abilityDescriptions 1
+globalvar abilityCooldowns 2
+globalvar abilityOrder 3
+globalvar abilityDamageDealt 4
+globalvar abilityDamageReceived 5
+globalvar abilityMaxHealth 6
+globalvar abilityMoveSpeed 7
+globalvar abilityForcedHeroes 8
 globalvar RockPaperScissors 10
 globalvar ElectricShock 11
 globalvar UltOperator 12
@@ -352,261 +352,261 @@ def register_abilities1():
     _extendedGlobalCollection[1] = _classIndexes.index(0)
     _extendedGlobalCollection[1] = len(_classIndexes) if _extendedGlobalCollection[1] == -1 else _extendedGlobalCollection[1]
     _classIndexes[_extendedGlobalCollection[1]] = 3
-    _objectVariable_0[_extendedGlobalCollection[1]] = RockPaperScissors
-    _objectVariable_1[_extendedGlobalCollection[1]] = "press [INTERACT] to play rock, paper, scissors with the enemy who you are looking at, the loser will die."
-    _objectVariable_2[_extendedGlobalCollection[1]] = 10
-    _objectVariable_3[_extendedGlobalCollection[1]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[1]] = RockPaperScissors
+    abilityDescriptions[_extendedGlobalCollection[1]] = "press [INTERACT] to play rock, paper, scissors with the enemy who you are looking at, the loser will die."
+    abilityCooldowns[_extendedGlobalCollection[1]] = 10
+    abilityOrder[_extendedGlobalCollection[1]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[1])
     _extendedGlobalCollection[2] = _classIndexes.index(0)
     _extendedGlobalCollection[2] = len(_classIndexes) if _extendedGlobalCollection[2] == -1 else _extendedGlobalCollection[2]
     _classIndexes[_extendedGlobalCollection[2]] = 4
-    _objectVariable_0[_extendedGlobalCollection[2]] = ElectricShock
-    _objectVariable_1[_extendedGlobalCollection[2]] = "press [interact] to stun the enemy you are looking at"
-    _objectVariable_2[_extendedGlobalCollection[2]] = 10
-    _objectVariable_3[_extendedGlobalCollection[2]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[2]] = ElectricShock
+    abilityDescriptions[_extendedGlobalCollection[2]] = "press [interact] to stun the enemy you are looking at"
+    abilityCooldowns[_extendedGlobalCollection[2]] = 10
+    abilityOrder[_extendedGlobalCollection[2]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[2])
     _extendedGlobalCollection[3] = _classIndexes.index(0)
     _extendedGlobalCollection[3] = len(_classIndexes) if _extendedGlobalCollection[3] == -1 else _extendedGlobalCollection[3]
     _classIndexes[_extendedGlobalCollection[3]] = 5
-    _objectVariable_0[_extendedGlobalCollection[3]] = UltOperator
-    _objectVariable_1[_extendedGlobalCollection[3]] = "press [interact] to make the ally you are looking at instantly use their ultimate"
-    _objectVariable_2[_extendedGlobalCollection[3]] = 10
-    _objectVariable_3[_extendedGlobalCollection[3]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[3]] = UltOperator
+    abilityDescriptions[_extendedGlobalCollection[3]] = "press [interact] to make the ally you are looking at instantly use their ultimate"
+    abilityCooldowns[_extendedGlobalCollection[3]] = 10
+    abilityOrder[_extendedGlobalCollection[3]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[3])
     _extendedGlobalCollection[4] = _classIndexes.index(0)
     _extendedGlobalCollection[4] = len(_classIndexes) if _extendedGlobalCollection[4] == -1 else _extendedGlobalCollection[4]
     _classIndexes[_extendedGlobalCollection[4]] = 6
-    _objectVariable_0[_extendedGlobalCollection[4]] = IJustWantToDie
-    _objectVariable_1[_extendedGlobalCollection[4]] = "Summons a random enemy to you upon death."
-    _objectVariable_8[_extendedGlobalCollection[4]] = getAllPlayers()
-    _objectVariable_3[_extendedGlobalCollection[4]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[4]] = IJustWantToDie
+    abilityDescriptions[_extendedGlobalCollection[4]] = "Summons a random enemy to you upon death."
+    abilityForcedHeroes[_extendedGlobalCollection[4]] = getAllPlayers()
+    abilityOrder[_extendedGlobalCollection[4]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[4])
     _extendedGlobalCollection[5] = _classIndexes.index(0)
     _extendedGlobalCollection[5] = len(_classIndexes) if _extendedGlobalCollection[5] == -1 else _extendedGlobalCollection[5]
     _classIndexes[_extendedGlobalCollection[5]] = 7
-    _objectVariable_0[_extendedGlobalCollection[5]] = SurpriseAttack
-    _objectVariable_1[_extendedGlobalCollection[5]] = "press [interact] to teleport behind, stun and attack the enemy that you are looking at and return to where you were"
-    _objectVariable_2[_extendedGlobalCollection[5]] = 5
-    _objectVariable_8[_extendedGlobalCollection[5]] = [Hero.REAPER]
-    _objectVariable_3[_extendedGlobalCollection[5]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[5]] = SurpriseAttack
+    abilityDescriptions[_extendedGlobalCollection[5]] = "press [interact] to teleport behind, stun and attack the enemy that you are looking at and return to where you were"
+    abilityCooldowns[_extendedGlobalCollection[5]] = 5
+    abilityForcedHeroes[_extendedGlobalCollection[5]] = [Hero.REAPER]
+    abilityOrder[_extendedGlobalCollection[5]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[5])
     _extendedGlobalCollection[6] = _classIndexes.index(0)
     _extendedGlobalCollection[6] = len(_classIndexes) if _extendedGlobalCollection[6] == -1 else _extendedGlobalCollection[6]
     _classIndexes[_extendedGlobalCollection[6]] = 8
-    _objectVariable_0[_extendedGlobalCollection[6]] = CantMove
-    _objectVariable_1[_extendedGlobalCollection[6]] = "The enemy stumbles for a moment when hitting."
-    _objectVariable_8[_extendedGlobalCollection[6]] = [Hero.REINHARDT]
-    _objectVariable_3[_extendedGlobalCollection[6]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[6]] = CantMove
+    abilityDescriptions[_extendedGlobalCollection[6]] = "The enemy stumbles for a moment when hitting."
+    abilityForcedHeroes[_extendedGlobalCollection[6]] = [Hero.REINHARDT]
+    abilityOrder[_extendedGlobalCollection[6]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[6])
     _extendedGlobalCollection[7] = _classIndexes.index(0)
     _extendedGlobalCollection[7] = len(_classIndexes) if _extendedGlobalCollection[7] == -1 else _extendedGlobalCollection[7]
     _classIndexes[_extendedGlobalCollection[7]] = 9
-    _objectVariable_0[_extendedGlobalCollection[7]] = NoClip
-    _objectVariable_1[_extendedGlobalCollection[7]] = "press [interact] to enable/disable walk through walls mode"
-    _objectVariable_3[_extendedGlobalCollection[7]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[7]] = NoClip
+    abilityDescriptions[_extendedGlobalCollection[7]] = "press [interact] to enable/disable walk through walls mode"
+    abilityOrder[_extendedGlobalCollection[7]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[7])
     _extendedGlobalCollection[8] = _classIndexes.index(0)
     _extendedGlobalCollection[8] = len(_classIndexes) if _extendedGlobalCollection[8] == -1 else _extendedGlobalCollection[8]
     _classIndexes[_extendedGlobalCollection[8]] = 10
-    _objectVariable_0[_extendedGlobalCollection[8]] = UniqueExisance
-    _objectVariable_1[_extendedGlobalCollection[8]] = "press [interact] to kill everyone, including you, that is the same role as you"
-    _objectVariable_2[_extendedGlobalCollection[8]] = 30
-    _objectVariable_3[_extendedGlobalCollection[8]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[8]] = UniqueExisance
+    abilityDescriptions[_extendedGlobalCollection[8]] = "press [interact] to kill everyone, including you, that is the same role as you"
+    abilityCooldowns[_extendedGlobalCollection[8]] = 30
+    abilityOrder[_extendedGlobalCollection[8]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[8])
     _extendedGlobalCollection[9] = _classIndexes.index(0)
     _extendedGlobalCollection[9] = len(_classIndexes) if _extendedGlobalCollection[9] == -1 else _extendedGlobalCollection[9]
     _classIndexes[_extendedGlobalCollection[9]] = 11
-    _objectVariable_0[_extendedGlobalCollection[9]] = Repay
-    _objectVariable_1[_extendedGlobalCollection[9]] = "Reflects 70% of the damage taken to enemies."
-    _objectVariable_3[_extendedGlobalCollection[9]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[9]] = Repay
+    abilityDescriptions[_extendedGlobalCollection[9]] = "Reflects 70% of the damage taken to enemies."
+    abilityOrder[_extendedGlobalCollection[9]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[9])
     _extendedGlobalCollection[11] = _classIndexes.index(0)
     _extendedGlobalCollection[11] = len(_classIndexes) if _extendedGlobalCollection[11] == -1 else _extendedGlobalCollection[11]
     _classIndexes[_extendedGlobalCollection[11]] = 13
-    _objectVariable_0[_extendedGlobalCollection[11]] = IAmSpeed
-    _objectVariable_1[_extendedGlobalCollection[11]] = "increase charge speed by a lot"
-    _objectVariable_8[_extendedGlobalCollection[11]] = [Hero.REINHARDT]
-    _objectVariable_3[_extendedGlobalCollection[11]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[11]] = IAmSpeed
+    abilityDescriptions[_extendedGlobalCollection[11]] = "increase charge speed by a lot"
+    abilityForcedHeroes[_extendedGlobalCollection[11]] = [Hero.REINHARDT]
+    abilityOrder[_extendedGlobalCollection[11]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[11])
     _extendedGlobalCollection[12] = _classIndexes.index(0)
     _extendedGlobalCollection[12] = len(_classIndexes) if _extendedGlobalCollection[12] == -1 else _extendedGlobalCollection[12]
     _classIndexes[_extendedGlobalCollection[12]] = 14
-    _objectVariable_0[_extendedGlobalCollection[12]] = Stop
-    _objectVariable_1[_extendedGlobalCollection[12]] = "press [interact] to stop the enemy that you are looking at from moving"
-    _objectVariable_2[_extendedGlobalCollection[12]] = 10
-    _objectVariable_3[_extendedGlobalCollection[12]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[12]] = Stop
+    abilityDescriptions[_extendedGlobalCollection[12]] = "press [interact] to stop the enemy that you are looking at from moving"
+    abilityCooldowns[_extendedGlobalCollection[12]] = 10
+    abilityOrder[_extendedGlobalCollection[12]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[12])
     _extendedGlobalCollection[13] = _classIndexes.index(0)
     _extendedGlobalCollection[13] = len(_classIndexes) if _extendedGlobalCollection[13] == -1 else _extendedGlobalCollection[13]
     _classIndexes[_extendedGlobalCollection[13]] = 15
-    _objectVariable_0[_extendedGlobalCollection[13]] = WaterGhost
-    _objectVariable_1[_extendedGlobalCollection[13]] = "the enemy who killed you will die as well"
-    _objectVariable_3[_extendedGlobalCollection[13]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[13]] = WaterGhost
+    abilityDescriptions[_extendedGlobalCollection[13]] = "the enemy who killed you will die as well"
+    abilityOrder[_extendedGlobalCollection[13]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[13])
     _extendedGlobalCollection[14] = _classIndexes.index(0)
     _extendedGlobalCollection[14] = len(_classIndexes) if _extendedGlobalCollection[14] == -1 else _extendedGlobalCollection[14]
     _classIndexes[_extendedGlobalCollection[14]] = 16
-    _objectVariable_0[_extendedGlobalCollection[14]] = UnclePopHummer
-    _objectVariable_1[_extendedGlobalCollection[14]] = "hitting enemies with hammer will stun them"
-    _objectVariable_8[_extendedGlobalCollection[14]] = [Hero.TORBJORN]
-    _objectVariable_3[_extendedGlobalCollection[14]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[14]] = UnclePopHummer
+    abilityDescriptions[_extendedGlobalCollection[14]] = "hitting enemies with hammer will stun them"
+    abilityForcedHeroes[_extendedGlobalCollection[14]] = [Hero.TORBJORN]
+    abilityOrder[_extendedGlobalCollection[14]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[14])
     _extendedGlobalCollection[15] = _classIndexes.index(0)
     _extendedGlobalCollection[15] = len(_classIndexes) if _extendedGlobalCollection[15] == -1 else _extendedGlobalCollection[15]
     _classIndexes[_extendedGlobalCollection[15]] = 17
-    _objectVariable_0[_extendedGlobalCollection[15]] = SpinFloatUp
-    _objectVariable_1[_extendedGlobalCollection[15]] = "press [interact] to make the enemy you are looking at spin and float up"
-    _objectVariable_2[_extendedGlobalCollection[15]] = 10
-    _objectVariable_3[_extendedGlobalCollection[15]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[15]] = SpinFloatUp
+    abilityDescriptions[_extendedGlobalCollection[15]] = "press [interact] to make the enemy you are looking at spin and float up"
+    abilityCooldowns[_extendedGlobalCollection[15]] = 10
+    abilityOrder[_extendedGlobalCollection[15]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[15])
     _extendedGlobalCollection[17] = _classIndexes.index(0)
     _extendedGlobalCollection[17] = len(_classIndexes) if _extendedGlobalCollection[17] == -1 else _extendedGlobalCollection[17]
     _classIndexes[_extendedGlobalCollection[17]] = 19
-    _objectVariable_0[_extendedGlobalCollection[17]] = OneShotName
-    _objectVariable_1[_extendedGlobalCollection[17]] = "increase damage dealt by a lot but reduce HP by a lot as well"
-    _objectVariable_8[_extendedGlobalCollection[17]] = getSupportHeroes()
-    _objectVariable_6[_extendedGlobalCollection[17]] = 1
-    _objectVariable_4[_extendedGlobalCollection[17]] = 50000
-    _objectVariable_3[_extendedGlobalCollection[17]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[17]] = OneShotName
+    abilityDescriptions[_extendedGlobalCollection[17]] = "increase damage dealt by a lot but reduce HP by a lot as well"
+    abilityForcedHeroes[_extendedGlobalCollection[17]] = getSupportHeroes()
+    abilityMaxHealth[_extendedGlobalCollection[17]] = 1
+    abilityDamageDealt[_extendedGlobalCollection[17]] = 50000
+    abilityOrder[_extendedGlobalCollection[17]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[17])
     _extendedGlobalCollection[18] = _classIndexes.index(0)
     _extendedGlobalCollection[18] = len(_classIndexes) if _extendedGlobalCollection[18] == -1 else _extendedGlobalCollection[18]
     _classIndexes[_extendedGlobalCollection[18]] = 20
-    _objectVariable_0[_extendedGlobalCollection[18]] = SleepWell
-    _objectVariable_1[_extendedGlobalCollection[18]] = "press [interact] to summon random enemy TANK and sleep them"
-    _objectVariable_2[_extendedGlobalCollection[18]] = 30
-    _objectVariable_8[_extendedGlobalCollection[18]] = getAllPlayers()
-    _objectVariable_3[_extendedGlobalCollection[18]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[18]] = SleepWell
+    abilityDescriptions[_extendedGlobalCollection[18]] = "press [interact] to summon random enemy TANK and sleep them"
+    abilityCooldowns[_extendedGlobalCollection[18]] = 30
+    abilityForcedHeroes[_extendedGlobalCollection[18]] = getAllPlayers()
+    abilityOrder[_extendedGlobalCollection[18]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[18])
     _extendedGlobalCollection[19] = _classIndexes.index(0)
     _extendedGlobalCollection[19] = len(_classIndexes) if _extendedGlobalCollection[19] == -1 else _extendedGlobalCollection[19]
     _classIndexes[_extendedGlobalCollection[19]] = 21
-    _objectVariable_0[_extendedGlobalCollection[19]] = ItsTimeToSleep
-    _objectVariable_1[_extendedGlobalCollection[19]] = "killing an enemy directly puts everyone to sleep."
-    _objectVariable_3[_extendedGlobalCollection[19]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[19]] = ItsTimeToSleep
+    abilityDescriptions[_extendedGlobalCollection[19]] = "killing an enemy directly puts everyone to sleep."
+    abilityOrder[_extendedGlobalCollection[19]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[19])
     _extendedGlobalCollection[20] = _classIndexes.index(0)
     _extendedGlobalCollection[20] = len(_classIndexes) if _extendedGlobalCollection[20] == -1 else _extendedGlobalCollection[20]
     _classIndexes[_extendedGlobalCollection[20]] = 22
-    _objectVariable_0[_extendedGlobalCollection[20]] = LayingEgg
-    _objectVariable_1[_extendedGlobalCollection[20]] = "Press [interact] to lay eggs. return to egg when received fatal damage."
-    _objectVariable_2[_extendedGlobalCollection[20]] = 5
-    _objectVariable_6[_extendedGlobalCollection[20]] = 50
-    _objectVariable_3[_extendedGlobalCollection[20]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[20]] = LayingEgg
+    abilityDescriptions[_extendedGlobalCollection[20]] = "Press [interact] to lay eggs. return to egg when received fatal damage."
+    abilityCooldowns[_extendedGlobalCollection[20]] = 5
+    abilityMaxHealth[_extendedGlobalCollection[20]] = 50
+    abilityOrder[_extendedGlobalCollection[20]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[20])
     _extendedGlobalCollection[21] = _classIndexes.index(0)
     _extendedGlobalCollection[21] = len(_classIndexes) if _extendedGlobalCollection[21] == -1 else _extendedGlobalCollection[21]
     _classIndexes[_extendedGlobalCollection[21]] = 23
-    _objectVariable_0[_extendedGlobalCollection[21]] = BehindYou
-    _objectVariable_1[_extendedGlobalCollection[21]] = "press [interact] to make the enemy that you are looking at look back"
-    _objectVariable_2[_extendedGlobalCollection[21]] = 3
-    _objectVariable_3[_extendedGlobalCollection[21]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[21]] = BehindYou
+    abilityDescriptions[_extendedGlobalCollection[21]] = "press [interact] to make the enemy that you are looking at look back"
+    abilityCooldowns[_extendedGlobalCollection[21]] = 3
+    abilityOrder[_extendedGlobalCollection[21]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[21])
     _extendedGlobalCollection[22] = _classIndexes.index(0)
     _extendedGlobalCollection[22] = len(_classIndexes) if _extendedGlobalCollection[22] == -1 else _extendedGlobalCollection[22]
     _classIndexes[_extendedGlobalCollection[22]] = 24
-    _objectVariable_0[_extendedGlobalCollection[22]] = WhyHitMe
-    _objectVariable_1[_extendedGlobalCollection[22]] = "Enemies that attack you will change their camera angle."
-    _objectVariable_3[_extendedGlobalCollection[22]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[22]] = WhyHitMe
+    abilityDescriptions[_extendedGlobalCollection[22]] = "Enemies that attack you will change their camera angle."
+    abilityOrder[_extendedGlobalCollection[22]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[22])
     _extendedGlobalCollection[23] = _classIndexes.index(0)
     _extendedGlobalCollection[23] = len(_classIndexes) if _extendedGlobalCollection[23] == -1 else _extendedGlobalCollection[23]
     _classIndexes[_extendedGlobalCollection[23]] = 25
-    _objectVariable_0[_extendedGlobalCollection[23]] = ChangePosition
-    _objectVariable_1[_extendedGlobalCollection[23]] = "press [interact] to switch position with the enemy you are looking at"
-    _objectVariable_2[_extendedGlobalCollection[23]] = 10
-    _objectVariable_3[_extendedGlobalCollection[23]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[23]] = ChangePosition
+    abilityDescriptions[_extendedGlobalCollection[23]] = "press [interact] to switch position with the enemy you are looking at"
+    abilityCooldowns[_extendedGlobalCollection[23]] = 10
+    abilityOrder[_extendedGlobalCollection[23]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[23])
     _extendedGlobalCollection[24] = _classIndexes.index(0)
     _extendedGlobalCollection[24] = len(_classIndexes) if _extendedGlobalCollection[24] == -1 else _extendedGlobalCollection[24]
     _classIndexes[_extendedGlobalCollection[24]] = 26
-    _objectVariable_0[_extendedGlobalCollection[24]] = ComeOn
-    _objectVariable_1[_extendedGlobalCollection[24]] = "Press [Interact] to summons the enemy you are looking at in front of you."
-    _objectVariable_2[_extendedGlobalCollection[24]] = 5
-    _objectVariable_3[_extendedGlobalCollection[24]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[24]] = ComeOn
+    abilityDescriptions[_extendedGlobalCollection[24]] = "Press [Interact] to summons the enemy you are looking at in front of you."
+    abilityCooldowns[_extendedGlobalCollection[24]] = 5
+    abilityOrder[_extendedGlobalCollection[24]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[24])
     _extendedGlobalCollection[25] = _classIndexes.index(0)
     _extendedGlobalCollection[25] = len(_classIndexes) if _extendedGlobalCollection[25] == -1 else _extendedGlobalCollection[25]
     _classIndexes[_extendedGlobalCollection[25]] = 27
-    _objectVariable_0[_extendedGlobalCollection[25]] = GoodNight
-    _objectVariable_1[_extendedGlobalCollection[25]] = "press [interact] to put the enemy that you are looking at to sleep"
-    _objectVariable_2[_extendedGlobalCollection[25]] = 8
-    _objectVariable_3[_extendedGlobalCollection[25]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[25]] = GoodNight
+    abilityDescriptions[_extendedGlobalCollection[25]] = "press [interact] to put the enemy that you are looking at to sleep"
+    abilityCooldowns[_extendedGlobalCollection[25]] = 8
+    abilityOrder[_extendedGlobalCollection[25]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[25])
     _extendedGlobalCollection[26] = _classIndexes.index(0)
     _extendedGlobalCollection[26] = len(_classIndexes) if _extendedGlobalCollection[26] == -1 else _extendedGlobalCollection[26]
     _classIndexes[_extendedGlobalCollection[26]] = 28
-    _objectVariable_0[_extendedGlobalCollection[26]] = JumpingTrap
-    _objectVariable_1[_extendedGlobalCollection[26]] = "press [interact] to create a jumping trap"
-    _objectVariable_2[_extendedGlobalCollection[26]] = 2
-    _objectVariable_3[_extendedGlobalCollection[26]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[26]] = JumpingTrap
+    abilityDescriptions[_extendedGlobalCollection[26]] = "press [interact] to create a jumping trap"
+    abilityCooldowns[_extendedGlobalCollection[26]] = 2
+    abilityOrder[_extendedGlobalCollection[26]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[26])
     _extendedGlobalCollection[27] = _classIndexes.index(0)
     _extendedGlobalCollection[27] = len(_classIndexes) if _extendedGlobalCollection[27] == -1 else _extendedGlobalCollection[27]
     _classIndexes[_extendedGlobalCollection[27]] = 29
-    _objectVariable_0[_extendedGlobalCollection[27]] = SleepyNinja
-    _objectVariable_1[_extendedGlobalCollection[27]] = "attack will stun enemy but damage dealt is reduced by a lot"
-    _objectVariable_8[_extendedGlobalCollection[27]] = [Hero.GENJI]
-    _objectVariable_4[_extendedGlobalCollection[27]] = 0.05
-    _objectVariable_3[_extendedGlobalCollection[27]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[27]] = SleepyNinja
+    abilityDescriptions[_extendedGlobalCollection[27]] = "attack will stun enemy but damage dealt is reduced by a lot"
+    abilityForcedHeroes[_extendedGlobalCollection[27]] = [Hero.GENJI]
+    abilityDamageDealt[_extendedGlobalCollection[27]] = 0.05
+    abilityOrder[_extendedGlobalCollection[27]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[27])
     _extendedGlobalCollection[28] = _classIndexes.index(0)
     _extendedGlobalCollection[28] = len(_classIndexes) if _extendedGlobalCollection[28] == -1 else _extendedGlobalCollection[28]
     _classIndexes[_extendedGlobalCollection[28]] = 30
-    _objectVariable_0[_extendedGlobalCollection[28]] = ReallyBehindYou
-    _objectVariable_1[_extendedGlobalCollection[28]] = "press [interact] to teleport behind and stun the enemy that you are looking at"
-    _objectVariable_2[_extendedGlobalCollection[28]] = 10
-    _objectVariable_3[_extendedGlobalCollection[28]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[28]] = ReallyBehindYou
+    abilityDescriptions[_extendedGlobalCollection[28]] = "press [interact] to teleport behind and stun the enemy that you are looking at"
+    abilityCooldowns[_extendedGlobalCollection[28]] = 10
+    abilityOrder[_extendedGlobalCollection[28]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[28])
     _extendedGlobalCollection[30] = _classIndexes.index(0)
     _extendedGlobalCollection[30] = len(_classIndexes) if _extendedGlobalCollection[30] == -1 else _extendedGlobalCollection[30]
     _classIndexes[_extendedGlobalCollection[30]] = 32
-    _objectVariable_0[_extendedGlobalCollection[30]] = TalonIsBad
-    _objectVariable_1[_extendedGlobalCollection[30]] = "press [Interact] to summom random enemy DPS and stun"
-    _objectVariable_2[_extendedGlobalCollection[30]] = 30
-    _objectVariable_8[_extendedGlobalCollection[30]] = getAllPlayers()
-    _objectVariable_3[_extendedGlobalCollection[30]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[30]] = TalonIsBad
+    abilityDescriptions[_extendedGlobalCollection[30]] = "press [Interact] to summom random enemy DPS and stun"
+    abilityCooldowns[_extendedGlobalCollection[30]] = 30
+    abilityForcedHeroes[_extendedGlobalCollection[30]] = getAllPlayers()
+    abilityOrder[_extendedGlobalCollection[30]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[30])
     _extendedGlobalCollection[31] = _classIndexes.index(0)
     _extendedGlobalCollection[31] = len(_classIndexes) if _extendedGlobalCollection[31] == -1 else _extendedGlobalCollection[31]
     _classIndexes[_extendedGlobalCollection[31]] = 33
-    _objectVariable_0[_extendedGlobalCollection[31]] = Invisible
-    _objectVariable_1[_extendedGlobalCollection[31]] = "you are invisible but HP is reduced"
-    _objectVariable_6[_extendedGlobalCollection[31]] = 25
-    _objectVariable_3[_extendedGlobalCollection[31]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[31]] = Invisible
+    abilityDescriptions[_extendedGlobalCollection[31]] = "you are invisible but HP is reduced"
+    abilityMaxHealth[_extendedGlobalCollection[31]] = 25
+    abilityOrder[_extendedGlobalCollection[31]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[31])
     _extendedGlobalCollection[32] = _classIndexes.index(0)
     _extendedGlobalCollection[32] = len(_classIndexes) if _extendedGlobalCollection[32] == -1 else _extendedGlobalCollection[32]
     _classIndexes[_extendedGlobalCollection[32]] = 34
-    _objectVariable_0[_extendedGlobalCollection[32]] = OneShot
-    _objectVariable_1[_extendedGlobalCollection[32]] = "When attacking, there is a 50% chance to instantly kill an enemy, and you are stunned for 6 seconds."
-    _objectVariable_2[_extendedGlobalCollection[32]] = 12
-    _objectVariable_3[_extendedGlobalCollection[32]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[32]] = OneShot
+    abilityDescriptions[_extendedGlobalCollection[32]] = "When attacking, there is a 50% chance to instantly kill an enemy, and you are stunned for 6 seconds."
+    abilityCooldowns[_extendedGlobalCollection[32]] = 12
+    abilityOrder[_extendedGlobalCollection[32]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[32])
     _extendedGlobalCollection[33] = _classIndexes.index(0)
     _extendedGlobalCollection[33] = len(_classIndexes) if _extendedGlobalCollection[33] == -1 else _extendedGlobalCollection[33]
     _classIndexes[_extendedGlobalCollection[33]] = 35
-    _objectVariable_0[_extendedGlobalCollection[33]] = RotatingTornado
-    _objectVariable_1[_extendedGlobalCollection[33]] = "press [interact] to spin the enemy that you are looking at"
-    _objectVariable_2[_extendedGlobalCollection[33]] = 10
-    _objectVariable_3[_extendedGlobalCollection[33]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[33]] = RotatingTornado
+    abilityDescriptions[_extendedGlobalCollection[33]] = "press [interact] to spin the enemy that you are looking at"
+    abilityCooldowns[_extendedGlobalCollection[33]] = 10
+    abilityOrder[_extendedGlobalCollection[33]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[33])
     _extendedGlobalCollection[34] = _classIndexes.index(0)
     _extendedGlobalCollection[34] = len(_classIndexes) if _extendedGlobalCollection[34] == -1 else _extendedGlobalCollection[34]
     _classIndexes[_extendedGlobalCollection[34]] = 36
-    _objectVariable_0[_extendedGlobalCollection[34]] = SponsoredReaction
-    _objectVariable_1[_extendedGlobalCollection[34]] = "press [Interact] to the enemy you are looking at will have a chance to make them emote"
-    _objectVariable_2[_extendedGlobalCollection[34]] = 9
-    _objectVariable_3[_extendedGlobalCollection[34]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[34]] = SponsoredReaction
+    abilityDescriptions[_extendedGlobalCollection[34]] = "press [Interact] to the enemy you are looking at will have a chance to make them emote"
+    abilityCooldowns[_extendedGlobalCollection[34]] = 9
+    abilityOrder[_extendedGlobalCollection[34]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[34])
     _extendedGlobalCollection[35] = _classIndexes.index(0)
     _extendedGlobalCollection[35] = len(_classIndexes) if _extendedGlobalCollection[35] == -1 else _extendedGlobalCollection[35]
     _classIndexes[_extendedGlobalCollection[35]] = 37
-    _objectVariable_0[_extendedGlobalCollection[35]] = HealerEthernalFriend
-    _objectVariable_1[_extendedGlobalCollection[35]] = "press [interact] to summon enemy support and stun"
-    _objectVariable_2[_extendedGlobalCollection[35]] = 30
-    _objectVariable_8[_extendedGlobalCollection[35]] = getAllPlayers()
-    _objectVariable_3[_extendedGlobalCollection[35]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[35]] = HealerEthernalFriend
+    abilityDescriptions[_extendedGlobalCollection[35]] = "press [interact] to summon enemy support and stun"
+    abilityCooldowns[_extendedGlobalCollection[35]] = 30
+    abilityForcedHeroes[_extendedGlobalCollection[35]] = getAllPlayers()
+    abilityOrder[_extendedGlobalCollection[35]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[35])
 
 
@@ -616,28 +616,28 @@ def register_abilities2():
     _extendedGlobalCollection[36] = _classIndexes.index(0)
     _extendedGlobalCollection[36] = len(_classIndexes) if _extendedGlobalCollection[36] == -1 else _extendedGlobalCollection[36]
     _classIndexes[_extendedGlobalCollection[36]] = 38
-    _objectVariable_0[_extendedGlobalCollection[36]] = LackOfConcentration
-    _objectVariable_1[_extendedGlobalCollection[36]] = "Deal 500% damage, but your perspective gets blown away"
-    _objectVariable_8[_extendedGlobalCollection[36]] = [Hero.CASSIDY]
-    _objectVariable_4[_extendedGlobalCollection[36]] = 500
-    _objectVariable_3[_extendedGlobalCollection[36]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[36]] = LackOfConcentration
+    abilityDescriptions[_extendedGlobalCollection[36]] = "Deal 500% damage, but your perspective gets blown away"
+    abilityForcedHeroes[_extendedGlobalCollection[36]] = [Hero.CASSIDY]
+    abilityDamageDealt[_extendedGlobalCollection[36]] = 500
+    abilityOrder[_extendedGlobalCollection[36]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[36])
     _extendedGlobalCollection[38] = _classIndexes.index(0)
     _extendedGlobalCollection[38] = len(_classIndexes) if _extendedGlobalCollection[38] == -1 else _extendedGlobalCollection[38]
     _classIndexes[_extendedGlobalCollection[38]] = 40
-    _objectVariable_0[_extendedGlobalCollection[38]] = Telekinesis
-    _objectVariable_1[_extendedGlobalCollection[38]] = "press [interact] to move the enemy that you are looking at in various directions"
-    _objectVariable_2[_extendedGlobalCollection[38]] = 14
-    _objectVariable_3[_extendedGlobalCollection[38]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[38]] = Telekinesis
+    abilityDescriptions[_extendedGlobalCollection[38]] = "press [interact] to move the enemy that you are looking at in various directions"
+    abilityCooldowns[_extendedGlobalCollection[38]] = 14
+    abilityOrder[_extendedGlobalCollection[38]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[38])
     _extendedGlobalCollection[42] = _classIndexes.index(0)
     _extendedGlobalCollection[42] = len(_classIndexes) if _extendedGlobalCollection[42] == -1 else _extendedGlobalCollection[42]
     _classIndexes[_extendedGlobalCollection[42]] = 44
-    _objectVariable_0[_extendedGlobalCollection[42]] = ImAnAttentionSeeker
-    _objectVariable_1[_extendedGlobalCollection[42]] = "Damage, heal, and health are doubled, but your location is exposed"
-    _objectVariable_6[_extendedGlobalCollection[42]] = 200
-    _objectVariable_4[_extendedGlobalCollection[42]] = 200
-    _objectVariable_3[_extendedGlobalCollection[42]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[42]] = ImAnAttentionSeeker
+    abilityDescriptions[_extendedGlobalCollection[42]] = "Damage, heal, and health are doubled, but your location is exposed"
+    abilityMaxHealth[_extendedGlobalCollection[42]] = 200
+    abilityDamageDealt[_extendedGlobalCollection[42]] = 200
+    abilityOrder[_extendedGlobalCollection[42]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[42])
 
 
@@ -647,150 +647,150 @@ def register_abilities3():
     _extendedGlobalCollection[43] = _classIndexes.index(0)
     _extendedGlobalCollection[43] = len(_classIndexes) if _extendedGlobalCollection[43] == -1 else _extendedGlobalCollection[43]
     _classIndexes[_extendedGlobalCollection[43]] = 45
-    _objectVariable_0[_extendedGlobalCollection[43]] = RandomScale
-    _objectVariable_1[_extendedGlobalCollection[43]] = "press [interact] to change the size of the player you are looking at"
-    _objectVariable_2[_extendedGlobalCollection[43]] = 15
-    _objectVariable_3[_extendedGlobalCollection[43]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[43]] = RandomScale
+    abilityDescriptions[_extendedGlobalCollection[43]] = "press [interact] to change the size of the player you are looking at"
+    abilityCooldowns[_extendedGlobalCollection[43]] = 15
+    abilityOrder[_extendedGlobalCollection[43]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[43])
     _extendedGlobalCollection[44] = _classIndexes.index(0)
     _extendedGlobalCollection[44] = len(_classIndexes) if _extendedGlobalCollection[44] == -1 else _extendedGlobalCollection[44]
     _classIndexes[_extendedGlobalCollection[44]] = 46
-    _objectVariable_0[_extendedGlobalCollection[44]] = Reloading
-    _objectVariable_1[_extendedGlobalCollection[44]] = "press [interact] to let the enemy you are looking at reload"
-    _objectVariable_2[_extendedGlobalCollection[44]] = 8
-    _objectVariable_3[_extendedGlobalCollection[44]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[44]] = Reloading
+    abilityDescriptions[_extendedGlobalCollection[44]] = "press [interact] to let the enemy you are looking at reload"
+    abilityCooldowns[_extendedGlobalCollection[44]] = 8
+    abilityOrder[_extendedGlobalCollection[44]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[44])
     _extendedGlobalCollection[45] = _classIndexes.index(0)
     _extendedGlobalCollection[45] = len(_classIndexes) if _extendedGlobalCollection[45] == -1 else _extendedGlobalCollection[45]
     _classIndexes[_extendedGlobalCollection[45]] = 47
-    _objectVariable_0[_extendedGlobalCollection[45]] = LifeSaver
-    _objectVariable_1[_extendedGlobalCollection[45]] = "press [interact] to pull the ally you are looking at through the wall"
-    _objectVariable_2[_extendedGlobalCollection[45]] = 30
-    _objectVariable_8[_extendedGlobalCollection[45]] = [Hero.LIFEWEAVER]
-    _objectVariable_3[_extendedGlobalCollection[45]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[45]] = LifeSaver
+    abilityDescriptions[_extendedGlobalCollection[45]] = "press [interact] to pull the ally you are looking at through the wall"
+    abilityCooldowns[_extendedGlobalCollection[45]] = 30
+    abilityForcedHeroes[_extendedGlobalCollection[45]] = [Hero.LIFEWEAVER]
+    abilityOrder[_extendedGlobalCollection[45]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[45])
     _extendedGlobalCollection[46] = _classIndexes.index(0)
     _extendedGlobalCollection[46] = len(_classIndexes) if _extendedGlobalCollection[46] == -1 else _extendedGlobalCollection[46]
     _classIndexes[_extendedGlobalCollection[46]] = 48
-    _objectVariable_0[_extendedGlobalCollection[46]] = HighSensitivity
-    _objectVariable_1[_extendedGlobalCollection[46]] = "press [interact] to temporarily alternate the aim speed of the enemy you are looking at between very low and very high"
-    _objectVariable_2[_extendedGlobalCollection[46]] = 15
-    _objectVariable_3[_extendedGlobalCollection[46]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[46]] = HighSensitivity
+    abilityDescriptions[_extendedGlobalCollection[46]] = "press [interact] to temporarily alternate the aim speed of the enemy you are looking at between very low and very high"
+    abilityCooldowns[_extendedGlobalCollection[46]] = 15
+    abilityOrder[_extendedGlobalCollection[46]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[46])
-    _objectVariable_8[_extendedGlobalCollection[48]] = [Hero.ZENYATTA]
+    abilityForcedHeroes[_extendedGlobalCollection[48]] = [Hero.ZENYATTA]
     _extendedGlobalCollection[50] = _classIndexes.index(0)
     _extendedGlobalCollection[50] = len(_classIndexes) if _extendedGlobalCollection[50] == -1 else _extendedGlobalCollection[50]
     _classIndexes[_extendedGlobalCollection[50]] = 52
-    _objectVariable_0[_extendedGlobalCollection[50]] = YouGotSpeed
-    _objectVariable_1[_extendedGlobalCollection[50]] = "press [interact] to temporarily make the movement speed of the enemy you are looking at very fast"
-    _objectVariable_2[_extendedGlobalCollection[50]] = 15
-    _objectVariable_3[_extendedGlobalCollection[50]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[50]] = YouGotSpeed
+    abilityDescriptions[_extendedGlobalCollection[50]] = "press [interact] to temporarily make the movement speed of the enemy you are looking at very fast"
+    abilityCooldowns[_extendedGlobalCollection[50]] = 15
+    abilityOrder[_extendedGlobalCollection[50]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[50])
     _extendedGlobalCollection[51] = _classIndexes.index(0)
     _extendedGlobalCollection[51] = len(_classIndexes) if _extendedGlobalCollection[51] == -1 else _extendedGlobalCollection[51]
     _classIndexes[_extendedGlobalCollection[51]] = 53
-    _objectVariable_0[_extendedGlobalCollection[51]] = Taxi
-    _objectVariable_1[_extendedGlobalCollection[51]] = "press [INTERACT] to start/stop riding the player you are looking at"
-    _objectVariable_2[_extendedGlobalCollection[51]] = 0
-    _objectVariable_3[_extendedGlobalCollection[51]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[51]] = Taxi
+    abilityDescriptions[_extendedGlobalCollection[51]] = "press [INTERACT] to start/stop riding the player you are looking at"
+    abilityCooldowns[_extendedGlobalCollection[51]] = 0
+    abilityOrder[_extendedGlobalCollection[51]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[51])
     _extendedGlobalCollection[52] = _classIndexes.index(0)
     _extendedGlobalCollection[52] = len(_classIndexes) if _extendedGlobalCollection[52] == -1 else _extendedGlobalCollection[52]
     _classIndexes[_extendedGlobalCollection[52]] = 54
-    _objectVariable_0[_extendedGlobalCollection[52]] = StrongGravity
-    _objectVariable_1[_extendedGlobalCollection[52]] = "press [interact] to temporarily make the gravity of the enemy you are looking at strong"
-    _objectVariable_2[_extendedGlobalCollection[52]] = 15
-    _objectVariable_3[_extendedGlobalCollection[52]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[52]] = StrongGravity
+    abilityDescriptions[_extendedGlobalCollection[52]] = "press [interact] to temporarily make the gravity of the enemy you are looking at strong"
+    abilityCooldowns[_extendedGlobalCollection[52]] = 15
+    abilityOrder[_extendedGlobalCollection[52]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[52])
     _extendedGlobalCollection[53] = _classIndexes.index(0)
     _extendedGlobalCollection[53] = len(_classIndexes) if _extendedGlobalCollection[53] == -1 else _extendedGlobalCollection[53]
     _classIndexes[_extendedGlobalCollection[53]] = 55
-    _objectVariable_0[_extendedGlobalCollection[53]] = EyeContact
-    _objectVariable_1[_extendedGlobalCollection[53]] = "Press [Interact] to force the enemy you are looking at to look at a random ally"
-    _objectVariable_2[_extendedGlobalCollection[53]] = 5
-    _objectVariable_3[_extendedGlobalCollection[53]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[53]] = EyeContact
+    abilityDescriptions[_extendedGlobalCollection[53]] = "Press [Interact] to force the enemy you are looking at to look at a random ally"
+    abilityCooldowns[_extendedGlobalCollection[53]] = 5
+    abilityOrder[_extendedGlobalCollection[53]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[53])
     _extendedGlobalCollection[54] = _classIndexes.index(0)
     _extendedGlobalCollection[54] = len(_classIndexes) if _extendedGlobalCollection[54] == -1 else _extendedGlobalCollection[54]
     _classIndexes[_extendedGlobalCollection[54]] = 56
-    _objectVariable_0[_extendedGlobalCollection[54]] = MindControl
-    _objectVariable_1[_extendedGlobalCollection[54]] = "Press [Interact] to control the enemy you are looking at but you can't move"
-    _objectVariable_2[_extendedGlobalCollection[54]] = 0
-    _objectVariable_3[_extendedGlobalCollection[54]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[54]] = MindControl
+    abilityDescriptions[_extendedGlobalCollection[54]] = "Press [Interact] to control the enemy you are looking at but you can't move"
+    abilityCooldowns[_extendedGlobalCollection[54]] = 0
+    abilityOrder[_extendedGlobalCollection[54]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[54])
     _extendedGlobalCollection[55] = _classIndexes.index(0)
     _extendedGlobalCollection[55] = len(_classIndexes) if _extendedGlobalCollection[55] == -1 else _extendedGlobalCollection[55]
     _classIndexes[_extendedGlobalCollection[55]] = 57
-    _objectVariable_0[_extendedGlobalCollection[55]] = Lag
-    _objectVariable_1[_extendedGlobalCollection[55]] = "press [interact] to teleport the enemy you are looking at to random position"
-    _objectVariable_2[_extendedGlobalCollection[55]] = 1
-    _objectVariable_3[_extendedGlobalCollection[55]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[55]] = Lag
+    abilityDescriptions[_extendedGlobalCollection[55]] = "press [interact] to teleport the enemy you are looking at to random position"
+    abilityCooldowns[_extendedGlobalCollection[55]] = 1
+    abilityOrder[_extendedGlobalCollection[55]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[55])
     _extendedGlobalCollection[58] = _classIndexes.index(0)
     _extendedGlobalCollection[58] = len(_classIndexes) if _extendedGlobalCollection[58] == -1 else _extendedGlobalCollection[58]
     _classIndexes[_extendedGlobalCollection[58]] = 60
-    _objectVariable_0[_extendedGlobalCollection[58]] = MisClick
-    _objectVariable_1[_extendedGlobalCollection[58]] = "press [interact] to let the enemy that you are looking at press a random button"
-    _objectVariable_2[_extendedGlobalCollection[58]] = 10
-    _objectVariable_3[_extendedGlobalCollection[58]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[58]] = MisClick
+    abilityDescriptions[_extendedGlobalCollection[58]] = "press [interact] to let the enemy that you are looking at press a random button"
+    abilityCooldowns[_extendedGlobalCollection[58]] = 10
+    abilityOrder[_extendedGlobalCollection[58]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[58])
     _extendedGlobalCollection[60] = _classIndexes.index(0)
     _extendedGlobalCollection[60] = len(_classIndexes) if _extendedGlobalCollection[60] == -1 else _extendedGlobalCollection[60]
     _classIndexes[_extendedGlobalCollection[60]] = 62
-    _objectVariable_0[_extendedGlobalCollection[60]] = MadWidow
-    _objectVariable_1[_extendedGlobalCollection[60]] = "you can snipe your teammates, but they can kill you with melee"
-    _objectVariable_2[_extendedGlobalCollection[60]] = 0
-    _objectVariable_8[_extendedGlobalCollection[60]] = [Hero.WIDOWMAKER]
-    _objectVariable_3[_extendedGlobalCollection[60]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[60]] = MadWidow
+    abilityDescriptions[_extendedGlobalCollection[60]] = "you can snipe your teammates, but they can kill you with melee"
+    abilityCooldowns[_extendedGlobalCollection[60]] = 0
+    abilityForcedHeroes[_extendedGlobalCollection[60]] = [Hero.WIDOWMAKER]
+    abilityOrder[_extendedGlobalCollection[60]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[60])
     _extendedGlobalCollection[61] = _classIndexes.index(0)
     _extendedGlobalCollection[61] = len(_classIndexes) if _extendedGlobalCollection[61] == -1 else _extendedGlobalCollection[61]
     _classIndexes[_extendedGlobalCollection[61]] = 63
-    _objectVariable_0[_extendedGlobalCollection[61]] = Hole
-    _objectVariable_1[_extendedGlobalCollection[61]] = "press [interact] to start/stop placing a HOLE that will force players to fall through the ground"
-    _objectVariable_2[_extendedGlobalCollection[61]] = 0
-    _objectVariable_3[_extendedGlobalCollection[61]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[61]] = Hole
+    abilityDescriptions[_extendedGlobalCollection[61]] = "press [interact] to start/stop placing a HOLE that will force players to fall through the ground"
+    abilityCooldowns[_extendedGlobalCollection[61]] = 0
+    abilityOrder[_extendedGlobalCollection[61]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[61])
     _extendedGlobalCollection[62] = _classIndexes.index(0)
     _extendedGlobalCollection[62] = len(_classIndexes) if _extendedGlobalCollection[62] == -1 else _extendedGlobalCollection[62]
     _classIndexes[_extendedGlobalCollection[62]] = 64
-    _objectVariable_0[_extendedGlobalCollection[62]] = PortalGun
-    _objectVariable_1[_extendedGlobalCollection[62]] = "Press [interact] start/stop placing portals. Hold [interact] to reset portals"
-    _objectVariable_2[_extendedGlobalCollection[62]] = 0
-    _objectVariable_3[_extendedGlobalCollection[62]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[62]] = PortalGun
+    abilityDescriptions[_extendedGlobalCollection[62]] = "Press [interact] start/stop placing portals. Hold [interact] to reset portals"
+    abilityCooldowns[_extendedGlobalCollection[62]] = 0
+    abilityOrder[_extendedGlobalCollection[62]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[62])
     _extendedGlobalCollection[100] = _classIndexes.index(0)
     _extendedGlobalCollection[100] = len(_classIndexes) if _extendedGlobalCollection[100] == -1 else _extendedGlobalCollection[100]
     _classIndexes[_extendedGlobalCollection[100]] = 102
-    _objectVariable_0[_extendedGlobalCollection[100]] = NUKE
-    _objectVariable_1[_extendedGlobalCollection[100]] = "Press Q: Nuke the world... or yourself. It's a gamble!"
-    _objectVariable_8[_extendedGlobalCollection[100]] = [Hero.DVA]
-    _objectVariable_3[_extendedGlobalCollection[100]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[100]] = NUKE
+    abilityDescriptions[_extendedGlobalCollection[100]] = "Press Q: Nuke the world... or yourself. It's a gamble!"
+    abilityForcedHeroes[_extendedGlobalCollection[100]] = [Hero.DVA]
+    abilityOrder[_extendedGlobalCollection[100]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[100])
     _extendedGlobalCollection[101] = _classIndexes.index(0)
     _extendedGlobalCollection[101] = len(_classIndexes) if _extendedGlobalCollection[101] == -1 else _extendedGlobalCollection[101]
     _classIndexes[_extendedGlobalCollection[101]] = 103
-    _objectVariable_0[_extendedGlobalCollection[101]] = megaMauga
-    _objectVariable_1[_extendedGlobalCollection[101]] = "Press [INTERACT] to become 10x bigger!"
-    _objectVariable_8[_extendedGlobalCollection[101]] = [Hero.MAUGA]
-    _objectVariable_3[_extendedGlobalCollection[101]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[101]] = megaMauga
+    abilityDescriptions[_extendedGlobalCollection[101]] = "Press [INTERACT] to become 10x bigger!"
+    abilityForcedHeroes[_extendedGlobalCollection[101]] = [Hero.MAUGA]
+    abilityOrder[_extendedGlobalCollection[101]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[101])
     _extendedGlobalCollection[103] = _classIndexes.index(0)
     _extendedGlobalCollection[103] = len(_classIndexes) if _extendedGlobalCollection[103] == -1 else _extendedGlobalCollection[103]
     _classIndexes[_extendedGlobalCollection[103]] = 105
-    _objectVariable_0[_extendedGlobalCollection[103]] = StolenSoul
-    _objectVariable_1[_extendedGlobalCollection[103]] = "Press [INTERACT] to steal the ability of the ally or enemy you're looking at."
-    _objectVariable_8[_extendedGlobalCollection[103]] = getAllPlayers()
-    _objectVariable_3[_extendedGlobalCollection[103]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[103]] = StolenSoul
+    abilityDescriptions[_extendedGlobalCollection[103]] = "Press [INTERACT] to steal the ability of a nearby ally or enemy within 400 range."
+    abilityForcedHeroes[_extendedGlobalCollection[103]] = getAllPlayers()
+    abilityOrder[_extendedGlobalCollection[103]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[103])
     _extendedGlobalCollection[102] = _classIndexes.index(0)
     _extendedGlobalCollection[102] = len(_classIndexes) if _extendedGlobalCollection[102] == -1 else _extendedGlobalCollection[102]
     _classIndexes[_extendedGlobalCollection[102]] = 104
-    _objectVariable_0[_extendedGlobalCollection[102]] = katrina
-    _objectVariable_1[_extendedGlobalCollection[102]] = "Press [INTERACT] to defy fate - steal a soul, or lose your own"
-    _objectVariable_2[_extendedGlobalCollection[102]] = 10
-    _objectVariable_8[_extendedGlobalCollection[102]] = [Hero.MERCY]
-    _objectVariable_3[_extendedGlobalCollection[102]] = len(abilities) + 1
+    abilityNames[_extendedGlobalCollection[102]] = katrina
+    abilityDescriptions[_extendedGlobalCollection[102]] = "Press [INTERACT] to defy fate - steal a soul, or lose your own"
+    abilityCooldowns[_extendedGlobalCollection[102]] = 10
+    abilityForcedHeroes[_extendedGlobalCollection[102]] = [Hero.MERCY]
+    abilityOrder[_extendedGlobalCollection[102]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[102])
 
 
@@ -892,15 +892,15 @@ def clear_ability():
     eventPlayer.horse_target = null
     eventPlayer.Is_Flying = false
     if eventPlayer.ability != null:
-        if len(_objectVariable_8[eventPlayer.ability]) > 0:
+        if len(abilityForcedHeroes[eventPlayer.ability]) > 0:
             eventPlayer.stopForcingCurrentHero()
-        if _objectVariable_4[eventPlayer.ability] != null:
+        if abilityDamageDealt[eventPlayer.ability] != null:
             eventPlayer.setDamageDealt(100)
-        if _objectVariable_4[eventPlayer.ability] != null:
+        if abilityDamageDealt[eventPlayer.ability] != null:
             eventPlayer.setDamageDealt(100)
-        if _objectVariable_7[eventPlayer.ability] != null:
+        if abilityMoveSpeed[eventPlayer.ability] != null:
             eventPlayer.setMoveSpeed(100)
-        if _objectVariable_6[eventPlayer.ability] != null:
+        if abilityMaxHealth[eventPlayer.ability] != null:
             eventPlayer.setMaxHealth(100)
         eventPlayer.removeAllHealthPools()
         eventPlayer.stopTransformingThrottle()
@@ -1263,28 +1263,28 @@ def roll_ability():
     
     if eventPlayer.next_ability == null:
         eventPlayer.next_ability = random.choice(abilities)
-    #eventPlayer.next_ability = _objectVariable_0.index(katrina)
+    #eventPlayer.next_ability = abilityNames.index(katrina)
     clear_huds()
     clear_ability()
     eventPlayer.ability = eventPlayer.next_ability
     eventPlayer.next_ability = null
-    eventPlayer.title = _objectVariable_0[eventPlayer.ability]
-    eventPlayer.desc = _objectVariable_1[eventPlayer.ability]
-    if len(_objectVariable_8[eventPlayer.ability]) > 0:
-        hero = random.choice(_objectVariable_8[eventPlayer.ability])
+    eventPlayer.title = abilityNames[eventPlayer.ability]
+    eventPlayer.desc = abilityDescriptions[eventPlayer.ability]
+    if len(abilityForcedHeroes[eventPlayer.ability]) > 0:
+        hero = random.choice(abilityForcedHeroes[eventPlayer.ability])
         eventPlayer.startForcingHero(hero)
-    if _objectVariable_4[eventPlayer.ability] != null:
-        eventPlayer.damage_dealt = _objectVariable_4[eventPlayer.ability]
-        eventPlayer.setDamageDealt(_objectVariable_4[eventPlayer.ability])
-    if _objectVariable_5[eventPlayer.ability] != null:
-        eventPlayer.damage_received = _objectVariable_5[eventPlayer.ability]
-        eventPlayer.setDamageDealt(_objectVariable_5[eventPlayer.ability])
-    if _objectVariable_7[eventPlayer.ability] != null:
-        eventPlayer.movement_speed = _objectVariable_7[eventPlayer.ability]
-        eventPlayer.setMoveSpeed(_objectVariable_7[eventPlayer.ability])
-    if _objectVariable_6[eventPlayer.ability] != null:
-        eventPlayer.max_health = _objectVariable_6[eventPlayer.ability]
-        eventPlayer.setMaxHealth(_objectVariable_6[eventPlayer.ability])
+    if abilityDamageDealt[eventPlayer.ability] != null:
+        eventPlayer.damage_dealt = abilityDamageDealt[eventPlayer.ability]
+        eventPlayer.setDamageDealt(abilityDamageDealt[eventPlayer.ability])
+    if abilityDamageReceived[eventPlayer.ability] != null:
+        eventPlayer.damage_received = abilityDamageReceived[eventPlayer.ability]
+        eventPlayer.setDamageDealt(abilityDamageReceived[eventPlayer.ability])
+    if abilityMoveSpeed[eventPlayer.ability] != null:
+        eventPlayer.movement_speed = abilityMoveSpeed[eventPlayer.ability]
+        eventPlayer.setMoveSpeed(abilityMoveSpeed[eventPlayer.ability])
+    if abilityMaxHealth[eventPlayer.ability] != null:
+        eventPlayer.max_health = abilityMaxHealth[eventPlayer.ability]
+        eventPlayer.setMaxHealth(abilityMaxHealth[eventPlayer.ability])
     eventPlayer.target = null
     eventPlayer.targets = null
     eventPlayer.allies = null
@@ -2025,12 +2025,12 @@ rule "on use":
     lbl_35:
     lbl_36:
     lbl_37:
-    eventPlayer.cooldown_count = _objectVariable_2[eventPlayer.ability] * cooldown_multiplier
+    eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
 
 
 rule "[rock paper scissors] hack":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     
     eventPlayer.rock_scissors_paper_players.setStatusEffect(eventPlayer, Status.HACKED, 5)
@@ -2042,7 +2042,7 @@ rule "[rock paper scissors] hack":
 
 rule "[rock paper scissors] hand: scissors":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
     
@@ -2051,7 +2051,7 @@ rule "[rock paper scissors] hand: scissors":
 
 rule "[rock paper scissors] hand: rock":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
     
@@ -2060,7 +2060,7 @@ rule "[rock paper scissors] hand: rock":
 
 rule "[rock paper scissors] hand: paper":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
     
@@ -2069,7 +2069,7 @@ rule "[rock paper scissors] hand: paper":
 
 rule "[rock paper scissors] opponent hand: scissors":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.target.isHoldingButton(Button.ULTIMATE) == true
     
@@ -2078,7 +2078,7 @@ rule "[rock paper scissors] opponent hand: scissors":
 
 rule "[rock paper scissors] opponent hand: rock":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.target.isHoldingButton(Button.ABILITY_2) == true
     
@@ -2087,7 +2087,7 @@ rule "[rock paper scissors] opponent hand: rock":
 
 rule "[rock paper scissors] opponent hand: paper":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.target.isHoldingButton(Button.JUMP) == true
     
@@ -2096,7 +2096,7 @@ rule "[rock paper scissors] opponent hand: paper":
 
 rule "[rock paper scissors] result: opponent did not play":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.rock_siccors_paper_status == 1
     @Condition eventPlayer.rock_scissors_paper_opponent_han == 0
@@ -2108,7 +2108,7 @@ rule "[rock paper scissors] result: opponent did not play":
 
 rule "[rock paper scissors] result: did not play":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.rock_siccors_paper_status == 1
     @Condition eventPlayer.rock_scissors_paper_hand == 0
@@ -2120,7 +2120,7 @@ rule "[rock paper scissors] result: did not play":
 
 rule "[rock paper scissors] result: paper vs ?":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.rock_siccors_paper_status == 1
     @Condition eventPlayer.rock_scissors_paper_hand == 3
@@ -2149,7 +2149,7 @@ rule "[rock paper scissors] result: paper vs ?":
 
 rule "[rock paper scissors] result: scissors vs ?":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.rock_siccors_paper_status == 1
     @Condition eventPlayer.rock_scissors_paper_hand == 1
@@ -2178,7 +2178,7 @@ rule "[rock paper scissors] result: scissors vs ?":
 
 rule "[rock paper scissors] result: rock vs ?":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_scissors_paper_players != null
     @Condition eventPlayer.rock_siccors_paper_status == 1
     @Condition eventPlayer.rock_scissors_paper_hand == 2
@@ -2207,7 +2207,7 @@ rule "[rock paper scissors] result: rock vs ?":
 
 rule "[rock paper scissors] end":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == RockPaperScissors
+    @Condition abilityNames[eventPlayer.ability] == RockPaperScissors
     @Condition eventPlayer.rock_siccors_paper_status == 2
     
     eventPlayer.targets = 0
@@ -2219,7 +2219,7 @@ rule "[rock paper scissors] end":
 
 rule "[electric shock] stun":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == ElectricShock
+    @Condition abilityNames[eventPlayer.ability] == ElectricShock
     @Condition eventPlayer.target != null
     
     eventPlayer.target.setStatusEffect(eventPlayer, Status.STUNNED, 0.4)
@@ -2230,7 +2230,7 @@ rule "[electric shock] stun":
 
 rule "[electric shock] end":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == ElectricShock
+    @Condition abilityNames[eventPlayer.ability] == ElectricShock
     @Condition eventPlayer.target != null
     
     wait(3, Wait.ABORT_WHEN_FALSE)
@@ -2239,7 +2239,7 @@ rule "[electric shock] end":
 
 rule "[i just wan't do die] on death":
     @Event playerDied
-    @Condition _objectVariable_0[eventPlayer.ability] == IJustWantToDie
+    @Condition abilityNames[eventPlayer.ability] == IJustWantToDie
     
     eventPlayer.target = random.choice(getLivingPlayers(getOppositeTeam(eventPlayer.getTeam())))
     eventPlayer.target.teleport(eventPlayer)
@@ -2249,21 +2249,21 @@ rule "[i just wan't do die] on death":
 
 rule "[can't move] on damage dealt":
     @Event playerDealtDamage
-    @Condition _objectVariable_0[eventPlayer.ability] == CantMove
+    @Condition abilityNames[eventPlayer.ability] == CantMove
     
     victim.setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, 1.5)
 
 
 rule "[repay] on damage taken":
     @Event playerTookDamage
-    @Condition _objectVariable_0[eventPlayer.ability] == Repay
+    @Condition abilityNames[eventPlayer.ability] == Repay
     
     damage(attacker, eventPlayer, eventDamage * 0.7)
 
 
 rule "[i am speed] increase speed":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == IAmSpeed
+    @Condition abilityNames[eventPlayer.ability] == IAmSpeed
     @Condition eventPlayer.isUsingAbility1() == true
     
     eventPlayer.setMoveSpeed(1000)
@@ -2272,7 +2272,7 @@ rule "[i am speed] increase speed":
 
 rule "[i am speed] reset speed":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == IAmSpeed
+    @Condition abilityNames[eventPlayer.ability] == IAmSpeed
     @Condition eventPlayer.isUsingAbility1() == false
     
     eventPlayer.setMoveSpeed(100)
@@ -2281,14 +2281,14 @@ rule "[i am speed] reset speed":
 
 rule "[water ghost] on death":
     @Event playerDied
-    @Condition _objectVariable_0[eventPlayer.ability] == WaterGhost
+    @Condition abilityNames[eventPlayer.ability] == WaterGhost
     
     kill(attacker, eventPlayer)
 
 
 rule "[uncle pop hummer] on damage dealt":
     @Event playerDealtDamage
-    @Condition _objectVariable_0[eventPlayer.ability] == UnclePopHummer
+    @Condition abilityNames[eventPlayer.ability] == UnclePopHummer
     @Condition eventPlayer.getCurrentWeapon() == 2
     @Condition eventPlayer.isFiringPrimaryFire() == true
     
@@ -2321,7 +2321,7 @@ rule "[spin float up] finish":
 
 rule "[its time to sleep] on final b\zlow":
     @Event playerDealtFinalBlow
-    @Condition _objectVariable_0[eventPlayer.ability] == ItsTimeToSleep
+    @Condition abilityNames[eventPlayer.ability] == ItsTimeToSleep
     
     getAllPlayers().setStatusEffect(eventPlayer, Status.ASLEEP, 3)
     smallMessage(getAllPlayers(), "It's all bedtime")
@@ -2329,7 +2329,7 @@ rule "[its time to sleep] on final b\zlow":
 
 rule "[laying egg] return to egg":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == LayingEgg
+    @Condition abilityNames[eventPlayer.ability] == LayingEgg
     @Condition eventPlayer.getHealth() == 1
     @Condition eventPlayer.egg_position != null
     
@@ -2346,7 +2346,7 @@ rule "[laying egg] return to egg":
 
 rule "[laying egg] egg broken":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == LayingEgg
+    @Condition abilityNames[eventPlayer.ability] == LayingEgg
     @Condition eventPlayer.egg_position != null
     
     wait(1)
@@ -2365,14 +2365,14 @@ rule "[laying egg] egg broken":
 
 rule "[why hit me] change camera angle":
     @Event playerTookDamage
-    @Condition _objectVariable_0[eventPlayer.ability] == WhyHitMe
+    @Condition abilityNames[eventPlayer.ability] == WhyHitMe
     
     attacker.setFacing(vect(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1)), Relativity.TO_PLAYER)
 
 
 rule "[jumping trap] jump":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == JumpingTrap
+    @Condition abilityNames[eventPlayer.ability] == JumpingTrap
     @Condition eventPlayer.trap_pos != null
     
     eventPlayer.targets = getPlayersInRadius(eventPlayer.trap_pos, 1, Team.ALL)
@@ -2389,14 +2389,14 @@ rule "[jumping trap] jump":
 
 rule "[sleepy ninja] stun":
     @Event playerDealtDamage
-    @Condition _objectVariable_0[eventPlayer.ability] == SleepyNinja
+    @Condition abilityNames[eventPlayer.ability] == SleepyNinja
     
     victim.setStatusEffect(eventPlayer, Status.KNOCKED_DOWN, 0.8)
 
 
 rule "[one shot] on damage":
     @Event playerDealtDamage
-    @Condition _objectVariable_0[eventPlayer.ability] == OneShot
+    @Condition abilityNames[eventPlayer.ability] == OneShot
     @Condition eventPlayer != victim
     @Condition eventPlayer.cooldown_count <= 0
     
@@ -2420,7 +2420,7 @@ rule "[rotating tornado] rotate":
 
 rule "[lack of concentration] on attack":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == LackOfConcentration
+    @Condition abilityNames[eventPlayer.ability] == LackOfConcentration
     @Condition eventPlayer.isFiringPrimaryFire() == true
     
     eventPlayer.setFacing(vect(random.uniform(-1, 1), random.uniform(-1, 1), random.uniform(-1, 1)), Relativity.TO_PLAYER)
@@ -2431,7 +2431,7 @@ rule "[lack of concentration] on attack":
 
 rule "[telekinesis] stun":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Telekinesis
+    @Condition abilityNames[eventPlayer.ability] == Telekinesis
     @Condition eventPlayer.target != null
     
     eventPlayer.target.applyImpulse(vect(random.uniform(-1, 1), [], random.uniform(-1, 1)), 100, Relativity.TO_PLAYER, Impulse.INCORPORATE_CONTRARY_MOTION)
@@ -2442,7 +2442,7 @@ rule "[telekinesis] stun":
 
 rule "[telekinesis] end":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Telekinesis
+    @Condition abilityNames[eventPlayer.ability] == Telekinesis
     @Condition eventPlayer.target != null
     
     wait(2.6, Wait.ABORT_WHEN_FALSE)
@@ -2509,7 +2509,7 @@ rule "[Strong Gravity] end":
 
 rule "[mind control] on start":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.mindcontrol_time > 0
     
@@ -2521,7 +2521,7 @@ rule "[mind control] on start":
 
 rule "[mind control] on death":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition (eventPlayer.mindcontrol_time == 0 or eventPlayer.isDead() or eventPlayer.target.isDead()) == true
     
@@ -2553,7 +2553,7 @@ rule "[mind control] on death":
 
 rule "[mind control] start jump":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2564,7 +2564,7 @@ rule "[mind control] start jump":
 
 rule "[mind control] stop jump":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition (eventPlayer.isDead() or eventPlayer.target.isDead() or not eventPlayer.isHoldingButton(Button.JUMP)) == true
     
@@ -2573,7 +2573,7 @@ rule "[mind control] stop jump":
 
 rule "[mind control] start crouch":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2584,7 +2584,7 @@ rule "[mind control] start crouch":
 
 rule "[mind control] stop crouch":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition (eventPlayer.isDead() or eventPlayer.target.isDead() or not eventPlayer.isHoldingButton(Button.CROUCH)) == true
     
@@ -2593,7 +2593,7 @@ rule "[mind control] stop crouch":
 
 rule "[mind control] throttle":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.mindcontrol_time > 0
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
@@ -2617,7 +2617,7 @@ rule "[mind control] throttle":
 
 rule "[mind control] start firing primary":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2628,7 +2628,7 @@ rule "[mind control] start firing primary":
 
 rule "[mind control] stop firing primary":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2639,7 +2639,7 @@ rule "[mind control] stop firing primary":
 
 rule "[mind control] start firing sec":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2650,7 +2650,7 @@ rule "[mind control] start firing sec":
 
 rule "[mind control] stop firing sec":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2661,7 +2661,7 @@ rule "[mind control] stop firing sec":
 
 rule "[mind control] start ability1":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2672,7 +2672,7 @@ rule "[mind control] start ability1":
 
 rule "[mind control] stop ability 1":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2683,7 +2683,7 @@ rule "[mind control] stop ability 1":
 
 rule "[mind control] start ability2":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2694,7 +2694,7 @@ rule "[mind control] start ability2":
 
 rule "[mind control] stop ability 2":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2705,7 +2705,7 @@ rule "[mind control] stop ability 2":
 
 rule "[mind control] ultimate":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2716,7 +2716,7 @@ rule "[mind control] ultimate":
 
 rule "[mind control] stop ultimate":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2727,7 +2727,7 @@ rule "[mind control] stop ultimate":
 
 rule "[mind control] start melee":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2738,7 +2738,7 @@ rule "[mind control] start melee":
 
 rule "[mind control] stop melee":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2749,7 +2749,7 @@ rule "[mind control] stop melee":
 
 rule "[mind control] in air":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MindControl
+    @Condition abilityNames[eventPlayer.ability] == MindControl
     @Condition eventPlayer.target != null
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.target.isAlive() == true
@@ -2760,7 +2760,7 @@ rule "[mind control] in air":
 
 rule "[taxi] attach system":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == Taxi
+    @Condition abilityNames[eventPlayer.ability] == Taxi
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     
     eventPlayer.acquireViewedTarget(Team.ALL)
@@ -2820,7 +2820,7 @@ rule "[flight] controls":
 
 rule "[widow is ugly] widow charge chase":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MadWidow
+    @Condition abilityNames[eventPlayer.ability] == MadWidow
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
     
     wait(0.25)
@@ -2831,7 +2831,7 @@ rule "[widow is ugly] widow charge chase":
 
 rule "[widow is ugly] widow charge reset":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MadWidow
+    @Condition abilityNames[eventPlayer.ability] == MadWidow
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false
     
     stopChasingVariable(eventPlayer.widow_charge)
@@ -2840,7 +2840,7 @@ rule "[widow is ugly] widow charge reset":
 
 rule "[widow is ugly] widow balance":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MadWidow
+    @Condition abilityNames[eventPlayer.ability] == MadWidow
     @Condition getSpawnedTeammatesExcludingSelf(eventPlayer) != []
     @Condition distance(eventPlayer, getClosestSpawnedTeammate(eventPlayer)) <= 3
     @Condition getClosestSpawnedTeammate(eventPlayer).isHoldingButton(Button.MELEE) == true
@@ -2851,7 +2851,7 @@ rule "[widow is ugly] widow balance":
 
 rule "[widow is ugly] message":
     @Event playerDealtFinalBlow
-    @Condition _objectVariable_0[eventPlayer.ability] == MadWidow
+    @Condition abilityNames[eventPlayer.ability] == MadWidow
     @Condition victim.getTeam() == eventPlayer.getTeam()
     
     bigMessage(getPlayers(eventPlayer.getTeam()).exclude(eventPlayer), "{0} Your teammate widowmaker is trying to kill you ALL!  Punish her with melee! ".format(iconString(Icon.WARNING)))
@@ -2859,7 +2859,7 @@ rule "[widow is ugly] message":
 
 rule "[widow is ugly] widow projectile":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MadWidow
+    @Condition abilityNames[eventPlayer.ability] == MadWidow
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
     
@@ -2871,7 +2871,7 @@ rule "[widow is ugly] widow projectile":
 
 rule "[widow is ugly] disallow":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == MadWidow
+    @Condition abilityNames[eventPlayer.ability] == MadWidow
     
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)
 
@@ -2880,7 +2880,7 @@ rule "[hole] placing start/stop":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isInSpawnRoom() == false
-    @Condition _objectVariable_0[eventPlayer.ability] == Hole
+    @Condition abilityNames[eventPlayer.ability] == Hole
     @Condition eventPlayer.cooldown_count <= 0
     
     if eventPlayer.hole_placing == false:
@@ -2894,7 +2894,7 @@ rule "[hole] placing start/stop":
 rule "[hole] hole placing":
     @Event eachPlayer
     @Condition eventPlayer.hole_placing == true
-    @Condition _objectVariable_0[eventPlayer.ability] == Hole
+    @Condition abilityNames[eventPlayer.ability] == Hole
     
     eventPlayer.hole = raycast(raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 12, null, eventPlayer, false).getHitPosition(), raycast(raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 9, null, eventPlayer, false).getHitPosition(), Vector.DOWN * 1000, null, eventPlayer, false).getHitPosition(), null, eventPlayer, false).getHitPosition()
     playEffect(eventPlayer, DynamicEffect.RING_EXPLOSION, Color.WHITE, eventPlayer.hole, 5)
@@ -2908,7 +2908,7 @@ rule "[hole] primary fire to place":
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
     @Condition eventPlayer.hole_placing == true
     @Condition eventPlayer.isInSpawnRoom() == false
-    @Condition _objectVariable_0[eventPlayer.ability] == Hole
+    @Condition abilityNames[eventPlayer.ability] == Hole
     
     eventPlayer.hole_placing = false
     eventPlayer.hole_placed = true
@@ -2920,7 +2920,7 @@ rule "[hole] primary fire to place":
 rule "[hole] placed effect":
     @Event eachPlayer
     @Condition eventPlayer.hole_placed == true
-    @Condition _objectVariable_0[eventPlayer.ability] == Hole
+    @Condition abilityNames[eventPlayer.ability] == Hole
     
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.SKY_BLUE, eventPlayer.hole, 5)
     wait(0.25)
@@ -2931,7 +2931,7 @@ rule "[hole] placed effect":
 rule "[hole] placing message":
     @Event eachPlayer
     @Condition eventPlayer.hole_placing == true
-    @Condition _objectVariable_0[eventPlayer.ability] == Hole
+    @Condition abilityNames[eventPlayer.ability] == Hole
     
     smallMessage(eventPlayer, "{0} to place".format(inputBindingString(Button.PRIMARY_FIRE)))
     wait(3)
@@ -2942,7 +2942,7 @@ rule "[hole] placing message":
 rule "[hole] hole swallow":
     @Event eachPlayer
     @Condition eventPlayer.hole_placed == true
-    @Condition _objectVariable_0[eventPlayer.ability] == Hole
+    @Condition abilityNames[eventPlayer.ability] == Hole
     
     eventPlayer.targets = getPlayersInRadius(eventPlayer.hole, 2, Team.ALL, LosCheck.SURFACES)
     for eventPlayer.targetIndex in range(len(eventPlayer.targets)):
@@ -2963,7 +2963,7 @@ rule "[hole] hole swallow":
 rule "[portal gun] portals placing start/stop/delete":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
-    @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
+    @Condition abilityNames[eventPlayer.ability] == PortalGun
     @Condition eventPlayer.isInSpawnRoom() == false
     
     if eventPlayer.tp_placing == false:
@@ -2988,7 +2988,7 @@ rule "[portal gun] tp1 placing":
     @Event eachPlayer
     @Condition eventPlayer.tp_placing == true
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
-    @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
+    @Condition abilityNames[eventPlayer.ability] == PortalGun
     @Condition eventPlayer.cooldown_count <= 0
     
     eventPlayer.tmp = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 100, null, eventPlayer, false).getHitPosition()
@@ -3003,7 +3003,7 @@ rule "[portal gun] tp1 placing":
 rule "[portal gun] tp1 effect":
     @Event eachPlayer
     @Condition eventPlayer.tp1 != null
-    @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
+    @Condition abilityNames[eventPlayer.ability] == PortalGun
     
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.ORANGE, eventPlayer.tp1, 1)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.ORANGE, eventPlayer.tp1, 2)
@@ -3016,7 +3016,7 @@ rule "[portal gun] tp1 teleporting":
     @Event eachPlayer
     @Condition eventPlayer.tp1 != null
     @Condition eventPlayer.tp2 != null
-    @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
+    @Condition abilityNames[eventPlayer.ability] == PortalGun
     
     eventPlayer.tp1_targets = getPlayersInRadius(eventPlayer.tp1, 2, Team.ALL, LosCheck.SURFACES)
     for eventPlayer.targetIndex in range(len(eventPlayer.tp1_targets)):
@@ -3046,7 +3046,7 @@ rule "[portal gun] tp2 placing":
     @Event eachPlayer
     @Condition eventPlayer.tp_placing == true
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
-    @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
+    @Condition abilityNames[eventPlayer.ability] == PortalGun
     @Condition eventPlayer.cooldown_count <= 0
     
     eventPlayer.tmp = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 100, null, eventPlayer, false).getHitPosition()
@@ -3062,7 +3062,7 @@ rule "[portal gun] tp2 teleporting":
     @Event eachPlayer
     @Condition eventPlayer.tp2 != null
     @Condition eventPlayer.tp1 != null
-    @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
+    @Condition abilityNames[eventPlayer.ability] == PortalGun
     
     eventPlayer.targets = getPlayersInRadius(eventPlayer.tp2, 2, Team.ALL, LosCheck.SURFACES)
     for eventPlayer.targetIndex in range(len(eventPlayer.targets)):
@@ -3091,7 +3091,7 @@ rule "[portal gun] tp2 teleporting":
 rule "[portal gun] tp2 effect":
     @Event eachPlayer
     @Condition eventPlayer.tp2 != null
-    @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
+    @Condition abilityNames[eventPlayer.ability] == PortalGun
     
     playEffect(getAllPlayers(), DynamicEffect.GOOD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.tp2, 1)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.PURPLE, eventPlayer.tp2, 2)
@@ -3103,7 +3103,7 @@ rule "[portal gun] tp2 effect":
 rule "[portal gun] tp placing message":
     @Event eachPlayer
     @Condition eventPlayer.tp_placing == true
-    @Condition _objectVariable_0[eventPlayer.ability] == PortalGun
+    @Condition abilityNames[eventPlayer.ability] == PortalGun
     
     if not (eventPlayer.tp1 and eventPlayer.tp2):
         smallMessage(eventPlayer, "{0} to place 1st portal {1} to place 2nd portal".format(inputBindingString(Button.PRIMARY_FIRE), inputBindingString(Button.SECONDARY_FIRE)))
@@ -3157,7 +3157,7 @@ rule "[nuke]":
     @Event eachPlayer
     @Condition eventPlayer.getHero() == Hero.DVA
     @Condition eventPlayer.isUsingUltimate() == true
-    @Condition _objectVariable_0[eventPlayer.ability] == NUKE
+    @Condition abilityNames[eventPlayer.ability] == NUKE
     
     probabilityNuke = random.randint(1, 100)
     if probabilityNuke <= 40:
@@ -3212,7 +3212,7 @@ rule "[mega mauga]":
     @Event eachPlayer
     @Condition eventPlayer.Is_Flying == true
     @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
-    @Condition _objectVariable_0[eventPlayer.ability] == megaMauga
+    @Condition abilityNames[eventPlayer.ability] == megaMauga
     
     eventPlayer.applyImpulse(Vector.UP, 10, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
     wait(0.02)
@@ -3223,7 +3223,7 @@ rule "[mega mauga]":
 rule "[mega mauga]":
     @Event eachPlayer
     @Condition eventPlayer.getHero() == Hero.MAUGA
-    @Condition _objectVariable_0[eventPlayer.ability] == megaMauga
+    @Condition abilityNames[eventPlayer.ability] == megaMauga
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     @Condition eventPlayer.isMegaMauga == false
@@ -3281,24 +3281,24 @@ rule "[mega mauga]":
 
 rule "[mega mauga]":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == megaMauga
+    @Condition abilityNames[eventPlayer.ability] == megaMauga
     
     eventPlayer.setAbility1Enabled(false)
 
 
 rule "[mega mauga]":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] != megaMauga
+    @Condition abilityNames[eventPlayer.ability] != megaMauga
     
     eventPlayer.setAbility1Enabled(true)
 
 
 rule "[stolen soul]":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == StolenSoul
+    @Condition abilityNames[eventPlayer.ability] == StolenSoul
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     
-    eventPlayer.target = (getPlayersInRadius(eventPlayer.getEyePosition(), 200, Team.ALL, LosCheck.SURFACES_AND_ALL_BARRIERS).filter(lambda player: player != eventPlayer and player.isAlive()))[0]
+    eventPlayer.target = (getPlayersInRadius(eventPlayer.getEyePosition(), 400, Team.ALL, LosCheck.SURFACES_AND_ALL_BARRIERS).filter(lambda player: player != eventPlayer and player.isAlive()))[0]
     if eventPlayer.target == null:
         return
     eventPlayer.next_ability = eventPlayer.target.ability
@@ -3319,14 +3319,14 @@ rule "[stolen soul]":
 
 rule "[katrina]":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == katrina
+    @Condition abilityNames[eventPlayer.ability] == katrina
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.cooldown_count <= 0
     
     eventPlayer.target = (getPlayersInRadius(eventPlayer.getEyePosition(), 400, Team.ALL, LosCheck.SURFACES_AND_ALL_BARRIERS).filter(lambda player: player != eventPlayer and player.isAlive()))[0]
     if eventPlayer.target == null:
         return
-    eventPlayer.cooldown_count = _objectVariable_2[eventPlayer.ability] * cooldown_multiplier
+    eventPlayer.cooldown_count = abilityCooldowns[eventPlayer.ability] * cooldown_multiplier
     if random.randint(1, 100) <= 50:
         bigMessage(eventPlayer, "Soul stolen.")
         if eventPlayer.target == null:
@@ -3339,7 +3339,7 @@ rule "[katrina]":
 
 rule "[katrina]":
     @Event eachPlayer
-    @Condition _objectVariable_0[eventPlayer.ability] == katrina
+    @Condition abilityNames[eventPlayer.ability] == katrina
     @Condition eventPlayer.isUsingUltimate() == false
     
     eventPlayer.setUltCharge(100)
