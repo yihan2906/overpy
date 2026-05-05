@@ -648,7 +648,7 @@ def register_abilities3():
     _classIndexes[_extendedGlobalCollection[45]] = 47
     abilityNames[_extendedGlobalCollection[45]] = LifeSaver
     abilityDescriptions[_extendedGlobalCollection[45]] = "press [interact] to pull the ally you are looking at through the wall"
-    abilityCooldowns[_extendedGlobalCollection[45]] = 30
+    abilityCooldowns[_extendedGlobalCollection[45]] = 15
     abilityForcedHeroes[_extendedGlobalCollection[45]] = [Hero.LIFEWEAVER]
     abilityOrder[_extendedGlobalCollection[45]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[45])
@@ -1941,15 +1941,25 @@ rule "on use":
     eventPlayer.target.strong_gravity_remains = 6
     eventPlayer.target.setGravity(500)
     goto lbl_33
-    eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
+    eventPlayer.target = sorted([player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player != eventPlayer and player.isAlive() and player.hasSpawned() and isInLoS(eventPlayer.getEyePosition(), player.getEyePosition()) and angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) <= 45], key=lambda player: angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), player.getEyePosition())) * 1000 + distance(eventPlayer, player))[0]
+    if eventPlayer.target == null:
+        smallMessage(eventPlayer, "No enemy targeted")
+        return
     eventPlayer.targets_22 = eventPlayer.target
-    eventPlayer.allies = getPlayers(eventPlayer.targets_22.getTeam()).filter(lambda player: player != eventPlayer.targets_22 and player.isAlive())
-    __abortIf__(len(eventPlayer.allies) == 0)
+    eventPlayer.allies = getPlayers(eventPlayer.targets_22.getTeam()).filter(lambda player: player != eventPlayer.targets_22 and player.isAlive() and player.hasSpawned())
+    if len(eventPlayer.allies) == 0:
+        smallMessage(eventPlayer, "Target has no living ally")
+        return
     eventPlayer.target = random.choice(eventPlayer.allies)
     eventPlayer.targets_22.startFacing(directionTowards(eventPlayer.targets_22, eventPlayer.target), 500, Relativity.TO_WORLD, FacingReeval.DIRECTION_AND_TURN_RATE)
-    wait(1)
+    bigMessage(eventPlayer, "Eye Contact: {0} is looking at {1}".format(eventPlayer.targets_22, eventPlayer.target))
+    playEffect(eventPlayer, DynamicEffect.GOOD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.targets_22, 2)
+    playEffect(eventPlayer, DynamicEffect.BUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.targets_22, 80)
+    bigMessage(eventPlayer.targets_22, "Eye Contact from {0}: look at {1}".format(eventPlayer, eventPlayer.target))
+    playEffect(eventPlayer.targets_22, DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.target, 2)
+    playEffect(eventPlayer.targets_22, DynamicEffect.DEBUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.targets_22, 80)
+    wait(3)
     eventPlayer.targets_22.stopFacing()
-    bigMessage(eventPlayer.targets_22, "{0} : look at {1}".format(eventPlayer, eventPlayer.target))
     goto lbl_34
     __abortIf__(eventPlayer.target != null)
     eventPlayer.acquireViewedTarget(getOppositeTeam(eventPlayer.getTeam()))
