@@ -726,7 +726,7 @@ def register_abilities3():
     _extendedGlobalCollection[100] = len(_classIndexes) if _extendedGlobalCollection[100] == -1 else _extendedGlobalCollection[100]
     _classIndexes[_extendedGlobalCollection[100]] = 102
     abilityNames[_extendedGlobalCollection[100]] = NUKE
-    abilityDescriptions[_extendedGlobalCollection[100]] = "Press [ULTIMATE]: shared nuke chance starts at 0%, +0.5% per cast."
+    abilityDescriptions[_extendedGlobalCollection[100]] = "Press [ULTIMATE]: shared nuke chance starts at 0%, +5% per cast."
     abilityForcedHeroes[_extendedGlobalCollection[100]] = [Hero.DVA]
     abilityOrder[_extendedGlobalCollection[100]] = len(abilities) + 1
     abilities.append(_extendedGlobalCollection[100])
@@ -1669,7 +1669,7 @@ rule "roll ability when player died":
     roll_ability()
 
 
-rule "DEBUG ONLY host force Mind Control":
+rule "DEBUG ONLY host force Laying Egg":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.isDummy() == false
@@ -1677,9 +1677,9 @@ rule "DEBUG ONLY host force Mind Control":
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
     
-    eventPlayer.next_ability = abilityNames.index(MindControl)
+    eventPlayer.next_ability = abilityNames.index(LayingEgg)
     roll_ability()
-    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Mind Control")
+    smallMessage(eventPlayer, "DEBUG ONLY: forced ability to Laying Egg")
     waitUntil(not eventPlayer.isHoldingButton(Button.INTERACT) or not eventPlayer.isHoldingButton(Button.RELOAD), 99999)
 
 
@@ -3438,11 +3438,11 @@ rule "[nuke]":
         wait(2)
         restartMatch()
     else:
-        probabilityNuke += 0.5
+        probabilityNuke += 5
         if probabilityNuke > 100:
             probabilityNuke = 100
         kill(eventPlayer)
-        hudHeader(eventPlayer, "<3 UNLUCKY {0} <3 Chance was {1}%; now {2}%.".format(eventPlayer, probabilityNuke - 0.5, probabilityNuke), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+        hudHeader(eventPlayer, "<3 UNLUCKY {0} <3 Chance was {1}%; now {2}%.".format(eventPlayer, probabilityNuke - 5, probabilityNuke), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
         wait(2)
         destroyHudText(getLastCreatedText())
 
@@ -3451,7 +3451,7 @@ rule "[nuke] update chance text":
     @Event eachPlayer
     @Condition abilityNames[eventPlayer.ability] == NUKE
     
-    eventPlayer.desc = "Press [ULTIMATE]: shared nuke chance {0}%. +0.5% after every cast.".format(probabilityNuke)
+    eventPlayer.desc = "Press [ULTIMATE]: shared nuke chance {0}%. +5% after every cast.".format(probabilityNuke)
     wait(0.25)
     if ruleCondition:
         loop()

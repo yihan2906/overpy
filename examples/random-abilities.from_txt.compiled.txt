@@ -743,7 +743,7 @@ rule ("register abilities3") {
         Set Global Variable At Index(_extendedGlobalCollection, 100, If-Then-Else(Compare(Value In Array(Global._extendedGlobalCollection, 100), ==, -1), Count Of(Global._classIndexes), Value In Array(Global._extendedGlobalCollection, 100)));
         Set Global Variable At Index(_classIndexes, Value In Array(Global._extendedGlobalCollection, 100), 102);
         Set Global Variable At Index(abilityNames, Value In Array(Global._extendedGlobalCollection, 100), Global.NUKE);
-        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 100), Custom String("Press [ULTIMATE]: shared nuke chance starts at 0%, +0.5% per cast."));
+        Set Global Variable At Index(abilityDescriptions, Value In Array(Global._extendedGlobalCollection, 100), Custom String("Press [ULTIMATE]: shared nuke chance starts at 0%, +5% per cast."));
         Set Global Variable At Index(abilityForcedHeroes, Value In Array(Global._extendedGlobalCollection, 100), Array(Hero(D.Va)));
         Set Global Variable At Index(abilityOrder, Value In Array(Global._extendedGlobalCollection, 100), Add(Count Of(Global.abilities), 1));
         Modify Global Variable(abilities, Append To Array, Value In Array(Global._extendedGlobalCollection, 100));
@@ -1777,7 +1777,7 @@ rule ("roll ability when player died") {
     }
 }
 
-rule ("DEBUG ONLY host force Mind Control") {
+rule ("DEBUG ONLY host force Laying Egg") {
     event {
         Ongoing - Each Player;
         All;
@@ -1791,9 +1791,9 @@ rule ("DEBUG ONLY host force Mind Control") {
         Is Button Held(Event Player, Button(Reload)) == True;
     }
     actions {
-        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.MindControl));
+        Set Player Variable(Event Player, next_ability, Index Of Array Value(Global.abilityNames, Global.LayingEgg));
         Call Subroutine(roll_ability);
-        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Mind Control"));
+        Small Message(Event Player, Custom String("DEBUG ONLY: forced ability to Laying Egg"));
         Wait Until(Not(And(Is Button Held(Event Player, Button(Interact)), Is Button Held(Event Player, Button(Reload)))), 99999);
     }
 }
@@ -4254,12 +4254,12 @@ rule ("[nuke]") {
             Wait(2, Ignore Condition);
             Restart Match;
         Else;
-            Modify Global Variable(probabilityNuke, Add, 0.5);
+            Modify Global Variable(probabilityNuke, Add, 5);
             If(Compare(Global.probabilityNuke, >, 100));
                 Set Global Variable(probabilityNuke, 100);
             End;
             Kill(Event Player, Null);
-            Create HUD Text(Event Player, Custom String("<3 UNLUCKY {0} <3 Chance was {1}%; now {2}%.", Event Player, Subtract(Global.probabilityNuke, 0.5), Global.probabilityNuke), Null, Null, Top, 1, Color(White), Null, Null, Visible To and String, Default Visibility);
+            Create HUD Text(Event Player, Custom String("<3 UNLUCKY {0} <3 Chance was {1}%; now {2}%.", Event Player, Subtract(Global.probabilityNuke, 5), Global.probabilityNuke), Null, Null, Top, 1, Color(White), Null, Null, Visible To and String, Default Visibility);
             Wait(2, Ignore Condition);
             Destroy HUD Text(Last Text ID);
     }
@@ -4275,7 +4275,7 @@ rule ("[nuke] update chance text") {
         Value In Array(Global.abilityNames, (Event Player).ability) == Global.NUKE;
     }
     actions {
-        Set Player Variable(Event Player, desc, Custom String("Press [ULTIMATE]: shared nuke chance {0}%. +0.5% after every cast.", Global.probabilityNuke));
+        Set Player Variable(Event Player, desc, Custom String("Press [ULTIMATE]: shared nuke chance {0}%. +5% after every cast.", Global.probabilityNuke));
         Wait(0.25, Ignore Condition);
         Loop If Condition Is True;
     }
